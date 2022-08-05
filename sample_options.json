@@ -1,0 +1,15 @@
+{
+  "enabled": false,
+  "mode": "whitelist",
+  "whitelist": ["formula1", "productivity"],
+  "blacklist": ["badsubreddit"],
+  "blocks": {
+    "main-feed": true,
+    "trending": true,
+    "recent": true,
+    "communities": true,
+    "search": true,
+    "user-feed": true,
+    "all": true
+  }
+}

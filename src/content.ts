@@ -1,2 +1,3 @@
-console.log('Hello Content');
-export {}
+alert("Certified reddit moment");
+
+export { };

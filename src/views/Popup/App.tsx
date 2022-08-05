@@ -1,23 +1,12 @@
 import React from 'react'
-import './App.css'
+import "./App.css"
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <p>Popup page</p>
-        <p>
-          Edit <code>src/views/Popup/App.tsx</code> and save.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="w-full h-full">
+      <h1 className="bg-neutral-800 text-white">Hello Chrome!</h1>
+      <h3 className="text-red-500">Secondary Hello!</h3>
+      <button onClick={()=>chrome.runtime.openOptionsPage(()=>console.log("opened options page"))}>Open Options</button>
     </div>
   );
 }

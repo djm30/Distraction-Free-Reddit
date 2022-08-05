@@ -10,6 +10,7 @@
     "communities": true,
     "search": true,
     "user-feed": true,
-    "all": true
+    "all": true,
+    "comments": true
   }
 }

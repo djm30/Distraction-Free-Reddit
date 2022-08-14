@@ -9,3 +9,6 @@ certain subreddits to appear on it instead, potentially as a completely
 separate list, kind of a redundant feature in technicality since you can 
 just unsub, but this offers a potentially quicker and more reversible 
 solution
+
+
+Note -> Popup component should be called index, options should be called options

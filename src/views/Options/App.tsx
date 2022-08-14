@@ -1,25 +1,17 @@
-import React from 'react'
-import './App.css'
+import React from "react";
+import "./App.css";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <p>Options page</p>
-        <p>
-          Edit <code>src/views/Options/App.tsx</code> and save.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <div className="xl:mx-80 lg:mx-60 md:mx-40 sm:mx-20 mx-10">
+        <h1 className="text-white inline-block pb-1 mt-5 mb-20 border-darkBorder border-b-2 text-4xl">
+          Distraction Free Reddit
+        </h1>
+        <div className="bg-cardGrey border-2 border-darkBorder h-96 rounded"></div>
+      </div>
     </div>
   );
 }
 
-export default App
+export default App;

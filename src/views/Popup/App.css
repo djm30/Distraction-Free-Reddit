@@ -1,4 +1,6 @@
 body {
-  width: 200px;
-  height: 200px;
+  width: 300px;
+  height: 400px;
+  background-color: rgb(37, 37, 40);
+  padding: 10px;
 }

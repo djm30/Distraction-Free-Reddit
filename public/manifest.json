@@ -3,7 +3,7 @@
   "name": "Extension Name",
   "version": "0.1.0",
   "description": "Some Description",
-  "permissions": ["activeTab", "storage", ""],
+  "permissions": ["activeTab", "storage"],
   "background": {
     "service_worker": "./static/js/background.js"
   },

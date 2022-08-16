@@ -1,0 +1,4 @@
+.subredditList:last-child {
+  overflow-y: scroll;
+  /* @apply border-b-0; */
+}

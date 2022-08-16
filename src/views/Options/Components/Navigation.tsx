@@ -1,11 +1,12 @@
 import React from "react";
 import { useState } from "react";
+import { tab } from "../tabs";
 
 interface props {
-  setNavigation: React.Dispatch<React.SetStateAction<string>>;
+  setMenuTab: React.Dispatch<React.SetStateAction<tab>>;
 }
 
-const Navigation = ({ setNavigation }: props) => {
+const Navigation = ({ setMenuTab }: props) => {
   const [active, setActive] = useState("general");
 
   const getClasses = (linkName: string) => {
@@ -15,27 +16,30 @@ const Navigation = ({ setNavigation }: props) => {
     return "hover:text-white py-1 cursor-pointer";
   };
 
-  const setActiveLink = (linkName: string) => {
-    return () => setActive(linkName);
+  const setActiveLink = (linkName: tab) => {
+    return () => {
+      setMenuTab(linkName);
+      setActive(linkName);
+    };
   };
 
   return (
-    <div className="border-darkBorder border-b-2 space-x-4 mt-2 pb-2 text-darkText font-bold">
+    <div className="border-darkBorder border-b-2 space-x-4 mt-2 pb-2 text-base text-darkText font-bold select-none">
       <span
-        className={getClasses("general")}
-        onClick={setActiveLink("general")}
+        className={getClasses(tab.GENERAL)}
+        onClick={setActiveLink(tab.GENERAL)}
       >
         General
       </span>
       <span
-        className={getClasses("whitelist")}
-        onClick={setActiveLink("whitelist")}
+        className={getClasses(tab.WHITELIST)}
+        onClick={setActiveLink(tab.WHITELIST)}
       >
         Whitelist
       </span>
       <span
-        className={getClasses("blacklist")}
-        onClick={setActiveLink("blacklist")}
+        className={getClasses(tab.BLACKLIST)}
+        onClick={setActiveLink(tab.BLACKLIST)}
       >
         Blacklist
       </span>

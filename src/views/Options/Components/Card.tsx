@@ -1,18 +1,17 @@
 import React from "react";
-import { useState } from "react";
+import { tab } from "../tabs";
 import Navigation from "./Navigation";
 
 interface props {
-  children: JSX.Element;
+  setMenuTab: React.Dispatch<React.SetStateAction<tab>>;
+  children: Array<JSX.Element> | JSX.Element;
 }
 
-const Card: React.FC<props> = ({ children }: props) => {
-  const [navigation, setNavigation] = useState<string>("general");
-
+const Card: React.FC<props> = ({ children, setMenuTab }: props) => {
   return (
-    <div className="bg-cardGrey border-2 border-darkBorder h-[600px]  rounded py-6 px-6">
+    <div className="bg-cardGrey border-2 border-darkBorder h-[680px]  rounded py-6 px-6">
       {/* CARD NAVIGATION */}
-      <Navigation setNavigation={setNavigation} />
+      <Navigation setMenuTab={setMenuTab} />
       {children}
     </div>
   );

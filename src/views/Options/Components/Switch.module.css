@@ -1,0 +1,22 @@
+.switch {
+  background-size: 200% 100%;
+  background-image: linear-gradient(to left, #0079d3 50%, #4d4d52 50%);
+  transition: background-position 190ms ease-in-out;
+}
+
+.unactive {
+  background-position: 0% 0%;
+}
+.active {
+  background-position: -100% 0%;
+}
+
+@keyframes leftToRight {
+  0% {
+    @apply left-1;
+  }
+
+  100% {
+    @apply right-1;
+  }
+}

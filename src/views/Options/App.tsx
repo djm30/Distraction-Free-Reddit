@@ -2,23 +2,34 @@ import React from "react";
 import { useState } from "react";
 import Card from "./Components/Card";
 import "./App.css";
-import Options from "./Components/Options";
+import GeneralOptions from "./Components/GeneralOptions";
+import Whitelist from "./Components/Whitelist";
+import Blacklist from "./Components/Blacklist";
 import Header from "./Components/Header";
 import Container from "./Components/Container";
-
-type menu = "general" | "whitelist" | "blacklist";
+import { tab } from "./tabs";
 
 function App() {
-  const [menuTab, setMenuTab] = useState();
+  const [menuTab, setMenuTab] = useState(tab.GENERAL);
+
+  let optionsToShow: JSX.Element;
+  switch (menuTab) {
+    case tab.GENERAL:
+      optionsToShow = <GeneralOptions />;
+      break;
+    case tab.WHITELIST:
+      optionsToShow = <Whitelist />;
+      break;
+    case tab.BLACKLIST:
+      optionsToShow = <Blacklist />;
+  }
 
   return (
     <Container>
       {/* HEADING */}
       <Header />
       {/* CARD */}
-      <Card>
-        <Options />
-      </Card>
+      <Card setMenuTab={setMenuTab}>{optionsToShow}</Card>
     </Container>
   );
 }

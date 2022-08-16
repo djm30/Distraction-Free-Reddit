@@ -1,14 +1,26 @@
-import React from 'react'
-import "./App.css"
+import React from "react";
+import Switch from "../Options/Components/Switch";
+import "./App.css";
 
 function App() {
   return (
-    <div className="w-full h-full">
-      <h1 className="bg-neutral-800 text-white">Hello Chrome!</h1>
-      <h3 className="text-red-500">Secondary Hello!</h3>
-      <button onClick={()=>chrome.runtime.openOptionsPage(()=>console.log("opened options page"))}>Open Options</button>
+    <div className="w-full min-h-[400px] text-white">
+      <div className="bg-cardGrey p-4 text-center border-b-2 border-darkBorder">
+        <h1 className="text-3xl font-bold">Distraction-Free Reddit</h1>
+      </div>
+      <div className="rounded-[4px] border-darkBorder border-2 mt-6 mx-8 h-60 bg-cardGrey p-4 ">
+        <div className="flex flex-col items-center justify-center space-y-3 mt-4 mb-10">
+          <h3 className="font-bold text-xl">Enabled</h3>
+          <Switch style={{ padding: "2px" }} />
+        </div>
+        <div className="flex justify-center">
+          <button className="text-base bg-buttonBlue hover:bg-[#118ff0] rounded-[4px] px-8 py-3 transition-all">
+            Options
+          </button>
+        </div>
+      </div>
     </div>
   );
 }
 
-export default App
+export default App;

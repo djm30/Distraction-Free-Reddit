@@ -1,22 +1,26 @@
 import React from "react";
 import { useState } from "react";
-import "./Switch.module.css";
+import switchStyles from "./Switch.module.css";
 
 interface styles {
   body: string;
   circle: string;
 }
 
-const Switch: React.FC = () => {
+interface Props {
+  style?: React.CSSProperties;
+}
+
+const Switch: React.FC<Props> = ({ style }) => {
   const [toggled, setToggled] = useState<boolean>(false);
 
   const on: styles = {
-    body: "bg-buttonBlue ",
-    circle: "right-1",
+    body: `${switchStyles.active}`,
+    circle: "active left-9",
   };
 
   const off: styles = {
-    body: "bg-switchGrey",
+    body: `${switchStyles.unactive}`,
     circle: "left-1",
   };
 
@@ -25,10 +29,11 @@ const Switch: React.FC = () => {
   return (
     <div
       className="py-[12px] pl-2 cursor-pointer"
+      style={style}
       onClick={() => setToggled(!toggled)}
     >
       <div
-        className={`w-16 h-8 rounded-full relative cursor-pointer transition-all ${classes.body}`}
+        className={`w-16 h-8 rounded-full relative cursor-pointer transition-all ${switchStyles.switch} ${classes.body}`}
       >
         {/* CIRCLE */}
         <div

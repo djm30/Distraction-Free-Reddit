@@ -12,18 +12,21 @@ module.exports = {
         full: "9999px",
         large: "12px",
       },
-    },
-    colors: {
-      white: "#FFFFFF",
-      dark: "#030304",
-      cardGrey: "#1A1A1B",
-      darkBorder: "#343536",
-      darkText: "#818384",
-      cardLight: "#272729",
-      buttonBlue: "#0079D3",
-      lightBorder: "#D9D9D9",
-      switchGrey: "#4D4D52",
+      colors: {
+        white: "#FFFFFF",
+        dark: "#030304",
+        cardGrey: "#1A1A1B",
+        darkBorder: "#343536",
+        darkText: "#818384",
+        cardLight: "#272729",
+        buttonBlue: "#0079D3",
+        lightBorder: "#D9D9D9",
+        switchGrey: "#4D4D52",
+      },
     },
   },
-  plugins: [],
+  plugins: [
+    // ...
+    require("tailwind-scrollbar"),
+  ],
 };

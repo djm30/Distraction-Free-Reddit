@@ -1,5 +1,9 @@
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&display=swap");
 
+html {
+  @apply bg-white;
+}
+
 body {
   width: 300px;
   height: 400px;

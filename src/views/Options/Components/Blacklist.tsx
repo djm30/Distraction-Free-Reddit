@@ -8,18 +8,26 @@ import {
   setMode,
   Mode,
   pushBlacklist,
+  removeBlacklist,
 } from "../../../chrome/storage";
+import { tab } from "../tabs";
 
-const Blacklist = () => {
+interface Props {
+  show: boolean;
+  menuTab: tab;
+}
+
+const Blacklist = ({ show, menuTab }: Props) => {
   const [toggled, setToggled] = useState(false);
   const [blacklist, setBlacklist] = useState<Array<string>>([]);
 
   useEffect(() => {
     getSettings().then((settings) => {
       if (settings.mode === Mode.BLACKLIST) setToggled(true);
+      else setToggled(false);
       setBlacklist(settings.blacklist);
     });
-  }, []);
+  }, [menuTab]);
 
   const blacklistToggle = () => {
     toggled ? setMode(Mode.BLOCK) : setMode(Mode.BLACKLIST);
@@ -31,6 +39,13 @@ const Blacklist = () => {
     setBlacklist(blacklist.concat(subreddit));
   };
 
+  const removeSubreddit = (subreddit: string) => {
+    removeBlacklist(subreddit);
+    setBlacklist(blacklist.filter((sub) => sub !== subreddit));
+  };
+
+  if (!show) return null;
+
   document.title = "DFReddit - Blacklist";
   return (
     <Options>
@@ -40,7 +55,11 @@ const Blacklist = () => {
         toggled={toggled}
         setToggled={blacklistToggle}
       />
-      <SubredditList subreddits={blacklist} addSubreddit={addSubreddit} />
+      <SubredditList
+        subreddits={blacklist}
+        addSubreddit={addSubreddit}
+        removeSubreddit={removeSubreddit}
+      />
     </Options>
   );
 };

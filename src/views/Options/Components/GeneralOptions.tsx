@@ -4,7 +4,11 @@ import Option from "./Option";
 import { useState, useEffect } from "react";
 import { getSettings, toggleOption, BlockTypes } from "../../../chrome/storage";
 
-const GeneralOptions = () => {
+interface Props {
+  show: boolean;
+}
+
+const GeneralOptions = ({ show }: Props) => {
   useEffect(() => {
     getSettings().then((settings) => {
       let blocks = settings.blocks;
@@ -57,6 +61,8 @@ const GeneralOptions = () => {
     comments,
     setComments,
   );
+
+  if (!show) return null;
 
   document.title = "DFReddit - General";
   return (

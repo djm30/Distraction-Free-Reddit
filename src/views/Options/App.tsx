@@ -16,24 +16,39 @@ function App() {
   let showWhitelist = false;
   let showBlacklist = false;
 
-  let optionsToShow: JSX.Element;
   switch (menuTab) {
     case tab.GENERAL:
-      optionsToShow = <GeneralOptions />;
+      showOptions = true;
       break;
     case tab.WHITELIST:
-      optionsToShow = <Whitelist />;
+      showWhitelist = true;
       break;
     case tab.BLACKLIST:
-      optionsToShow = <Blacklist />;
+      showBlacklist = true;
   }
+
+  // let optionsToShow: JSX.Element;
+  // switch (menuTab) {
+  //   case tab.GENERAL:
+  //     optionsToShow = <GeneralOptions />;
+  //     break;
+  //   case tab.WHITELIST:
+  //     optionsToShow = <Whitelist />;
+  //     break;
+  //   case tab.BLACKLIST:
+  //     optionsToShow = <Blacklist />;
+  // }
 
   return (
     <Container>
       {/* HEADING */}
       <Header />
       {/* CARD */}
-      <Card setMenuTab={setMenuTab}>{optionsToShow}</Card>
+      <Card setMenuTab={setMenuTab}>
+        <GeneralOptions show={showOptions} />
+        <Whitelist menuTab={menuTab} show={showWhitelist} />
+        <Blacklist menuTab={menuTab} show={showBlacklist} />
+      </Card>
     </Container>
   );
 }

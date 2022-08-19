@@ -2,13 +2,15 @@ import React from "react";
 
 interface Props {
   name: string;
+  removeSubreddit: (subreddit: string) => void;
 }
 
-const SingleSubreddit = ({ name }: Props) => {
+const SingleSubreddit = ({ name, removeSubreddit }: Props) => {
   return (
     <div className="flex last-of-type:border-b-0 items-center justify-between border-b-2 border-darkBorder py-4 px-3 text-white text-2xl">
       <p>{name}</p>
       <svg
+        onClick={() => removeSubreddit(name)}
         className="fill-neutral-400 hover:fill-white cursor-pointer "
         xmlns="http://www.w3.org/2000/svg"
         width="24"

@@ -92,7 +92,6 @@ export const getSettings = async () => {
 export const setMode = async (mode: Mode) => {
     const settings = await getSettings();
     settings.mode = mode;
-    console.log(settings);
     await chrome.storage.sync.set({ "options": settings })
 }
 
@@ -102,9 +101,21 @@ export const pushBlacklist = async (subreddit: string) => {
     await chrome.storage.sync.set({ "options": settings })
 }
 
+export const removeBlacklist = async (subreddit: string) => {
+    const settings = await getSettings();
+    settings.blacklist = settings.blacklist.filter(sub => sub !== subreddit)
+    await chrome.storage.sync.set({ "options": settings })
+}
+
 export const pushWhitelist = async (subreddit: string) => {
     const settings = await getSettings();
     settings.whitelist.push(subreddit);
+    await chrome.storage.sync.set({ "options": settings })
+}
+
+export const removeWhitelist = async (subreddit: string) => {
+    const settings = await getSettings();
+    settings.whitelist = settings.whitelist.filter(sub => sub !== subreddit)
     await chrome.storage.sync.set({ "options": settings })
 }
 

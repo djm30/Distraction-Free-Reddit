@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "Extension Name",
+  "name": "Distraction Free Reddit",
   "version": "0.1.0",
-  "description": "Some Description",
+  "description": "Remove the worst of reddit.",
   "permissions": ["activeTab", "storage"],
   "background": {
     "service_worker": "./static/js/background.js"

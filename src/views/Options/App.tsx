@@ -12,6 +12,10 @@ import { tab } from "./tabs";
 function App() {
   const [menuTab, setMenuTab] = useState(tab.GENERAL);
 
+  let showOptions = false;
+  let showWhitelist = false;
+  let showBlacklist = false;
+
   let optionsToShow: JSX.Element;
   switch (menuTab) {
     case tab.GENERAL:

@@ -4,9 +4,16 @@ import Switch from "./Switch";
 interface Props {
   title: string;
   description: string;
+  toggled: boolean;
+  setToggled: () => void;
 }
 
-const Option: React.FC<Props> = ({ title, description }) => {
+const Option: React.FC<Props> = ({
+  title,
+  description,
+  toggled,
+  setToggled,
+}) => {
   return (
     <div className="border-b-2 border-darkBorder pb-2 flex justify-between items-center">
       {/* TEXT */}
@@ -15,7 +22,7 @@ const Option: React.FC<Props> = ({ title, description }) => {
         <p className="text-darkText text-base">{description}</p>
       </div>
       {/* SWITCH */}
-      <Switch />
+      <Switch toggled={toggled} setToggled={setToggled} />
     </div>
   );
 };

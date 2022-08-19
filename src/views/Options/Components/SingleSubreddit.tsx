@@ -1,9 +1,13 @@
 import React from "react";
 
-const SingleSubreddit = () => {
+interface Props {
+  name: string;
+}
+
+const SingleSubreddit = ({ name }: Props) => {
   return (
-    <div className="flex  last-of-type:border-b-0 items-center justify-between border-b-2 border-darkBorder py-4 px-3 text-white text-2xl">
-      <p>r/All</p>
+    <div className="flex last-of-type:border-b-0 items-center justify-between border-b-2 border-darkBorder py-4 px-3 text-white text-2xl">
+      <p>{name}</p>
       <svg
         className="fill-neutral-400 hover:fill-white cursor-pointer "
         xmlns="http://www.w3.org/2000/svg"

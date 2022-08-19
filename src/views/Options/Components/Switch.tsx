@@ -9,11 +9,11 @@ interface styles {
 
 interface Props {
   style?: React.CSSProperties;
+  toggled: boolean;
+  setToggled: () => void;
 }
 
-const Switch: React.FC<Props> = ({ style }) => {
-  const [toggled, setToggled] = useState<boolean>(false);
-
+const Switch: React.FC<Props> = ({ style, toggled, setToggled }) => {
   const on: styles = {
     body: `${switchStyles.active}`,
     circle: "active left-9",
@@ -30,7 +30,7 @@ const Switch: React.FC<Props> = ({ style }) => {
     <div
       className="py-[12px] pl-2 cursor-pointer"
       style={style}
-      onClick={() => setToggled(!toggled)}
+      onClick={() => setToggled()}
     >
       <div
         className={`w-16 h-8 rounded-full relative cursor-pointer transition-all ${switchStyles.switch} ${classes.body}`}

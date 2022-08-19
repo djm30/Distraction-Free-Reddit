@@ -3,17 +3,26 @@ import SingleSubreddit from "./SingleSubreddit";
 import SubredditForm from "./SubredditForm";
 import styles from "./SubredditList.module.css";
 
-const SubredditList = () => {
+interface Props {
+  subreddits: Array<string>;
+  addSubreddit: (subreddit: string) => void;
+}
+
+const SubredditList = ({ subreddits, addSubreddit }: Props) => {
   return (
-    <div className="mx-20 border-2 border-transparent h-[450px]">
+    <div className="xl:mx-20 lg:mx-10 mx-5 border-2 border-transparent h-[450px]">
       {/* INPUT */}
-      <SubredditForm />
+      <SubredditForm addSubreddit={addSubreddit} />
       {/* SUBREDDIT LIST */}
-      <div className="mt-10 ml-20 mr-10 h-80  overflow-y-scroll scrollbar-track-cardGrey hover:scrollbar-track-cardGrey scrollbar-thumb-black ">
+      <div
+        className={`mt-10 relative xl:mx-16 lg:mx-12 md:mx-8 h-80  ${styles.scrollbar}`}
+      >
         <div
-          className={`border-2 mr-10 min-h-[70px] border-darkBorder rounded-[4px] ${styles.subredditList}`}
+          className={`border-2 min-h-[70px] border-darkBorder rounded-[4px] overflow-hidden ${styles.subredditList}`}
         >
-          <SingleSubreddit />
+          {subreddits.map((subreddit) => (
+            <SingleSubreddit name={subreddit} />
+          ))}
         </div>
       </div>
     </div>

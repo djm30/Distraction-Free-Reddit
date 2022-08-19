@@ -1,4 +1,18 @@
 .subredditList:last-child {
-  overflow-y: scroll;
-  /* @apply border-b-0; */
+}
+
+.scrollbar {
+  overflow-y: overlay;
+}
+
+.scrollbar::-webkit-scrollbar {
+  @apply h-3 w-1 absolute;
+}
+
+.scrollbar::-webkit-scrollbar-track {
+  @apply rounded-md bg-transparent;
+}
+.scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(224, 224, 224, 0.2);
+  @apply rounded-md h-3 mr-2;
 }

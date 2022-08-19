@@ -1,3 +1,3 @@
-alert("Certified reddit moment");
+console.log("From this extension with love");
 
 export { };

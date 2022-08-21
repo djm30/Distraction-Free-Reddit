@@ -24,7 +24,7 @@ const SubredditForm = ({ addSubreddit }: Props) => {
       setSubReddit("r/");
     }
     if (validateSubreddit()) {
-      addSubreddit(subReddit);
+      addSubreddit(subReddit.substring(2));
       setSubReddit("");
     }
   };

@@ -8,7 +8,7 @@ interface Props {
 const SingleSubreddit = ({ name, removeSubreddit }: Props) => {
   return (
     <div className="flex last-of-type:border-b-0 items-center justify-between border-b-2 border-darkBorder py-4 px-3 text-white text-2xl">
-      <p>{name}</p>
+      <p>r/{name}</p>
       <svg
         onClick={() => removeSubreddit(name)}
         className="fill-neutral-400 hover:fill-white cursor-pointer "

@@ -45,7 +45,7 @@ let defaultSettings: StorageShape = {
     }
 }
 
-export const initialiseSettings = async () => {
+export const initializeSettings = async () => {
     chrome.storage.sync.get("options").then(val => {
         if (Object.keys(val).length === 0) {
             chrome.storage.sync.set({ "options": defaultSettings })

@@ -74,8 +74,8 @@ const GeneralOptions = ({ show }: Props) => {
         setToggled={toggleMainFeed}
       />
       <Option
-        title={"Hide r/All"}
-        description={"Hides any post in the r/All subreddit"}
+        title={"Hide r/All and r/Popular"}
+        description={"Hides both r/All and r/Popular"}
         toggled={hideAll}
         setToggled={toggleHideAll}
       />

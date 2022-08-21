@@ -3,14 +3,15 @@
   "name": "Distraction Free Reddit",
   "version": "0.1.0",
   "description": "Remove the worst of reddit.",
-  "permissions": ["activeTab", "storage"],
+  "permissions": ["activeTab", "storage", "tabs"],
   "background": {
     "service_worker": "./static/js/background.js"
   },
   "content_scripts": [
     {
       "js": ["./static/js/content.js"],
-      "matches": ["*://*.reddit.com/*"]
+      "matches": ["*://*.reddit.com/*"],
+      "run_at": "document_end"
     }
   ],
   "icons": {

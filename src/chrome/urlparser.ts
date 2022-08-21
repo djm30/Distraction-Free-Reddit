@@ -23,7 +23,7 @@ export const parseUrl = (url: string, settings: StorageShape): BlockSection[] =>
         sections.push(allPopularSettings(settings))
 
     // If url is a users profile
-    else if (/^https:\/\/www.reddit.com\/user\/(.*)\/(|submitted\/|comments).*/.test(url))
+    else if (/^https:\/\/www.reddit.com\/user\/([^\/]*)\/?((submitted|comments))?\/?/.test(url))
         sections.push(userFeedSettings(settings))
 
     // If url is a subreddit
@@ -104,6 +104,7 @@ const subredditSettings = (settings: StorageShape, subreddit: string) => {
 
 // TODO
 const userFeedSettings = (settings: StorageShape) => {
+    console.log("here");
     const userFeedSection: BlockSection = { ...sections.userFeed }
     if (settings.blocks.userFeed) {
         userFeedSection.show = false;

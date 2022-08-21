@@ -41,7 +41,7 @@ const comments: BlockSection = {
 }
 
 const userFeed: BlockSection = {
-    selector: "._31N0dvxfpsO6Ur5AKx4O5d",
+    selector: "", // ._31N0dvxfpsO6Ur5AKx4O5d
     show: true,
     useBlocker: false,
     blockMsg: "",
@@ -55,7 +55,7 @@ const search: BlockSection = {
 }
 
 const subFeed: BlockSection = {
-    selector: "",
+    selector: "", // ._31N0dvxfpsO6Ur5AKx4O5d
     show: true,
     useBlocker: false,
     blockMsg: "",

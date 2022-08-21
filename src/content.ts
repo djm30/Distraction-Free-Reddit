@@ -57,7 +57,7 @@ if (document.readyState !== "complete") {
                 hideSection(section);
             })
         })
-    }, 50)
+    }, 100)
 }
 
 window.addEventListener("load", () => {

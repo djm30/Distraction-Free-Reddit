@@ -12,3 +12,14 @@ solution
 
 
 Note -> Popup component should be called index, options should be called options
+
+#### TODO AO 21/08/2022
+
+- Refresh in memory settings whenever settings are changed in options menu
+- Add in functionality to enable and disable extension
+- Make it so blocking user feeds doesnt block your own feed
+
+## Nice to have
+- Chat window appears over blocks creen
+- Instead of no post showing up, replace it with a message
+- Same as above but for comments instead

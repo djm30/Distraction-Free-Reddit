@@ -2,30 +2,7 @@ import { BlockSection } from "./chrome/cssclassnames";
 import { MessageType } from "./chrome/messages";
 import { getSettings } from "./chrome/storage";
 import { parseUrl } from "./chrome/urlparser";
-
-const showHideElement = (section: BlockSection) => {
-    const element = document.querySelector(
-        section.selector,
-    ) as HTMLDivElement | null;
-    if (element) {
-        if (!section.show) {
-            element.style.display = "none";
-        } else element.style.removeProperty("display");
-    }
-};
-
-const isDarkMode = () => {
-    let darkMode = false;
-    let element = document.querySelector("._1VP69d9lk-Wk9zokOaylL") as HTMLElement;
-    element.style.cssText.split(" ").forEach(style => {
-        console.log(style);
-        if (style.startsWith("--background:")) {
-            let bodyColor = style.split("#")[1];
-            darkMode = bodyColor !== "FFFFFF;"
-        }
-    })
-    return darkMode;
-}
+import { isDarkMode, isUserProfile } from "./chrome/contentUtils";
 
 // Making chat appear above blocker element
 // ((document.querySelector("._1ScY1cHS-Vgv6eoU-LmjTi") as HTMLDivElement).parentElement as HTMLDivElement).style.zIndex = "100";
@@ -47,36 +24,59 @@ blockerElement.style.display = "none"
 const parent = document.querySelector("header")?.parentElement as HTMLDivElement;
 
 let interval: ReturnType<typeof setInterval>
+
 if (document.readyState !== "complete") {
     interval = setInterval(() => {
         parent.appendChild(blockerElement);
+    }, 250)
 
+    let interval2 = setInterval(() => {
         // Hiding elements on initial page load
         getSettings().then(settings => {
-            parseUrl(document.URL, settings).forEach(section => {
-                hideSection(section);
-            })
+            if (settings.enabled) {
+                if (!isUserProfile()) {
+                    parseUrl(document.URL, settings).forEach(section => {
+                        hideSection(section);
+                    })
+                }
+            }
         })
-    }, 100)
+    }, 125)
+
+    setTimeout(() => {
+        clearInterval(interval2);
+    }, 2000)
 }
 
 window.addEventListener("load", () => {
-    console.log("Loaded!")
+    console.log("Distraction Free Reddit Loaded!");
     clearInterval(interval)
     console.log(parent);
 })
 
-console.log("Distraction Free Reddit Loaded!");
-
-
+// Recieve messages from frontend
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     if (message.type === MessageType.HIDE_ELEMENTS) {
         const section = message.payload as BlockSection;
-        console.log(section);
         hideSection(section);
+        if (isUserProfile()) {
+            console.log("This is my own profile");
+            blockerElement.style.display = "none";
+        }
     }
 });
 
+
+const showHideElement = (section: BlockSection) => {
+    const element = document.querySelector(
+        section.selector,
+    ) as HTMLDivElement | null;
+    if (element) {
+        if (!section.show) {
+            element.style.display = "none";
+        } else element.style.removeProperty("display");
+    }
+};
 
 const hideSection = (section: BlockSection) => {
     if (section.useBlocker) {
@@ -86,15 +86,14 @@ const hideSection = (section: BlockSection) => {
     else {
         blockerElement.style.display = "none";
     }
-    hideWithRetries(section, 5000);
+    hideWithRetries(section, 1000);
 }
 
 const hideWithRetries = (element: BlockSection, time = 750) => {
-    let interval = setInterval(() => { showHideElement(element) }, 50)
+    let interval = setInterval(() => { showHideElement(element) }, 250)
     let timeout = setTimeout(() => {
         clearInterval(interval)
     }, time)
 
     return [interval, timeout];
 }
-export { };

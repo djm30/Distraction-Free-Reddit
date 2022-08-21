@@ -3,6 +3,7 @@ import Options from "./Options";
 import Option from "./Option";
 import { useState, useEffect } from "react";
 import { getSettings, toggleOption, BlockTypes } from "../../../chrome/storage";
+import { sendSettingsResetMessage } from "../../../chrome/settingsHelper";
 
 interface Props {
   show: boolean;
@@ -27,6 +28,7 @@ const GeneralOptions = ({ show }: Props) => {
     setCurrent: React.Dispatch<React.SetStateAction<boolean>>,
   ) => {
     return () => {
+      sendSettingsResetMessage();
       toggleOption(block);
       setCurrent(!current);
     };

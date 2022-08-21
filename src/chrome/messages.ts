@@ -3,10 +3,6 @@ export const enum MessageType {
     SETTINGS_UPDATE = "SETTINGS_UPDATE"
 }
 
-export const MessageTypeParser = (message: number) => {
-
-}
-
 export interface Message {
     type: MessageType,
     className?: string

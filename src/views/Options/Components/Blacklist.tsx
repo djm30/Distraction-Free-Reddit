@@ -11,6 +11,7 @@ import {
   removeBlacklist,
 } from "../../../chrome/storage";
 import { tab } from "../tabs";
+import { sendSettingsResetMessage } from "../../../chrome/settingsHelper";
 
 interface Props {
   show: boolean;
@@ -32,16 +33,19 @@ const Blacklist = ({ show, menuTab }: Props) => {
   const blacklistToggle = () => {
     toggled ? setMode(Mode.BLOCK) : setMode(Mode.BLACKLIST);
     setToggled(!toggled);
+    sendSettingsResetMessage();
   };
 
   const addSubreddit = (subreddit: string) => {
     pushBlacklist(subreddit);
     setBlacklist(blacklist.concat(subreddit));
+    sendSettingsResetMessage();
   };
 
   const removeSubreddit = (subreddit: string) => {
     removeBlacklist(subreddit);
     setBlacklist(blacklist.filter((sub) => sub !== subreddit));
+    sendSettingsResetMessage();
   };
 
   if (!show) return null;

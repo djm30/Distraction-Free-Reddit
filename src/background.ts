@@ -24,15 +24,19 @@ const setSettings = () => {
 
 // Listening for settings change event to change the settings loaded into memory
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-
+    if (message.type === MessageType.SETTINGS_UPDATE) {
+        console.log("Updating settings");
+        setSettings();
+    }
 })
-
 
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
     if (changeInfo.url?.startsWith("https://www.reddit")) {
-        const sections = parseUrl(changeInfo.url, settings)
-        console.log(sections);
-        publishMessages(tabId, sections);
+        if (settings.enabled) {
+            const sections = parseUrl(changeInfo.url, settings)
+            console.log(sections);
+            publishMessages(tabId, sections);
+        }
     }
 });
 

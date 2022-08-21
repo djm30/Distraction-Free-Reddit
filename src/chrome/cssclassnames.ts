@@ -10,7 +10,6 @@ export const selectors = {
     post: "._2DJXORCrmcNpPTSq0LqL6i"
 }
 
-
 export interface BlockSection {
     selector: string
     show: boolean

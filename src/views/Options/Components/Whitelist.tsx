@@ -11,6 +11,7 @@ import {
   pushWhitelist,
   removeWhitelist,
 } from "../../../chrome/storage";
+import { sendSettingsResetMessage } from "../../../chrome/settingsHelper";
 
 interface Props {
   show: boolean;
@@ -32,16 +33,19 @@ const Whitelist = ({ show, menuTab }: Props) => {
   const whitelistToggle = () => {
     toggled ? setMode(Mode.BLOCK) : setMode(Mode.WHITELIST);
     setToggled(!toggled);
+    sendSettingsResetMessage();
   };
 
   const addSubreddit = (subreddit: string) => {
     pushWhitelist(subreddit);
     setWhitelist(whitelist.concat(subreddit));
+    sendSettingsResetMessage();
   };
 
   const removeSubreddit = (subreddit: string) => {
     removeWhitelist(subreddit);
     setWhitelist(whitelist.filter((sub) => sub !== subreddit));
+    sendSettingsResetMessage();
   };
 
   if (!show) return null;

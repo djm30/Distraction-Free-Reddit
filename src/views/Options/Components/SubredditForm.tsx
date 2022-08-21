@@ -14,7 +14,7 @@ const SubredditForm = ({ addSubreddit }: Props) => {
     if (e.target.value.substring(0, 2) !== "r/") {
       setSubReddit("r/");
     } else if (e.target.value.length >= 2) {
-      setSubReddit(e.target.value);
+      setSubReddit(e.target.value.toLowerCase());
     }
   };
 

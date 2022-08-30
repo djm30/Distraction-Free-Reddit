@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "name": "Distraction Free Reddit",
-  "version": "0.1.0",
-  "description": "Remove the worst of reddit.",
+  "version": "1.0.0",
+  "description": "Remove the distracting parts of reddit and focus only on what really matters to you.",
   "permissions": ["activeTab", "storage", "tabs"],
   "background": {
     "service_worker": "./static/js/background.js"

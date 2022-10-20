@@ -30,3 +30,8 @@ Note -> Popup component should be called index, options should be called options
 - Refresh reddit tab on settings change? could be annoying, will have to try it out
   otherwise, add a little paragraph mentioning you will need to refresh reddit for changes
   to take affect
+
+
+## Current issues
+- Doesn't seem to work when not signed in, possibly due to cookie functin
+- Main feed block doesn't seem to go away after visiting a subreddit

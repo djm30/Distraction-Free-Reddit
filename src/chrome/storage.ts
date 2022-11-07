@@ -51,6 +51,7 @@ export const initializeSettings = async () => {
             chrome.storage.sync.set({ "options": defaultSettings })
         }
     })
+    console.log("Initialised settings!")
 }
 
 const parseMode = (int: Number): Mode => {

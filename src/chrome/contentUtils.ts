@@ -1,3 +1,4 @@
+// Finds out whether the side is running in dark mode or not
 export const isDarkMode = () => {
     let darkMode = false;
     let element = document.querySelector("._1VP69d9lk-Wk9zokOaylL") as HTMLElement;

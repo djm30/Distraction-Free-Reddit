@@ -8,7 +8,7 @@ import { isDarkMode, isUserProfile } from "./chrome/contentUtils";
 // ((document.querySelector("._1ScY1cHS-Vgv6eoU-LmjTi") as HTMLDivElement).parentElement as HTMLDivElement).style.zIndex = "100";
 
 const darkModeOn = isDarkMode();
-alert("Updated")
+
 console.log(darkModeOn);
 const fontColor = darkModeOn ? "white" : "black";
 const bgColor = darkModeOn ? "#030303" : "#DAE0E6";

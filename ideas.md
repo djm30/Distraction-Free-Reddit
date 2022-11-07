@@ -35,3 +35,9 @@ Note -> Popup component should be called index, options should be called options
 ## Current issues
 - Doesn't seem to work when not signed in, possibly due to cookie functin
 - Main feed block doesn't seem to go away after visiting a subreddit
+
+## 07/11/22
+- Fixed extension quite a lot, works when service worker goes inactive, and appropiate permissions to track changes to the url
+- Added ability for all tabs to live reload if the settings are changed while the extension is active, however this reloading doesn't work when the extension is enabled/disabled. This will still require a refresh
+- Added error handling for invalid query selectors and runtime messages to content scripts that aren't yet active
+- TODO add a logger 

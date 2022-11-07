@@ -1,24 +1,24 @@
 export enum Mode {
     BLOCK,
     WHITELIST,
-    BLACKLIST
+    BLACKLIST,
 }
 
 export interface StorageShape {
-    enabled: boolean,
-    mode: Mode,
-    whitelist: Array<string>,
-    blacklist: Array<string>,
-    blocks: Blocks
+    enabled: boolean;
+    mode: Mode;
+    whitelist: Array<string>;
+    blacklist: Array<string>;
+    blocks: Blocks;
 }
 
 export interface Blocks {
-    mainFeed: boolean,
-    search: boolean,
-    sidebar: boolean,
-    userFeed: boolean,
-    all: boolean,
-    comments: boolean
+    mainFeed: boolean;
+    search: boolean;
+    sidebar: boolean;
+    userFeed: boolean;
+    all: boolean;
+    comments: boolean;
 }
 
 export enum BlockTypes {
@@ -27,7 +27,7 @@ export enum BlockTypes {
     ALL,
     COMMENTS,
     SIDEBAR,
-    SEARCH
+    SEARCH,
 }
 
 let defaultSettings: StorageShape = {
@@ -41,18 +41,18 @@ let defaultSettings: StorageShape = {
         sidebar: true,
         userFeed: true,
         all: true,
-        comments: true
-    }
-}
+        comments: true,
+    },
+};
 
 export const initializeSettings = async () => {
-    chrome.storage.sync.get("options").then(val => {
+    chrome.storage.sync.get("options").then((val) => {
         if (Object.keys(val).length === 0) {
-            chrome.storage.sync.set({ "options": defaultSettings })
+            chrome.storage.sync.set({ options: defaultSettings });
         }
-    })
-    console.log("Initialised settings!")
-}
+    });
+    console.log("[INFO ]Initialised settings!");
+};
 
 const parseMode = (int: Number): Mode => {
     switch (int) {
@@ -65,7 +65,7 @@ const parseMode = (int: Number): Mode => {
         default:
             return Mode.BLOCK;
     }
-}
+};
 
 export const getSettings = async () => {
     const storage = await chrome.storage.sync.get("options");
@@ -77,81 +77,81 @@ export const getSettings = async () => {
         mainFeed: settingsFromStore.blocks.mainFeed,
         sidebar: settingsFromStore.blocks.sidebar,
         search: settingsFromStore.blocks.search,
-        userFeed: settingsFromStore.blocks.userFeed
-    }
+        userFeed: settingsFromStore.blocks.userFeed,
+    };
 
     const mappedSettings: StorageShape = {
         enabled: settingsFromStore.enabled,
         mode: parseMode(settingsFromStore.mode),
         blacklist: settingsFromStore.blacklist,
         whitelist: settingsFromStore.whitelist,
-        blocks: mappedBlocks
-    }
+        blocks: mappedBlocks,
+    };
     return mappedSettings;
-}
+};
 
 export const setMode = async (mode: Mode) => {
     const settings = await getSettings();
     settings.mode = mode;
-    await chrome.storage.sync.set({ "options": settings })
-}
+    await chrome.storage.sync.set({ options: settings });
+};
 
 export const pushBlacklist = async (subreddit: string) => {
     const settings = await getSettings();
     settings.blacklist.push(subreddit);
-    await chrome.storage.sync.set({ "options": settings })
-}
+    await chrome.storage.sync.set({ options: settings });
+};
 
 export const removeBlacklist = async (subreddit: string) => {
     const settings = await getSettings();
-    settings.blacklist = settings.blacklist.filter(sub => sub !== subreddit)
-    await chrome.storage.sync.set({ "options": settings })
-}
+    settings.blacklist = settings.blacklist.filter((sub) => sub !== subreddit);
+    await chrome.storage.sync.set({ options: settings });
+};
 
 export const pushWhitelist = async (subreddit: string) => {
     const settings = await getSettings();
     settings.whitelist.push(subreddit);
-    await chrome.storage.sync.set({ "options": settings })
-}
+    await chrome.storage.sync.set({ options: settings });
+};
 
 export const removeWhitelist = async (subreddit: string) => {
     const settings = await getSettings();
-    settings.whitelist = settings.whitelist.filter(sub => sub !== subreddit)
-    await chrome.storage.sync.set({ "options": settings })
-}
+    settings.whitelist = settings.whitelist.filter((sub) => sub !== subreddit);
+    await chrome.storage.sync.set({ options: settings });
+};
 
 export const toggleEnabled = async () => {
     const settings = await getSettings();
     settings.enabled = !settings.enabled;
-    await chrome.storage.sync.set({ "options": settings })
-}
+    await chrome.storage.sync.set({ options: settings });
+};
 
 export const toggleOption = async (option: BlockTypes) => {
     const settings = await getSettings();
     switch (option) {
         case BlockTypes.ALL:
-            settings.blocks.all = !settings.blocks.all
+            settings.blocks.all = !settings.blocks.all;
             break;
         case BlockTypes.MAIN_FEED:
-            settings.blocks.mainFeed = !settings.blocks.mainFeed
+            settings.blocks.mainFeed = !settings.blocks.mainFeed;
             break;
         case BlockTypes.USER_FEED:
-            settings.blocks.userFeed = !settings.blocks.userFeed
+            settings.blocks.userFeed = !settings.blocks.userFeed;
             break;
         case BlockTypes.COMMENTS:
-            settings.blocks.comments = !settings.blocks.comments
+            settings.blocks.comments = !settings.blocks.comments;
             break;
         case BlockTypes.SEARCH:
-            settings.blocks.search = !settings.blocks.search
+            settings.blocks.search = !settings.blocks.search;
             break;
         case BlockTypes.SIDEBAR:
-            settings.blocks.sidebar = !settings.blocks.sidebar
+            settings.blocks.sidebar = !settings.blocks.sidebar;
             break;
     }
-    await chrome.storage.sync.set({ "options": settings })
-}
+    await chrome.storage.sync.set({ options: settings });
+};
 
 export const resetSettings = async () => {
     await chrome.storage.sync.clear();
-    await chrome.storage.sync.set({ "options": defaultSettings })
-}
+    await chrome.storage.sync.set({ options: defaultSettings });
+};

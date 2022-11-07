@@ -17,6 +17,7 @@ export const isUserProfile = () => {
 
     const userUrlRegex = /^https:\/\/www.reddit.com\/user\/([^\/]*)\/?((submitted|comments))?\/?/
     const userName = (document.cookie as string).split(";")?.find((cookie) => cookie.includes("_recentclicks"))?.split("_")[0];
+    console.log(userName);
     if (userName && userUrlRegex.test(document.URL)) {
         const urlUserName = document.URL.match(userUrlRegex)![1];
         console.log({ urlUserName })

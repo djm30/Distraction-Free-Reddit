@@ -8,9 +8,10 @@ import { isDarkMode, isUserProfile } from "./chrome/contentUtils";
 // ((document.querySelector("._1ScY1cHS-Vgv6eoU-LmjTi") as HTMLDivElement).parentElement as HTMLDivElement).style.zIndex = "100";
 
 const darkModeOn = isDarkMode();
+alert("Updated")
 console.log(darkModeOn);
 const fontColor = darkModeOn ? "white" : "black";
-const bgColor = darkModeOn ? "#030303" : "#dae0e6";
+const bgColor = darkModeOn ? "#030303" : "#DAE0E6";
 
 // Creating blocker element
 const blockerStyles = `position: fixed; top: 48px;
@@ -56,6 +57,7 @@ window.addEventListener("load", () => {
 
 // Recieve messages from frontend
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+    console.log("Message Recieved")
     if (message.type === MessageType.HIDE_ELEMENTS) {
         const section = message.payload as BlockSection;
         hideSection(section);
@@ -64,6 +66,10 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
             blockerElement.style.display = "none";
         }
     }
+    if (message.type === MessageType.HIDE_BLOCKER) {
+        blockerElement.style.display = "none";
+    }
+    sendResponse();
 });
 
 

@@ -3,15 +3,9 @@ import Option from "./Option";
 import Options from "./Options";
 import SubredditList from "./SubredditList";
 import { useState, useEffect } from "react";
-import {
-  getSettings,
-  setMode,
-  Mode,
-  pushBlacklist,
-  removeBlacklist,
-} from "../../../chrome/storage";
+import { getSettings, setMode, BlockMode, pushBlacklist, removeBlacklist } from "../../../chrome/settings-config";
 import { tab } from "../tabs";
-import { sendSettingsResetMessage } from "../../../chrome/settingsHelper";
+import { sendSettingsResetMessage } from "../../../chrome/SettingsResetMessage";
 
 interface Props {
   show: boolean;
@@ -24,14 +18,14 @@ const Blacklist = ({ show, menuTab }: Props) => {
 
   useEffect(() => {
     getSettings().then((settings) => {
-      if (settings.mode === Mode.BLACKLIST) setToggled(true);
+      if (settings.mode === BlockMode.BLACKLIST) setToggled(true);
       else setToggled(false);
       setBlacklist(settings.blacklist);
     });
   }, [menuTab]);
 
   const blacklistToggle = () => {
-    toggled ? setMode(Mode.BLOCK) : setMode(Mode.BLACKLIST);
+    toggled ? setMode(BlockMode.BLOCK) : setMode(BlockMode.BLACKLIST);
     setToggled(!toggled);
     sendSettingsResetMessage();
   };
@@ -59,11 +53,7 @@ const Blacklist = ({ show, menuTab }: Props) => {
         toggled={toggled}
         setToggled={blacklistToggle}
       />
-      <SubredditList
-        subreddits={blacklist}
-        addSubreddit={addSubreddit}
-        removeSubreddit={removeSubreddit}
-      />
+      <SubredditList subreddits={blacklist} addSubreddit={addSubreddit} removeSubreddit={removeSubreddit} />
     </Options>
   );
 };

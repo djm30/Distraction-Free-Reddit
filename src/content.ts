@@ -1,112 +1,14 @@
-import { BlockSection } from "./chrome/cssclassnames";
-import { MessageType } from "./chrome/messages";
-import { getSettings } from "./chrome/storage";
-import { parseUrl } from "./chrome/urlparser";
-import { isDarkMode, isUserProfile } from "./chrome/contentUtils";
+/* eslint-disable @typescript-eslint/no-use-before-define */
+import { RedditSecBlockConfig } from "./chrome/block-section-config";
+import { MessageType } from "./chrome/message-types";
+import Blocker from "./chrome/blocker";
 
-// Making chat appear above blocker element
-// ((document.querySelector("._1ScY1cHS-Vgv6eoU-LmjTi") as HTMLDivElement).parentElement as HTMLDivElement).style.zIndex = "100";
+const blocker = new Blocker(document.URL);
 
-const darkModeOn = isDarkMode();
-
-console.log(darkModeOn);
-const fontColor = darkModeOn ? "white" : "black";
-const bgColor = darkModeOn ? "#030303" : "#DAE0E6";
-
-// Creating blocker element
-const blockerStyles = `position: fixed; top: 48px;
-                    width: 100%; height: 100vh; z-index: 79;
-                    background: ${bgColor}; text-align: center;
-                    font-size: 20px; color: ${fontColor}; padding-top: 40px;`;
-const blockerElement = document.createElement("div");
-blockerElement.id = "blocker";
-blockerElement.style.cssText = blockerStyles;
-blockerElement.style.display = "none";
-const parent = document.querySelector("header")
-    ?.parentElement as HTMLDivElement;
-
-let interval: ReturnType<typeof setInterval>;
-
-if (document.readyState !== "complete") {
-    interval = setInterval(() => {
-        parent.appendChild(blockerElement);
-    }, 250);
-
-    let interval2 = setInterval(() => {
-        // Hiding elements on initial page load
-        getSettings().then((settings) => {
-            if (settings.enabled) {
-                if (!isUserProfile()) {
-                    parseUrl(document.URL, settings).forEach((section) => {
-                        hideSection(section);
-                    });
-                }
-            }
-        });
-    }, 125);
-
-    setTimeout(() => {
-        clearInterval(interval2);
-    }, 2000);
-}
-
-window.addEventListener("load", () => {
-    console.log("Distraction Free Reddit Loaded!");
-    clearInterval(interval);
-    console.log(parent);
-});
-
-// Recieve messages from frontend
+// Recieve messages from service worker
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-    console.log("Message Recieved");
-    if (message.type === MessageType.HIDE_ELEMENTS) {
-        const section = message.payload as BlockSection;
-        hideSection(section);
-        if (isUserProfile()) {
-            console.log("This is my own profile");
-            blockerElement.style.display = "none";
-        }
-    }
-    if (message.type === MessageType.HIDE_BLOCKER) {
-        blockerElement.style.display = "none";
-    }
-    sendResponse();
+  console.log("[INFO] Message Recieved");
+  if (message.type === MessageType.HIDE_ELEMENTS) blocker.hideElements(message.payload as RedditSecBlockConfig[]);
+  if (message.type === MessageType.HIDE_BLOCKER) blocker.hideBlockerElement();
+  sendResponse();
 });
-
-const showHideElement = (section: BlockSection) => {
-    try {
-        const element = document.querySelector(
-            section.selector,
-        ) as HTMLDivElement | null;
-        if (element) {
-            if (!section.show) {
-                element.style.display = "none";
-            } else element.style.removeProperty("display");
-        }
-    } catch (e) {
-        console.log(
-            `No element found for corresponding selector: ${section.selector}`,
-        );
-    }
-};
-
-const hideSection = (section: BlockSection) => {
-    if (section.useBlocker) {
-        blockerElement.style.removeProperty("display");
-        blockerElement.innerText = section.blockMsg;
-    } else {
-        blockerElement.style.display = "none";
-    }
-    hideWithRetries(section, 1000);
-};
-
-const hideWithRetries = (element: BlockSection, time = 750) => {
-    let interval = setInterval(() => {
-        showHideElement(element);
-    }, 250);
-    let timeout = setTimeout(() => {
-        clearInterval(interval);
-    }, time);
-
-    return [interval, timeout];
-};

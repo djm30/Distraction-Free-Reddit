@@ -2,8 +2,8 @@ import React from "react";
 import Options from "./Options";
 import Option from "./Option";
 import { useState, useEffect } from "react";
-import { getSettings, toggleOption, BlockTypes } from "../../../chrome/storage";
-import { sendSettingsResetMessage } from "../../../chrome/settingsHelper";
+import { getSettings, toggleOption, BlockTypes } from "../../../chrome/settings-config";
+import { sendSettingsResetMessage } from "../../../chrome/SettingsResetMessage";
 
 interface Props {
   show: boolean;
@@ -25,7 +25,7 @@ const GeneralOptions = ({ show }: Props) => {
   const genericToggle = (
     block: BlockTypes,
     current: boolean,
-    setCurrent: React.Dispatch<React.SetStateAction<boolean>>,
+    setCurrent: React.Dispatch<React.SetStateAction<boolean>>
   ) => {
     return () => {
       sendSettingsResetMessage();
@@ -35,21 +35,13 @@ const GeneralOptions = ({ show }: Props) => {
   };
 
   const [mainFeed, setMainFeed] = useState(false);
-  const toggleMainFeed = genericToggle(
-    BlockTypes.MAIN_FEED,
-    mainFeed,
-    setMainFeed,
-  );
+  const toggleMainFeed = genericToggle(BlockTypes.MAIN_FEED, mainFeed, setMainFeed);
 
   const [hideAll, setHideAll] = useState(false);
   const toggleHideAll = genericToggle(BlockTypes.ALL, hideAll, setHideAll);
 
   const [userFeed, setUserFeed] = useState(false);
-  const toggleUserFeed = genericToggle(
-    BlockTypes.USER_FEED,
-    userFeed,
-    setUserFeed,
-  );
+  const toggleUserFeed = genericToggle(BlockTypes.USER_FEED, userFeed, setUserFeed);
 
   const [sidebar, setSidebar] = useState(false);
   const toggleSidebar = genericToggle(BlockTypes.SIDEBAR, sidebar, setSidebar);
@@ -58,11 +50,7 @@ const GeneralOptions = ({ show }: Props) => {
   const toggleSearch = genericToggle(BlockTypes.SEARCH, search, setSearch);
 
   const [comments, setComments] = useState(false);
-  const toggleComments = genericToggle(
-    BlockTypes.COMMENTS,
-    comments,
-    setComments,
-  );
+  const toggleComments = genericToggle(BlockTypes.COMMENTS, comments, setComments);
 
   if (!show) return null;
 
@@ -95,9 +83,7 @@ const GeneralOptions = ({ show }: Props) => {
       />
       <Option
         title={"Hide Full Search Results"}
-        description={
-          "Hides full page results after searching and pressing enter"
-        }
+        description={"Hides full page results after searching and pressing enter"}
         toggled={search}
         setToggled={toggleSearch}
       />

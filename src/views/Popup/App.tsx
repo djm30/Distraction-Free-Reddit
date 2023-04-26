@@ -1,15 +1,13 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { sendSettingsResetMessage } from "../../chrome/settingsHelper";
-import { getSettings, toggleEnabled } from "../../chrome/storage";
+import { sendSettingsResetMessage } from "../../chrome/SettingsResetMessage";
+import { getSettings, toggleEnabled } from "../../chrome/settings-config";
 import Switch from "../Options/Components/Switch";
 import "./App.css";
 
 function App() {
   const openOptions = () => {
-    chrome.runtime.openOptionsPage(() =>
-      console.log("Opening the options page"),
-    );
+    chrome.runtime.openOptionsPage(() => console.log("Opening the options page"));
   };
 
   const [toggled, setToggled] = useState(false);
@@ -31,11 +29,7 @@ function App() {
       <div className="rounded-[4px] border-darkBorder border-2 mt-6 mx-8 h-60 bg-cardGrey p-4 ">
         <div className="flex flex-col items-center justify-center space-y-3 mt-4 mb-10">
           <h3 className="font-bold text-xl">Enabled</h3>
-          <Switch
-            toggled={toggled}
-            setToggled={toggle}
-            style={{ padding: "2px" }}
-          />
+          <Switch toggled={toggled} setToggled={toggle} style={{ padding: "2px" }} />
         </div>
         <div className="flex justify-center">
           <button

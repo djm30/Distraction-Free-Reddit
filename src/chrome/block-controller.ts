@@ -3,7 +3,7 @@ import { isDarkMode, isUserProfile } from "./content-utils";
 import { getSettings, BlockerSettings } from "./settings-config";
 import { parseUrl } from "./url-parser";
 
-export default class Blocker {
+export default class BlockController {
   blockerPlaceRetryInterval!: ReturnType<typeof setInterval>;
   settings!: BlockerSettings;
   blocker!: HTMLDivElement;

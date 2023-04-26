@@ -1,7 +1,8 @@
 import { MessageType } from "./message-types";
+import logger from "./logger";
 
 export const sendSettingsResetMessage = () => {
-  console.log("[INFO] Sending settings reset message");
+  logger.info("[INFO] Sending settings reset message");
   chrome.runtime.sendMessage({
     type: MessageType.SETTINGS_UPDATE,
   });

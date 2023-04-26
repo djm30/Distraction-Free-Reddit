@@ -2,6 +2,7 @@ import { RedditSecBlockConfig } from "./chrome/block-section-config";
 import { Message, MessageType } from "./chrome/message-types";
 import { initializeSettings, getSettings, BlockerSettings } from "./chrome/settings-config";
 import { parseUrl } from "./chrome/url-parser";
+import logger from "./chrome/logger";
 
 // Using immediately invoked function expression to essentially achieve top level await
 // Fixes issue where message wasn't being sent after worker was woken up, as the settings had yet to be retrieved
@@ -12,7 +13,7 @@ import { parseUrl } from "./chrome/url-parser";
   let settings: BlockerSettings;
   const setSettings = async () => {
     settings = await getSettings();
-    console.log("[INFO] Set settings!");
+    logger.info("Settings loaded");
   };
 
   await setSettings();
@@ -25,7 +26,7 @@ import { parseUrl } from "./chrome/url-parser";
   // Listening for settings change event to change the settings loaded into memory
   chrome.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
     if (message.type === MessageType.SETTINGS_UPDATE) {
-      console.log("[INFO] Updating settings");
+      logger.info("Updating settings");
 
       // Retrieving enabled status of extension before updated settings
       let wasEnabled = settings.enabled;
@@ -63,7 +64,7 @@ import { parseUrl } from "./chrome/url-parser";
     // If there is no sections that need blocked
     const errorCallback = () => {
       if (chrome.runtime.lastError) {
-        console.log("[INFO] Content Script not ready to recieve messages yet");
+        logger.info("Content Script not ready to recieve messages yet");
       }
     };
 
@@ -89,6 +90,6 @@ import { parseUrl } from "./chrome/url-parser";
       }
     } catch (e) {}
 
-    console.log("[INFO] Message sent");
+    logger.info("Message sent");
   };
 })();

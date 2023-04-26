@@ -1,3 +1,5 @@
+import logger from "./logger";
+
 export enum BlockMode {
   BLOCK,
   WHITELIST,
@@ -51,7 +53,7 @@ export const initializeSettings = async () => {
       chrome.storage.sync.set({ options: defaultSettings });
     }
   });
-  console.log("[INFO] Initialised settings!");
+  logger.info("Initialised settings!");
 };
 
 const parseMode = (int: Number): BlockMode => {

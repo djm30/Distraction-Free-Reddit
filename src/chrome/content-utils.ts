@@ -1,9 +1,10 @@
+import logger from "./logger";
+
 // Finds out whether the site is running in dark mode or not
 export const isDarkMode = () => {
   let darkMode = false;
   let element = document.querySelector("._1VP69d9lk-Wk9zokOaylL") as HTMLElement;
   element.style.cssText.split(" ").forEach((style) => {
-    console.log(style);
     if (style.startsWith("--background:")) {
       let bodyColor = style.split("#")[1];
       darkMode = bodyColor !== "FFFFFF;";
@@ -26,7 +27,7 @@ export const isUserProfile = () => {
 
   if (userName && userUrlRegex.test(document.URL)) {
     const urlUserName = document.URL.match(userUrlRegex)![1];
-    console.log({ urlUserName });
+    logger.debug({ urlUserName });
     if (userName.trim() === urlUserName.trim()) {
       isUserProf = true;
     }

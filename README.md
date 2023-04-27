@@ -71,28 +71,28 @@ Thanks for using Distraction Free Reddit and for helping me make it better!
 
 ## Screenshots
 
-<figure align="center">
+<p align="center">
   <img src="https://i.imgur.com/jblj5sp.png" alt="The extension popup" width="300px"/>
-  <figcaption>The extension popup</figcaption>
-</figure>
+</p>
+<p align="center">The extension popup</p>
 
 <br/>
 
-<figure align="center">
+<p align="center">
   <img src="https://i.imgur.com/srVQL5Y.png" alt="The general settings screen" width="600px"/>
-  <figcaption>The general settings that can be configured</figcaption>
-</figure>
+</p>
+<p align="center">The general settings that can be configured</p>
 
 <br/>
 
-<figure align="center">
+<p align="center">
   <img src="https://i.imgur.com/RGxqMQj.png" alt="The whitelist screen" width="600px"/>
-  <figcaption>The whitelist screen</figcaption>
-</figure>
+</p>
+<p align="center">The whitelist screen</p>
 
 <br/>
 
-<figure align="center">
+<p align="center">
   <img src="https://i.imgur.com/ttNBWib.png" alt="Example of the blocking taking place" width="600px"/>
-  <figcaption>Example of the blocking taking place</figcaption>
-</figure>
+</p>
+<p align="center">Example of the blocking taking place</p>

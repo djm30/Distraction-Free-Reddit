@@ -3,7 +3,7 @@ import Options from "./Options";
 import Option from "./Option";
 import { useState, useEffect } from "react";
 import { getSettings, toggleOption, BlockTypes } from "../../../chrome/settings-config";
-import { sendSettingsResetMessage } from "../../../chrome/SettingsResetMessage";
+import { sendSettingsResetMessage } from "../../../chrome/settings-reset-message";
 
 interface Props {
   show: boolean;

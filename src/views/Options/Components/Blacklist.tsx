@@ -5,7 +5,7 @@ import SubredditList from "./SubredditList";
 import { useState, useEffect } from "react";
 import { getSettings, setMode, BlockMode, pushBlacklist, removeBlacklist } from "../../../chrome/settings-config";
 import { tab } from "../tabs";
-import { sendSettingsResetMessage } from "../../../chrome/SettingsResetMessage";
+import { sendSettingsResetMessage } from "../../../chrome/settings-reset-message";
 
 interface Props {
   show: boolean;

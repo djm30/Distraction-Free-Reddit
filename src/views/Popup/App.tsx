@@ -1,6 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { sendSettingsResetMessage } from "../../chrome/SettingsResetMessage";
+import { sendSettingsResetMessage } from "../../chrome/settings-reset-message";
 import { getSettings, toggleEnabled } from "../../chrome/settings-config";
 import Switch from "../Options/Components/Switch";
 import "./App.css";

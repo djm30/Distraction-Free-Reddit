@@ -2,6 +2,7 @@
 import { RedditSecBlockConfig } from "./chrome/block-section-config";
 import { MessageType } from "./chrome/message-types";
 import BlockController from "./chrome/block-controller";
+import { persistServiceWorker } from "./chrome/persist-service-worker";
 import logger from "./chrome/logger";
 
 const blocker = new BlockController(document.URL);
@@ -13,3 +14,5 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.type === MessageType.HIDE_BLOCKER) blocker.hideBlockerElement();
   sendResponse();
 });
+
+persistServiceWorker();

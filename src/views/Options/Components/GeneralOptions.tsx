@@ -2,8 +2,8 @@ import React from "react";
 import Options from "./Options";
 import Option from "./Option";
 import { useState, useEffect } from "react";
-import { getSettings, toggleOption, BlockTypes } from "../../../chrome/settings-config";
-import { sendSettingsResetMessage } from "../../../chrome/settings-reset-message";
+import storageFunctions, { toggleOption } from "../../../common/storage-service";
+import { BlockTypes } from "../../../common/settings-config";
 
 interface Props {
   show: boolean;
@@ -11,7 +11,7 @@ interface Props {
 
 const GeneralOptions = ({ show }: Props) => {
   useEffect(() => {
-    getSettings().then((settings) => {
+    storageFunctions.getSettings().then((settings) => {
       let blocks = settings.blocks;
       setMainFeed(blocks.mainFeed);
       setHideAll(blocks.all);
@@ -28,7 +28,7 @@ const GeneralOptions = ({ show }: Props) => {
     setCurrent: React.Dispatch<React.SetStateAction<boolean>>
   ) => {
     return () => {
-      sendSettingsResetMessage();
+      storageFunctions.sendSettingsResetMessage();
       toggleOption(block);
       setCurrent(!current);
     };

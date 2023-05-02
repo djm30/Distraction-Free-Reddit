@@ -1,0 +1,61 @@
+import logger from "./logger";
+
+export enum BlockMode {
+  BLOCK,
+  WHITELIST,
+  BLACKLIST,
+}
+
+export interface BlockerSettings {
+  enabled: boolean;
+  mode: BlockMode;
+  whitelist: Array<string>;
+  blacklist: Array<string>;
+  blocks: Blocks;
+}
+
+export interface Blocks {
+  mainFeed: boolean;
+  search: boolean;
+  sidebar: boolean;
+  userFeed: boolean;
+  all: boolean;
+  comments: boolean;
+}
+
+export enum BlockTypes {
+  MAIN_FEED,
+  USER_FEED,
+  ALL,
+  COMMENTS,
+  SIDEBAR,
+  SEARCH,
+}
+
+export const defaultSettings: BlockerSettings = {
+  enabled: true,
+  mode: BlockMode.BLOCK,
+  whitelist: [],
+  blacklist: [],
+  blocks: {
+    mainFeed: true,
+    search: true,
+    sidebar: true,
+    userFeed: true,
+    all: true,
+    comments: true,
+  },
+};
+
+export const parseMode = (int: Number): BlockMode => {
+  switch (int) {
+    case 0:
+      return BlockMode.BLOCK;
+    case 1:
+      return BlockMode.WHITELIST;
+    case 2:
+      return BlockMode.BLACKLIST;
+    default:
+      return BlockMode.BLOCK;
+  }
+};

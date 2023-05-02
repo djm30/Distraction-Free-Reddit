@@ -1,24 +1,25 @@
 import { RedditSecBlockConfig } from "./block-section-config";
 import { isDarkMode, isUserProfile } from "./content-utils";
-import { getSettings, BlockerSettings } from "./settings-config";
+import storageFunctions from "./storage-service";
+import { BlockerSettings } from "./settings-config";
 import { parseUrl } from "./url-parser";
+import logger from "./logger";
 
 export default class BlockController {
-  blockerPlaceRetryInterval!: ReturnType<typeof setInterval>;
   settings!: BlockerSettings;
   blocker!: HTMLDivElement;
   parent!: HTMLDivElement;
 
   constructor(url: string) {
-    getSettings().then((settings) => {
+    storageFunctions.getSettings().then((settings) => {
       this.settings = settings;
+      console.log(settings);
 
       this.initialiseBlocker();
       this.placeBlockerOnPage();
+      logger.info("Placed blocker on page");
       this.placeBlocksOnPageLoad(url);
     });
-
-    window.addEventListener("load", () => this.clearRetryInterval());
   }
 
   public initialiseBlocker(): void {
@@ -46,13 +47,21 @@ export default class BlockController {
   }
 
   public placeBlockerOnPage(): void {
+    let blockerPlaceRetryInterval: ReturnType<typeof setInterval>;
     if (document.readyState !== "complete") {
-      this.blockerPlaceRetryInterval = setInterval(() => {
+      blockerPlaceRetryInterval = setInterval(() => {
         // Check if blocker element has already been appended
         if (this.parent.contains(this.blocker)) return;
+        logger.debug("Retrying to place blocker on page");
         this.parent.appendChild(this.blocker);
       }, 250);
     }
+
+    window.addEventListener("load", () => {
+      clearInterval(blockerPlaceRetryInterval);
+      logger.info("Distraction Free Reddit Loaded");
+      if (!this.parent.contains(this.blocker)) this.parent.appendChild(this.blocker);
+    });
   }
 
   public placeBlocksOnPageLoad(url: string): void {
@@ -63,13 +72,7 @@ export default class BlockController {
     this.hideElements(sections);
   }
 
-  private clearRetryInterval(): void {
-    console.log("[INFO] Distraction Free Reddit Loaded!");
-    clearInterval(this.blockerPlaceRetryInterval);
-  }
-
   public hideElements(sectionsToBlock: RedditSecBlockConfig[]): void {
-    console.log("Message Recieved");
     if (isUserProfile()) return;
     let useFullPageBlocker = false;
     let blockMessage = "";
@@ -96,7 +99,7 @@ export default class BlockController {
       // Hiding element by setting display to none
       element.style.display = "none";
     } catch (e) {
-      console.log(`[INFO] No element found for corresponding selector: ${section.selector}`);
+      logger.info(`[INFO] No element found for corresponding selector: ${section.selector}`);
     }
   }
 
@@ -108,7 +111,7 @@ export default class BlockController {
 
       if (element.style.display === "none") element.style.removeProperty("display");
     } catch (e) {
-      console.log(`[INFO] No element found for corresponding selector: ${section.selector}`);
+      logger.info(`[INFO] No element found for corresponding selector: ${section.selector}`);
     }
   }
 

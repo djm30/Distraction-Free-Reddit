@@ -1,3 +1,5 @@
+import { RedditSecBlockConfig } from "./block-section-config";
+
 export const enum MessageType {
   HIDE_BLOCKER = "HIDE_BLOCKER",
   HIDE_ELEMENTS = "HIDE_ELEMENTS",
@@ -7,5 +9,5 @@ export const enum MessageType {
 
 export interface Message {
   type: MessageType;
-  className?: string;
+  payload?: RedditSecBlockConfig[];
 }

@@ -1,4 +1,4 @@
-import { MessageType } from "./message-types";
+import { MessageType } from "../common/message-types";
 
 export const persistServiceWorker = () => {
   // Every 60 seconds, send a message to the service worker

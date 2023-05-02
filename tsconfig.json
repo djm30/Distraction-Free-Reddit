@@ -15,7 +15,11 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react",
-
+    "types": [
+      "firefox-webext-browser",
+      "chrome",
+      "jest",
+    ]
   },
   "include": ["src"]
 }

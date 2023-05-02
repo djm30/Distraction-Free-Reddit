@@ -1,7 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { sendSettingsResetMessage } from "../../chrome/settings-reset-message";
-import { getSettings, toggleEnabled } from "../../chrome/settings-config";
+import storageFunctions, { toggleEnabled } from "../../common/storage-service";
 import Switch from "../Options/Components/Switch";
 import "./App.css";
 
@@ -15,10 +14,10 @@ function App() {
   const toggle = () => {
     toggleEnabled();
     setToggled(!toggled);
-    sendSettingsResetMessage();
+    storageFunctions.sendSettingsResetMessage();
   };
   useEffect(() => {
-    getSettings().then((settings) => setToggled(settings.enabled));
+    storageFunctions.getSettings().then((settings) => setToggled(settings.enabled));
   }, []);
 
   return (

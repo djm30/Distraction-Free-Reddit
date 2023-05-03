@@ -21,4 +21,4 @@ const main = () => {
   persistServiceWorker();
 };
 
-export default main;
+main();

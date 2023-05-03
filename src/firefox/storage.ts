@@ -1,5 +1,4 @@
-import StorageFunctions from "../common/storage-functions";
-import { BlockerSettings, defaultSettings, Blocks, parseMode } from "../common/settings-config";
+import { BlockerSettings, StorageFunctions, defaultSettings, Blocks, parseMode } from "../common/settings-config";
 import { MessageType } from "../common/message-types";
 import logger from "../common/logger";
 

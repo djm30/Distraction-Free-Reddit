@@ -32,6 +32,14 @@ export enum BlockTypes {
   SEARCH,
 }
 
+export interface StorageFunctions {
+  getSettings: () => Promise<BlockerSettings>;
+  setSettings: (settings: BlockerSettings) => Promise<void>;
+  resetSettings: () => Promise<void>;
+  initializeSettings: () => Promise<void>;
+  sendSettingsResetMessage: () => Promise<void> | void;
+}
+
 export const defaultSettings: BlockerSettings = {
   enabled: true,
   mode: BlockMode.BLOCK,

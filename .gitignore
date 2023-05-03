@@ -1,3 +1,5 @@
 /node_modules
 /build
 /build.zip
+build_chrome
+build_firefox

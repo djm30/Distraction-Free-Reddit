@@ -1,6 +1,5 @@
-import StorageFunctions from "../common/storage-functions";
 import { MessageType } from "../common/message-types";
-import { BlockerSettings, defaultSettings, Blocks, parseMode } from "../common/settings-config";
+import { BlockerSettings, StorageFunctions, defaultSettings, Blocks, parseMode } from "../common/settings-config";
 import logger from "../common/logger";
 
 const getSettings = async (): Promise<BlockerSettings> => {

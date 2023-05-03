@@ -22,4 +22,4 @@ const main = () => {
   logger.info("Content script loaded");
 };
 
-export default main;
+main();

@@ -3,7 +3,7 @@
   "name": "Distraction Free Reddit",
   "version": "1.0.2",
   "description": "Remove the distracting parts of reddit and focus only on what really matters to you.",
-  "permissions": ["activeTab", "storage", "tabs", "webNavigation"],
+  "permissions": ["activeTab", "storage", "tabs"],
   "background": {
     "scripts": ["./static/js/background.js"]
   },

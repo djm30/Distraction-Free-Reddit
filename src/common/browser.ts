@@ -3,6 +3,6 @@ export enum Browsers {
   FIREFOX = "firefox",
 }
 
-let SELCETED_BROWSER = Browsers.FIREFOX;
+let SELECTED_BROWSER = Browsers.FIREFOX;
 
-export default SELCETED_BROWSER;
+export default SELECTED_BROWSER;

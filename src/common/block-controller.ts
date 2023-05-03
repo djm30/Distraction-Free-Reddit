@@ -17,7 +17,6 @@ export default class BlockController {
 
       this.initialiseBlocker();
       this.placeBlockerOnPage();
-      logger.info("Placed blocker on page");
       this.placeBlocksOnPageLoad(url);
     });
   }
@@ -73,6 +72,7 @@ export default class BlockController {
   }
 
   public hideElements(sectionsToBlock: RedditSecBlockConfig[]): void {
+    console.log(this.blocker);
     if (isUserProfile()) return;
     let useFullPageBlocker = false;
     let blockMessage = "";

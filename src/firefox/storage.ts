@@ -37,6 +37,7 @@ const resetSettings = async () => {
 };
 
 const initializeSettings = async () => {
+  logger.info("Settings initialized");
   browser.storage.sync.get("options").then((val) => {
     if (Object.keys(val).length === 0) {
       browser.storage.sync.set({ options: defaultSettings });
@@ -45,7 +46,7 @@ const initializeSettings = async () => {
 };
 
 const sendSettingsResetMessage = async () => {
-  logger.info("[INFO] Sending settings reset message");
+  logger.info("Sending settings reset message");
   const port = browser.runtime.connect({ name: "settings" });
   port.postMessage({ type: MessageType.SETTINGS_UPDATE });
 };

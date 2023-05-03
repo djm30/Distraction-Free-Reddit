@@ -1,8 +1,10 @@
+import ChromeStorageFunctions from "../chrome/storage";
+import FirefoxStorageFunctions from "../firefox/storage";
 import { BlockTypes, BlockMode } from "./settings-config";
-import storageFunctions from "../chrome/storage"
+import SELECTED_BROWSERS, { Browsers } from "./browser";
 
 // Need to somehow change this with build script, but allows for native apis to be abstracted behind a single interface
-
+const storageFunctions = SELECTED_BROWSERS === Browsers.CHROME ? ChromeStorageFunctions : FirefoxStorageFunctions;
 
 export default storageFunctions;
 
@@ -64,7 +66,6 @@ export const toggleOption = async (option: BlockTypes) => {
       settings.blocks.sidebar = !settings.blocks.sidebar;
       break;
   }
+
   await storageFunctions.setSettings(settings);
 };
-
-

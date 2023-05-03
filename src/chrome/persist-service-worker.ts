@@ -7,6 +7,6 @@ export const persistServiceWorker = () => {
     chrome.runtime.sendMessage({
       type: MessageType.WAKE_UP,
     });
-  }, 60000);
+  }, 10000);
   return interval;
 };

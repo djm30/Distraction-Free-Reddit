@@ -46,7 +46,7 @@ const initializeSettings = async () => {
 };
 
 const sendSettingsResetMessage = () => {
-  logger.info("[INFO] Sending settings reset message");
+  logger.info("Sending settings reset message");
   chrome.runtime.sendMessage({
     type: MessageType.SETTINGS_UPDATE,
   });

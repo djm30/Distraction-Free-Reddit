@@ -11,8 +11,8 @@ function App() {
 
   const [toggled, setToggled] = useState(false);
 
-  const toggle = () => {
-    toggleEnabled();
+  const toggle = async () => {
+    await toggleEnabled();
     setToggled(!toggled);
     storageFunctions.sendSettingsResetMessage();
   };

@@ -27,10 +27,10 @@ const GeneralOptions = ({ show }: Props) => {
     current: boolean,
     setCurrent: React.Dispatch<React.SetStateAction<boolean>>
   ) => {
-    return () => {
-      storageFunctions.sendSettingsResetMessage();
-      toggleOption(block);
+    return async () => {
+      await toggleOption(block);
       setCurrent(!current);
+      storageFunctions.sendSettingsResetMessage();
     };
   };
 

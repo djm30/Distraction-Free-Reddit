@@ -17,7 +17,7 @@ export default class BlockController {
 
       this.initialiseBlocker();
       this.placeBlockerOnPage();
-      this.placeBlocksOnPageLoad(url);
+      this.placeBlocksUrl(url);
     });
   }
 
@@ -53,17 +53,23 @@ export default class BlockController {
         if (this.parent.contains(this.blocker)) return;
         logger.debug("Retrying to place blocker on page");
         this.parent.appendChild(this.blocker);
-      }, 250);
+      }, 100);
     }
 
     window.addEventListener("load", () => {
-      clearInterval(blockerPlaceRetryInterval);
+      setTimeout(() => {
+        clearInterval(blockerPlaceRetryInterval);
+      }, 1000);
       logger.info("Distraction Free Reddit Loaded");
       if (!this.parent.contains(this.blocker)) this.parent.appendChild(this.blocker);
     });
   }
 
-  public placeBlocksOnPageLoad(url: string): void {
+  public setSettings(settings: BlockerSettings): void {
+    this.settings = settings;
+  }
+
+  public placeBlocksUrl(url: string): void {
     // I dont like having to import this function here and also the background script
     // Maybe I should send the url in a message in a background script and then parse it there
     // But it may take too long and delay the blocker from being placed on the page so probably better for now
@@ -72,7 +78,6 @@ export default class BlockController {
   }
 
   public hideElements(sectionsToBlock: RedditSecBlockConfig[]): void {
-    console.log(this.blocker);
     if (isUserProfile()) return;
     let useFullPageBlocker = false;
     let blockMessage = "";
@@ -99,7 +104,7 @@ export default class BlockController {
       // Hiding element by setting display to none
       element.style.display = "none";
     } catch (e) {
-      logger.info(`[INFO] No element found for corresponding selector: ${section.selector}`);
+      logger.info(`No element found for corresponding selector: ${section.selector}`);
     }
   }
 
@@ -111,7 +116,7 @@ export default class BlockController {
 
       if (element.style.display === "none") element.style.removeProperty("display");
     } catch (e) {
-      logger.info(`[INFO] No element found for corresponding selector: ${section.selector}`);
+      logger.info(`No element found for corresponding selector: ${section.selector}`);
     }
   }
 

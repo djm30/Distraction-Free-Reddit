@@ -1,5 +1,5 @@
 import { RedditSecBlockConfig } from "../common/block-section-config";
-import { Message, MessageType } from "../common/message-types";
+import { HideElementsMessage, Message, MessageType } from "../common/message-types";
 import { BlockerSettings } from "../common/settings-config";
 import storageFunctions from "../common/storage-service";
 import { parseUrl } from "../common/url-parser";
@@ -16,22 +16,11 @@ const publishBlockMessage = (tabId: number, sections: RedditSecBlockConfig[]) =>
   try {
     if (!sections.length) {
       // Send a message that will hide the blocker, incase its on the page currently
-      chrome.tabs.sendMessage(
-        tabId,
-        {
-          type: MessageType.HIDE_BLOCKER,
-        },
-        errorCallback
-      );
+      const message: Message = { type: MessageType.HIDE_BLOCKER };
+      chrome.tabs.sendMessage(tabId, message, errorCallback);
     } else {
-      chrome.tabs.sendMessage(
-        tabId,
-        {
-          type: MessageType.HIDE_ELEMENTS,
-          payload: sections,
-        },
-        errorCallback
-      );
+      const message: HideElementsMessage = { type: MessageType.HIDE_ELEMENTS, payload: sections };
+      chrome.tabs.sendMessage(tabId, message, errorCallback);
     }
   } catch (e) {
     logger.error(`Error sending message to content script, ${(e as Error).message}`);

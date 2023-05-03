@@ -1,7 +1,7 @@
 import storageFunctions from "../common/storage-service";
 import { parseUrl } from "../common/url-parser";
 import logger from "../common/logger";
-import { MessageType, Message } from "../common/message-types";
+import { MessageType, Message, HideElementsMessage, SettingsUpdateMessage } from "../common/message-types";
 
 const main = async () => {
   await storageFunctions.initializeSettings();
@@ -14,6 +14,11 @@ const main = async () => {
     if (port.name === "content") {
       // Adding port to list of ports
       ports.push(port);
+
+      port.onMessage.addListener((msg: any) => {
+        if (msg.type === MessageType.WAKE_UP) logger.info("Recieved wake up message");
+      });
+
       // Disconnecting port when tab is closed
       port.onDisconnect.addListener(() => {
         ports = ports.filter((p) => p.sender?.tab?.id !== port.sender?.tab?.id);
@@ -23,12 +28,12 @@ const main = async () => {
       // Updating value of settings when settings are updated
       storageFunctions.getSettings().then((s) => {
         settings = s;
-        console.log(settings);
-        logger.info("Settings updated");
+        logger.info("Updating settings");
+        let message: SettingsUpdateMessage = { type: MessageType.SETTINGS_UPDATE, payload: settings };
         // Sending message to content scripts to update settings and adjust the blocker
-        ports.forEach((p) =>
-          p.postMessage({ type: MessageType.SETTINGS_UPDATE, payLoad: parseUrl(p.sender?.url as string, settings) })
-        );
+        ports.forEach((p) => {
+          p.postMessage(message);
+        });
         port.disconnect();
       });
     }
@@ -39,10 +44,10 @@ const main = async () => {
     if (tab.url && tab.url.startsWith("https://www.reddit.com")) {
       // Getting what sections need to be blocked based on current settings and the new tab url
       const sectionsToBlock = parseUrl(tab.url, settings);
-
-      let message: Message;
-      if (sectionsToBlock.length > 0) message = { type: MessageType.HIDE_ELEMENTS, payload: sectionsToBlock };
-      else message = { type: MessageType.HIDE_BLOCKER };
+      let message: Message | HideElementsMessage;
+      if (sectionsToBlock.length > 0)
+        message = { type: MessageType.HIDE_ELEMENTS, payload: sectionsToBlock } as HideElementsMessage;
+      else message = { type: MessageType.HIDE_BLOCKER } as Message;
 
       // Sending message to appropiate tab
       ports.find((p) => p.sender?.tab?.id === tabId)?.postMessage(message);

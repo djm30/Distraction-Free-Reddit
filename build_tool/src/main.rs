@@ -267,8 +267,9 @@ fn main() {
 
     let raw_output = String::from_utf8_lossy(&build_process.stdout);
 
+    restore();
+
     if raw_output.contains("Failed to compile") {
-        restore();
         panic!("Build Failed:\n{}", raw_output);
     };
 

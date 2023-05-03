@@ -1,0 +1,37 @@
+{
+  "manifest_version": 3,
+  "name": "Distraction Free Reddit",
+  "version": "1.0.2",
+  "description": "Remove the distracting parts of reddit and focus only on what really matters to you.",
+  "permissions": ["activeTab", "storage", "tabs"],
+  "background": {
+    "scripts": ["./static/js/background.js"]
+  },
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "{e14163a1-321a-4c12-a85d-1f25d68fe047}",
+      "strict_min_version": "42.0"
+    }
+  },
+  "content_scripts": [
+    {
+      "js": ["./static/js/content.js"],
+      "matches": ["*://*.reddit.com/*"],
+      "run_at": "document_end"
+    }
+  ],
+  "icons": {
+    "192": "logo192.png"
+  },
+  "action": {
+    "default_icon": {
+      "192": "logo192.png"
+    },
+    "default_title": "Popup",
+    "default_popup": "popup.html"
+  },
+  "options_ui": {
+    "page": "options.html",
+    "open_in_tab": true
+  }
+}

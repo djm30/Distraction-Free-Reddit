@@ -1,0 +1,16 @@
+{
+  "popup.css": "/static/css/popup.css",
+  "popup.js": "/static/js/popup.js",
+  "options.css": "/static/css/options.css",
+  "options.js": "/static/js/options.js",
+  "background.js": "/static/js/background.js",
+  "content.js": "/static/js/content.js",
+  "options.html": "/options.html",
+  "popup.html": "/popup.html",
+  "popup.css.map": "/static/css/popup.css.map",
+  "popup.js.map": "/static/js/popup.js.map",
+  "options.css.map": "/static/css/options.css.map",
+  "options.js.map": "/static/js/options.js.map",
+  "background.js.map": "/static/js/background.js.map",
+  "content.js.map": "/static/js/content.js.map"
+}

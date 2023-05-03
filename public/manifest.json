@@ -5,13 +5,7 @@
   "description": "Remove the distracting parts of reddit and focus only on what really matters to you.",
   "permissions": ["activeTab", "storage", "tabs"],
   "background": {
-    "scripts": ["./static/js/background.js"]
-  },
-  "browser_specific_settings": {
-    "gecko": {
-      "id": "{e14163a1-321a-4c12-a85d-1f25d68fe047}",
-      "strict_min_version": "42.0"
-    }
+    "service_worker": "./static/js/background.js"
   },
   "content_scripts": [
     {

@@ -36,7 +36,7 @@ export default class BlockController {
     blockerElement.style.cssText = blockerStyles;
 
     // We are going to hide the blocker element by default, it will then be hidden when needed
-    // blockerElement.style.display = "none";
+    if (isUserProfile()) blockerElement.style.display = "none";
     blockerElement.innerText = "Distraction Free Reddit is loading...";
 
     const parent = document.querySelector("header")?.parentElement as HTMLDivElement;
@@ -78,7 +78,11 @@ export default class BlockController {
   }
 
   public hideElements(sectionsToBlock: RedditSecBlockConfig[]): void {
-    if (isUserProfile()) return;
+    console.log({ userProfile: isUserProfile() });
+    if (isUserProfile()) {
+      this.hideBlockerElement();
+      return;
+    }
     let useFullPageBlocker = false;
     let blockMessage = "";
     sectionsToBlock.forEach((section) => {

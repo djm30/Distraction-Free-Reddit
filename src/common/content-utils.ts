@@ -15,23 +15,14 @@ export const isDarkMode = () => {
 
 // Check if the current url is a user profile
 export const isUserProfile = () => {
-  let isUserProf = false;
+  const selector = "._2BMnTatQ5gjKGK5OWROgaG";
 
-  const userUrlRegex = /^https:\/\/www.reddit.com\/user\/([^\/]*)\/?((submitted|comments))?\/?/;
+  const userProfileElement = document.querySelector(selector);
 
-  // Attempt to get the username from the cookie
-  const userName = (document.cookie as string)
-    .split(";")
-    ?.find((cookie) => cookie.includes("_recentclicks"))
-    ?.split("_")[0];
+  const userUrlRegex = /^https:\/\/www.reddit.com\/user\/([^\/]*)\/?(.*)/;
+  const match = userUrlRegex.exec(document.URL);
 
-  if (userName && userUrlRegex.test(document.URL)) {
-    const urlUserName = document.URL.match(userUrlRegex)![1];
-    logger.debug({ urlUserName });
-    if (userName.trim() === urlUserName.trim()) {
-      isUserProf = true;
-    }
-  }
+  if (match && userProfileElement) return userProfileElement.textContent === match[1];
 
-  return isUserProf;
+  return false;
 };

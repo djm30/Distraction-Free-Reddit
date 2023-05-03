@@ -1,5 +1,6 @@
 import { RedditSecBlockConfig, sections } from "./block-section-config";
 import { BlockMode, BlockerSettings } from "./settings-config";
+import { isUserProfile } from "./content-utils";
 
 // Each of these methods returns an array of BlockSections for a certain page
 

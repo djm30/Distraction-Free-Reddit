@@ -6,7 +6,7 @@ const REGEXES = {
   HOMEPAGE: /^https:\/\/www.reddit.com\/(best\/|hot\/|new\/|top\/.*)*$/,
   SEARCH_PAGE: /^https:\/\/www.reddit.com\/search\/\?q=.*/,
   ALL_POPULAR: /^https:\/\/www.reddit.com\/r\/(all|popular)\/.*$/,
-  USER_PROFILE: /^https:\/\/www.reddit.com\/user\/([^\/]*)\/?((submitted|comments))?\/?/,
+  USER_PROFILE: /^https:\/\/www.reddit.com\/user\/([^\/]*)\/?(.*)/,
   SUBREDDIT: /^https:\/\/www.reddit.com\/r\/([^\/]+)*\/$/,
   POST: /^https:\/\/www.reddit.com\/r\/(.*)\/comments\/.*/,
 };
@@ -30,6 +30,7 @@ export const parseUrl = (url: string, settings: BlockerSettings): RedditSecBlock
       break;
 
     case REGEXES.USER_PROFILE.test(url):
+      console.log("On user profile page");
       sections.push(...BlockFinder.getUserProfileBlocks(settings));
       break;
 

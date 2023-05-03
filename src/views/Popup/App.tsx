@@ -3,10 +3,11 @@ import { useState, useEffect } from "react";
 import storageFunctions, { toggleEnabled } from "../../common/storage-service";
 import Switch from "../Options/Components/Switch";
 import "./App.css";
+import logger from "../../common/logger";
 
 function App() {
   const openOptions = () => {
-    chrome.runtime.openOptionsPage(() => console.log("Opening the options page"));
+    chrome.runtime.openOptionsPage(() => logger.info("Opening the options page"));
   };
 
   const [toggled, setToggled] = useState(false);

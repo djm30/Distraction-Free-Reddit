@@ -30,7 +30,6 @@ export const parseUrl = (url: string, settings: BlockerSettings): RedditSecBlock
       break;
 
     case REGEXES.USER_PROFILE.test(url):
-      console.log("On user profile page");
       sections.push(...BlockFinder.getUserProfileBlocks(settings));
       break;
 

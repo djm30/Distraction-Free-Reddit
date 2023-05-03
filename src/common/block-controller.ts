@@ -13,7 +13,6 @@ export default class BlockController {
   constructor(url: string) {
     storageFunctions.getSettings().then((settings) => {
       this.settings = settings;
-      console.log(settings);
 
       this.initialiseBlocker();
       this.placeBlockerOnPage();
@@ -78,7 +77,6 @@ export default class BlockController {
   }
 
   public hideElements(sectionsToBlock: RedditSecBlockConfig[]): void {
-    console.log({ userProfile: isUserProfile() });
     if (isUserProfile()) {
       this.hideBlockerElement();
       return;

@@ -4,6 +4,10 @@ use std::{
     process,
 };
 
+// Usage: cargo run <browser>
+// Where browser is either chrome or firefox
+// Will build either the chrome or firefox extension
+
 // Need to get what browser i want to use
 // Need to move appropriate files to the correct location
 // Background and content into the main folder, adjusting imports

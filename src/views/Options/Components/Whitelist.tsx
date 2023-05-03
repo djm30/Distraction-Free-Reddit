@@ -24,15 +24,15 @@ const Whitelist = ({ show, menuTab }: Props) => {
     });
   }, [menuTab]);
 
-  const whitelistToggle = () => {
-    toggled ? setMode(BlockMode.BLOCK) : setMode(BlockMode.WHITELIST);
+  const whitelistToggle = async () => {
+    toggled ? await setMode(BlockMode.BLOCK) : await setMode(BlockMode.WHITELIST);
     setToggled(!toggled);
     storageFunctions.sendSettingsResetMessage();
   };
 
-  const addSubreddit = (subreddit: string) => {
-    pushWhitelist(subreddit);
-    setWhitelist(whitelist.concat(subreddit));
+  const addSubreddit = async (subreddit: string) => {
+    await pushWhitelist(subreddit);
+    setWhitelist([...whitelist, subreddit]);
     storageFunctions.sendSettingsResetMessage();
   };
 

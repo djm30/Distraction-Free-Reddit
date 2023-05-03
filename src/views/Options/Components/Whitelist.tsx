@@ -4,8 +4,8 @@ import Options from "./Options";
 import SubredditList from "./SubredditList";
 import { tab } from "../tabs";
 import { useState, useEffect } from "react";
-import { getSettings, setMode, BlockMode, pushWhitelist, removeWhitelist } from "../../../chrome/settings-config";
-import { sendSettingsResetMessage } from "../../../chrome/settings-reset-message";
+import storageFunctions, { setMode, pushWhitelist, removeWhitelist } from "../../../common/storage-service";
+import { BlockMode } from "../../../common/settings-config";
 
 interface Props {
   show: boolean;
@@ -17,7 +17,7 @@ const Whitelist = ({ show, menuTab }: Props) => {
   const [whitelist, setWhitelist] = useState<Array<string>>([]);
 
   useEffect(() => {
-    getSettings().then((settings) => {
+    storageFunctions.getSettings().then((settings) => {
       if (settings.mode === BlockMode.WHITELIST) setToggled(true);
       else setToggled(false);
       setWhitelist(settings.whitelist);
@@ -27,19 +27,19 @@ const Whitelist = ({ show, menuTab }: Props) => {
   const whitelistToggle = () => {
     toggled ? setMode(BlockMode.BLOCK) : setMode(BlockMode.WHITELIST);
     setToggled(!toggled);
-    sendSettingsResetMessage();
+    storageFunctions.sendSettingsResetMessage();
   };
 
   const addSubreddit = (subreddit: string) => {
     pushWhitelist(subreddit);
     setWhitelist(whitelist.concat(subreddit));
-    sendSettingsResetMessage();
+    storageFunctions.sendSettingsResetMessage();
   };
 
   const removeSubreddit = (subreddit: string) => {
     removeWhitelist(subreddit);
     setWhitelist(whitelist.filter((sub) => sub !== subreddit));
-    sendSettingsResetMessage();
+    storageFunctions.sendSettingsResetMessage();
   };
 
   if (!show) return null;

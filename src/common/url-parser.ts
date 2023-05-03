@@ -15,6 +15,7 @@ const REGEXES = {
 export const parseUrl = (url: string, settings: BlockerSettings): RedditSecBlockConfig[] => {
   // What sections of the webpage need blocked?
   let sections: RedditSecBlockConfig[] = [];
+  if (!settings.enabled) return sections;
   switch (true) {
     case REGEXES.HOMEPAGE.test(url):
       sections.push(...BlockFinder.getHomepageBlocks(settings));

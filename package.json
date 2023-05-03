@@ -19,7 +19,9 @@
     "start": "react-scripts start",
     "build": "react-app-rewired build",
     "test": "react-app-rewired test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "firefox": "cd build_tool && cargo run -- firefox",
+    "chrome": "cd build_tool && cargo run -- chrome"
   },
   "eslintConfig": {
     "extends": "react-app",
@@ -45,6 +47,7 @@
   },
   "devDependencies": {
     "@types/chrome": "^0.0.193",
+    "@types/firefox-webext-browser": "^111.0.1",
     "autoprefixer": "^10.4.8",
     "postcss": "^8.4.14",
     "tailwindcss": "^3.1.8"

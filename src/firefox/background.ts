@@ -55,4 +55,16 @@ const main = async () => {
   });
 };
 
+// browser.action.onClicked.addListener(async (tab) => {
+//   // Check if permissions are already granted
+//   const hasPermission = await browser.permissions.contains({
+//     origins: ["*://*.reddit.com/"],
+//   });
+//   if (hasPermission) return;
+//   if (tab.url && tab.url.startsWith("https://www.reddit.com"))
+//     browser.permissions.request({
+//       origins: ["*://*.reddit.com/"],
+//     });
+// });
+
 main();

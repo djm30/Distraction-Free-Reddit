@@ -1,8 +1,6 @@
 import BlockController from "../common/block-controller";
-import { RedditSecBlockConfig } from "../common/block-section-config";
 import logger from "../common/logger";
 import { MessageType, Message, HideElementsMessage, SettingsUpdateMessage } from "../common/message-types";
-import { BlockerSettings } from "../common/settings-config";
 
 const main = () => {
   const blockController = new BlockController(document.URL);
@@ -22,9 +20,11 @@ const main = () => {
   });
 
   // Keeping event page active
-  setInterval(() => {
-    port.postMessage({ type: MessageType.WAKE_UP });
-  }, 10000);
+
+  // Will be needed if I switch back to manifest v3
+  // setInterval(() => {
+  //   port.postMessage({ type: MessageType.WAKE_UP });
+  // }, 10000);
 
   logger.info("Content script loaded");
 };

@@ -99,7 +99,6 @@ export default class BlockController {
   }
 
   private hideElement(section: RedditSecBlockConfig) {
-    console.log("HERE");
     if (!section.selector) return;
     try {
       const element = document.querySelector(section.selector) as HTMLDivElement | null;
@@ -133,7 +132,6 @@ export default class BlockController {
 
     const retryInterval = setInterval(() => {
       const element = document.querySelector(selector) as HTMLDivElement | null;
-      console.log("retrying to hide element " + selector);
       if (!element) return;
 
       element.style.display = "none";
@@ -142,7 +140,7 @@ export default class BlockController {
     }, 100);
 
     // Try for 4 seconds
-    let retryTimout = setTimeout(() => {
+    setTimeout(() => {
       clearInterval(retryInterval);
       if (!elementHidden) logger.error(`Failed to hide element with selector: ${selector}`);
     }, 4000);

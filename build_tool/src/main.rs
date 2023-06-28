@@ -8,15 +8,11 @@ use std::{
 // Where browser is either chrome or firefox
 // Will build either the chrome or firefox extension
 
-// Need to get what browser i want to use
-// Need to move appropriate files to the correct location
-// Background and content into the main folder, adjusting imports
-// And then moving the manifest into the public folder
-// Before then running the npm run build command
-// And then check if it is successful somehow
-// Before renaming the build folder to the name of the browser
+// Overcomplicated way of moving whats inside either chrome or firefox folder into the top level folder for the build
+// I just wanted to code some rust, will probably change this to a node script or something
 
-// This is probably the most pointless and also the worst rust code to ever have been written
+// Make it find the src folder when placed anywhere in the project
+// It will find the top level folder and then go into src?
 
 enum Browser {
     Chrome,
@@ -161,6 +157,15 @@ fn save_to_file(file: &String, path: &Path) -> Result<(), std::io::Error> {
     fs::write(path, file)
 }
 
+fn get_root_path() -> String {
+    let mut root_path = env::current_dir().unwrap();
+    // Check if .git folder exists in current directory, go up until it does, the directoty it is in is the root
+    while !root_path.join(".git").exists() {
+        root_path = root_path.parent().unwrap().to_path_buf();
+    }
+    root_path.to_str().unwrap().to_owned()
+}
+
 fn main() {
     let args: Vec<String> = env::args().collect();
     let browser: Browser;
@@ -174,12 +179,7 @@ fn main() {
         panic!("No browser specified");
     }
 
-    let file_finder = FileFinder::new("..".to_owned(), browser.clone());
-
-    // let x = match fs::read_to_string(dir_to_use.join("background.ts")) {
-    //     Ok(x) => x,
-    //     Err(e) => panic!("Error reading file: {}", e),
-    // };
+    let file_finder = FileFinder::new(get_root_path(), browser.clone());
 
     // Backgrond and content will be reverted to their original state after the build
     let original_background_contents =

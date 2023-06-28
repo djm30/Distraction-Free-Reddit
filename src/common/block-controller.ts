@@ -99,10 +99,12 @@ export default class BlockController {
   }
 
   private hideElement(section: RedditSecBlockConfig) {
+    console.log("HERE");
     if (!section.selector) return;
     try {
       const element = document.querySelector(section.selector) as HTMLDivElement | null;
-      if (!element) throw new Error("No element found for corresponding selector");
+      /// If element is not found, its probably because its not in the dom yet, so retry for a bit
+      if (!element) return this.hideElementWithRetry(section.selector);
       // Hiding element by setting display to none
       element.style.display = "none";
     } catch (e) {
@@ -124,6 +126,26 @@ export default class BlockController {
 
   public hideBlockerElement(): void {
     this.blocker.style.display = "none";
+  }
+
+  public hideElementWithRetry(selector: string): void {
+    let elementHidden = false;
+
+    const retryInterval = setInterval(() => {
+      const element = document.querySelector(selector) as HTMLDivElement | null;
+      console.log("retrying to hide element " + selector);
+      if (!element) return;
+
+      element.style.display = "none";
+      elementHidden = true;
+      clearInterval(retryInterval);
+    }, 100);
+
+    // Try for 4 seconds
+    let retryTimout = setTimeout(() => {
+      clearInterval(retryInterval);
+      if (!elementHidden) logger.error(`Failed to hide element with selector: ${selector}`);
+    }, 4000);
   }
 
   private showBlockerElement(message: string): void {

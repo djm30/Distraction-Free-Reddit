@@ -2,6 +2,7 @@
 
 Distraction Free Reddit is a Chrome extension designed to help users to engage with Reddit more intentionally. With this extension, users can block off parts of the site that they find most distracting, allowing them to cut out mindless scrolling and focus on the content that matters to them.
 
+Note: This currently only works with the reddit redesign and does not yet support old reddit.
 <hr/>
 
 ## Installation
@@ -11,7 +12,13 @@ To install the extension, follow these steps:
 2. Click the "Add to Chrome" button
 3. Click "Add Extension" to confirm the installation
 
-Alternatively, you can download the extension from the [GitHub repository](https://github.com/djm30/distraction-free-reddit) and install it manually via running `npm install && npm run build` and then adding the  `build` folder to your browser of choice as an unpacked extension
+
+### Building locally
+To build locally, first ensure you have both rust and node/npm installed.
+
+1. First build the build tool by running `cd build_tool && cargo build --release` (Note if you are on windows, you may need to change the `chrome` and `firefox` scripts in the package.json to use `./build_tool.exe` instead of just `./build_tool`)
+2. Run `npm run chrome` `npm run firefox` or `npm run both` to build the extension. This will build the extension to a `build_[BROWSER_NAME]` folder at the top level
+3. Add the unpacked extension to your browser, this usually requires developer mode to be enabled.
 
 <hr/>
 

@@ -1,4 +1,4 @@
-import logger from "./logger";
+import { REGEXES } from "./url-parser";
 
 // Finds out whether the site is running in dark mode or not
 export const isDarkMode = () => {
@@ -13,16 +13,15 @@ export const isDarkMode = () => {
   return darkMode;
 };
 
-// Check if the current url is a user profile
+// Check if the current url is active user's profile page
 export const isUserProfile = () => {
   const selector = "._2BMnTatQ5gjKGK5OWROgaG";
 
   const userProfileElement = document.querySelector(selector);
 
-  const userUrlRegex = /^https:\/\/www.reddit.com\/user\/([^\/]*)\/?(.*)/;
-  const match = userUrlRegex.exec(document.URL);
+  const match = REGEXES.USER_PROFILE.exec(document.URL);
 
-  if (match && userProfileElement) return userProfileElement.textContent === match[1];
+  if (match && userProfileElement) return userProfileElement.textContent === match[2];
 
   return false;
 };

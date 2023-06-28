@@ -1,14 +1,14 @@
-import { BlockMode, BlockerSettings } from "./settings-config";
-import { RedditSecBlockConfig, sections } from "./block-section-config";
+import { BlockerSettings } from "./settings-config";
+import { RedditSecBlockConfig } from "./block-section-config";
 import BlockFinder from "./get-blocks";
 
-const REGEXES = {
-  HOMEPAGE: /^https:\/\/www.reddit.com\/(best\/|hot\/|new\/|top\/.*)*$/,
-  SEARCH_PAGE: /^https:\/\/www.reddit.com\/search\/\?q=.*/,
-  ALL_POPULAR: /^https:\/\/www.reddit.com\/r\/(all|popular)\/.*$/,
-  USER_PROFILE: /^https:\/\/www.reddit.com\/user\/([^\/]*)\/?(.*)/,
-  SUBREDDIT: /^https:\/\/www.reddit.com\/r\/([^\/]+)*\/$/,
-  POST: /^https:\/\/www.reddit.com\/r\/(.*)\/comments\/.*/,
+export const REGEXES = {
+  HOMEPAGE: /^https:\/\/(www|new).reddit.com\/(best\/|hot\/|new\/|top\/.*)*$/,
+  SEARCH_PAGE: /^https:\/\/(www|new).reddit.com\/search\/\?q=.*/,
+  ALL_POPULAR: /^https:\/\/(www|new).reddit.com\/r\/(all|popular)\/.*$/,
+  USER_PROFILE: /^https:\/\/(www|new).reddit.com\/user\/([^\/]*)\/?(.*)/,
+  SUBREDDIT: /^https:\/\/(www|new).reddit.com\/r\/([^\/]+)*\/$/,
+  POST: /^https:\/\/(www|new).reddit.com\/r\/(.*)\/comments\/.*/,
 };
 
 // Finds out the current page and returns the sections that need to be blocked according to the set settings
@@ -34,7 +34,7 @@ export const parseUrl = (url: string, settings: BlockerSettings): RedditSecBlock
       break;
 
     case REGEXES.SUBREDDIT.test(url):
-      let subreddit = url.match(REGEXES.SUBREDDIT)?.[1];
+      let subreddit = url.match(REGEXES.SUBREDDIT)?.[2];
       sections.push(...BlockFinder.getSubredditBlocks(settings, subreddit as string));
       break;
 

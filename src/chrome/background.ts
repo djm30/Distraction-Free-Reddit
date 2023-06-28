@@ -69,7 +69,7 @@ const main = async () => {
   // Adding event listener for reddit tab updates
   chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
     // Waiting for settings to be loaded
-    if (changeInfo.url?.startsWith("https://www.reddit")) {
+    if (changeInfo.url?.includes("reddit.com")) {
       if (settings.enabled) {
         getSectionsAndPublish(tab.url as string, tab.id as number, settings);
         // const sections = parseUrl(changeInfo.url, settings);

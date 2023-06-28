@@ -41,7 +41,7 @@ const main = async () => {
 
   // Checking for url changes on reddit tabs
   browser.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
-    if (tab.url && tab.url.startsWith("https://www.reddit.com")) {
+    if (tab.url && tab.url.includes("reddit.com") && changeInfo.status === "complete") {
       // Getting what sections need to be blocked based on current settings and the new tab url
       const sectionsToBlock = parseUrl(tab.url, settings);
       let message: Message | HideElementsMessage;

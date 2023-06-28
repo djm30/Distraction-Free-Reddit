@@ -115,7 +115,7 @@ export default class BlockController {
     if (!section.selector) return;
     try {
       const element = document.querySelector(section.selector) as HTMLDivElement | null;
-      if (!element) throw new Error("No element found for corresponding selector");
+      if (!element) return logger.error(`Failed to hide element with selector: ${section.selector}`);
 
       if (element.style.display === "none") element.style.removeProperty("display");
     } catch (e) {

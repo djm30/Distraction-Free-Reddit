@@ -2,7 +2,7 @@ import { RedditSecBlockConfig } from "../common/block-section-config";
 import { HideElementsMessage, Message, MessageType } from "../common/message-types";
 import { BlockerSettings } from "../common/settings-config";
 import storageFunctions from "../common/storage-service";
-import { parseUrl } from "../common/url-parser";
+import { parseUrl } from "../common/util/url-parser";
 import logger from "../common/logger";
 
 const publishBlockMessage = (tabId: number, sections: RedditSecBlockConfig[]) => {

@@ -1,5 +1,3 @@
-import logger from "./logger";
-
 export enum BlockMode {
   BLOCK,
   WHITELIST,

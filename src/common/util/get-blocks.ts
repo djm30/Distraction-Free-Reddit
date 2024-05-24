@@ -1,14 +1,14 @@
-import { RedditSecBlockConfig, sections } from "./block-section-config";
-import { BlockMode, BlockerSettings } from "./settings-config";
+import { BlockMode, BlockerSettings } from "../settings-config";
 import { isUserProfile } from "./content-utils";
+import { BlockSections, RedditSecBlockConfig } from "../types";
 
 // Each of these methods returns an array of BlockSections for a certain page
 
 // Gets classes based on current homepage settings
-const getHomepageBlocks = (settings: BlockerSettings): RedditSecBlockConfig[] => {
+const getHomepageBlocks = (settings: BlockerSettings, sections: BlockSections): RedditSecBlockConfig[] => {
   // Loading up default section configs, which will be turned off by default. They will be turned on if the users settings allow it
-  const mainFeedSection: RedditSecBlockConfig = { ...sections.mainFeed };
-  const sideBarSection: RedditSecBlockConfig = { ...sections.sideBar };
+  const mainFeedSection: RedditSecBlockConfig = { ...sections.MAIN_FEED };
+  const sideBarSection: RedditSecBlockConfig = { ...sections.SIDE_BAR };
   if (settings.blocks.mainFeed) {
     // Configuring main feed section
     mainFeedSection.show = false;
@@ -24,8 +24,8 @@ const getHomepageBlocks = (settings: BlockerSettings): RedditSecBlockConfig[] =>
   return [mainFeedSection, sideBarSection];
 };
 
-const getSearchPageBlocks = (settings: BlockerSettings): RedditSecBlockConfig[] => {
-  const searchFeedSection: RedditSecBlockConfig = { ...sections.search };
+const getSearchPageBlocks = (settings: BlockerSettings, sections: BlockSections): RedditSecBlockConfig[] => {
+  const searchFeedSection: RedditSecBlockConfig = { ...sections.SEARCH };
   if (settings.blocks.search) {
     searchFeedSection.show = false;
     searchFeedSection.useBlocker = true;
@@ -33,8 +33,8 @@ const getSearchPageBlocks = (settings: BlockerSettings): RedditSecBlockConfig[] 
   return [searchFeedSection];
 };
 
-const getAllPopularBlocks = (settings: BlockerSettings): RedditSecBlockConfig[] => {
-  const allSection: RedditSecBlockConfig = { ...sections.popular };
+const getAllPopularBlocks = (settings: BlockerSettings, sections: BlockSections): RedditSecBlockConfig[] => {
+  const allSection: RedditSecBlockConfig = { ...sections.POPULAR };
   if (settings.blocks.all) {
     allSection.show = false;
     allSection.useBlocker = true;
@@ -42,8 +42,12 @@ const getAllPopularBlocks = (settings: BlockerSettings): RedditSecBlockConfig[] 
   return [allSection];
 };
 
-const getSubredditBlocks = (settings: BlockerSettings, subreddit: string): RedditSecBlockConfig[] => {
-  const subFeedSection: RedditSecBlockConfig = { ...sections.subFeed };
+const getSubredditBlocks = (
+  settings: BlockerSettings,
+  subreddit: string,
+  sections: BlockSections,
+): RedditSecBlockConfig[] => {
+  const subFeedSection: RedditSecBlockConfig = { ...sections.SUB_FEED };
   if (settings.mode === BlockMode.BLACKLIST) {
     if (settings.blacklist.includes(subreddit.toLowerCase())) {
       subFeedSection.show = false;
@@ -60,8 +64,8 @@ const getSubredditBlocks = (settings: BlockerSettings, subreddit: string): Reddi
   return [subFeedSection];
 };
 
-const getUserProfileBlocks = (settings: BlockerSettings): RedditSecBlockConfig[] => {
-  const userFeedSection: RedditSecBlockConfig = { ...sections.userFeed };
+const getUserProfileBlocks = (settings: BlockerSettings, sections: BlockSections): RedditSecBlockConfig[] => {
+  const userFeedSection: RedditSecBlockConfig = { ...sections.USER_FEED };
   if (settings.blocks.userFeed) {
     userFeedSection.show = false;
     userFeedSection.useBlocker = true;
@@ -69,8 +73,12 @@ const getUserProfileBlocks = (settings: BlockerSettings): RedditSecBlockConfig[]
   return [userFeedSection];
 };
 
-const getPostBlocks = (settings: BlockerSettings, subreddit: string): RedditSecBlockConfig[] => {
-  const postSettings: RedditSecBlockConfig = { ...sections.post };
+const getPostBlocks = (
+  settings: BlockerSettings,
+  subreddit: string,
+  sections: BlockSections,
+): RedditSecBlockConfig[] => {
+  const postSettings: RedditSecBlockConfig = { ...sections.POST };
   subreddit = subreddit.toLowerCase();
 
   if (settings.mode === BlockMode.BLACKLIST) {
@@ -82,7 +90,7 @@ const getPostBlocks = (settings: BlockerSettings, subreddit: string): RedditSecB
       postSettings.show = false;
     }
   }
-  const commentSettings: RedditSecBlockConfig = { ...sections.comments };
+  const commentSettings: RedditSecBlockConfig = { ...sections.COMMENTS };
   if (settings.blocks.comments) {
     commentSettings.show = false;
   }

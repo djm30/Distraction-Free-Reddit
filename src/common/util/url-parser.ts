@@ -2,13 +2,15 @@ import { BlockerSettings } from "../settings-config";
 import BlockFinder from "./get-blocks";
 import { RedditSecBlockConfig, BlockSections } from "../types";
 
+const BASE_URL_PATTERN = /^https?:\/\/(www|new)\.reddit\.com/;
+
 export const REGEXES = {
-  HOMEPAGE: /^https:\/\/(www|new).reddit.com\/(best\/|hot\/|new\/|top\/.*)*$/,
-  SEARCH_PAGE: /^https:\/\/(www|new).reddit.com\/search\/\?q=.*/,
-  ALL_POPULAR: /^https:\/\/(www|new).reddit.com\/r\/(all|popular)\/.*$/,
-  USER_PROFILE: /^https:\/\/(www|new).reddit.com\/user\/([^\/]*)\/?(.*)/,
-  SUBREDDIT: /^https:\/\/(www|new).reddit.com\/r\/([^\/]+)*\/$/,
-  POST: /^https:\/\/(www|new).reddit.com\/r\/(.*)\/comments\/.*/,
+  HOMEPAGE: new RegExp(`${BASE_URL_PATTERN.source}/(best/|hot/|new/|top/.*)*$`),
+  SEARCH_PAGE: new RegExp(`${BASE_URL_PATTERN.source}/search/?q=.*`),
+  ALL_POPULAR: new RegExp(`${BASE_URL_PATTERN.source}/r/(all|popular)/.*$`),
+  USER_PROFILE: new RegExp(`${BASE_URL_PATTERN.source}/user/([^/]*)/?(.*)`),
+  SUBREDDIT: new RegExp(`${BASE_URL_PATTERN.source}/r/([^/]+)*/$`),
+  POST: new RegExp(`${BASE_URL_PATTERN.source}/r/(.*)/comments/.*`),
 };
 
 // Finds out the current page and returns the sections that need to be blocked according to the set settings

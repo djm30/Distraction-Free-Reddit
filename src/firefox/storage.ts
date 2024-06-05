@@ -1,6 +1,6 @@
 import { BlockerSettings, StorageFunctions, defaultSettings, Blocks, parseMode } from "../common/settings-config";
 import { MessageType } from "../common/message-types";
-import logger from "../common/logger";
+import logger from "../common/util/logger";
 
 const getSettings = async (): Promise<BlockerSettings> => {
   const storage = await browser.storage.sync.get("options");

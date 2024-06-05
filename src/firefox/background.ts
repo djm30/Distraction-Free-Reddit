@@ -1,6 +1,6 @@
 import storageFunctions from "../common/storage-service";
-import { parseUrl } from "../common/url-parser";
-import logger from "../common/logger";
+import { parseUrl } from "../common/util/url-parser";
+import logger from "../common/util/logger";
 import { MessageType, Message, HideElementsMessage, SettingsUpdateMessage } from "../common/message-types";
 
 const main = async () => {
@@ -43,7 +43,7 @@ const main = async () => {
   browser.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
     if (tab.url && tab.url.includes("reddit.com") && changeInfo.status === "complete") {
       // Getting what sections need to be blocked based on current settings and the new tab url
-      const sectionsToBlock = parseUrl(tab.url, settings);
+      const sectionsToBlock = parseUrl(tab.url, settings, [] as any);
       let message: Message | HideElementsMessage;
       if (sectionsToBlock.length > 0)
         message = { type: MessageType.HIDE_ELEMENTS, payload: sectionsToBlock } as HideElementsMessage;

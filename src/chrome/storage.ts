@@ -1,6 +1,6 @@
 import { MessageType } from "../common/message-types";
 import { BlockerSettings, StorageFunctions, defaultSettings, Blocks, parseMode } from "../common/settings-config";
-import logger from "../common/logger";
+import logger from "../common/util/logger";
 
 const getSettings = async (): Promise<BlockerSettings> => {
   const storage = await chrome.storage.sync.get("options");

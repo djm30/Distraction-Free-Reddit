@@ -1,9 +1,9 @@
-import { RedditSecBlockConfig } from "../common/block-section-config";
+import { RedditSecBlockConfig } from "../common/types";
 import { HideElementsMessage, Message, MessageType } from "../common/message-types";
 import { BlockerSettings } from "../common/settings-config";
 import storageFunctions from "../common/storage-service";
 import { parseUrl } from "../common/util/url-parser";
-import logger from "../common/logger";
+import logger from "../common/util/logger";
 
 const publishBlockMessage = (tabId: number, sections: RedditSecBlockConfig[]) => {
   // If there is no sections that need blocked
@@ -30,7 +30,7 @@ const publishBlockMessage = (tabId: number, sections: RedditSecBlockConfig[]) =>
 };
 
 const getSectionsAndPublish = (url: string, tabId: number, settings: BlockerSettings) => {
-  const sections = parseUrl(url, settings);
+  const sections = parseUrl(url, settings, [] as any);
   publishBlockMessage(tabId, sections);
 };
 

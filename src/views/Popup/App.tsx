@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import storageFunctions, { toggleEnabled } from "../../common/storage-service";
 import Switch from "../Options/Components/Switch";
 import "./App.css";
-import logger from "../../common/logger";
+import logger from "../../common/util/logger";
 
 function App() {
   const openOptions = () => {

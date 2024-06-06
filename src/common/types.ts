@@ -15,7 +15,7 @@ export interface Regexes {
 }
 
 export interface RedditSecBlockConfig {
-  selector: string; // CSS Selector if applicable
+  selectors: string[]; // CSS Selector if applicable
   show: boolean; // Show or hide the section -> true = show, false = hide, will be changed in the url parser
   useBlocker: boolean; // Whether to use the full page blocker or not
   blockMsg: string; // Message to display when the section is blocked

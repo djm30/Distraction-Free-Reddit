@@ -1,16 +1,19 @@
 import logger from "../common/util/logger";
-import { MessageType, Message, HideElementsMessage, SettingsUpdateMessage } from "../common/message-types";
+import { MessageType, Message, SettingsUpdateMessage } from "../common/message-types";
 import { BlockerSettings } from "../common/settings-config";
 import { Blocker } from "../common/types";
 import NewBlocker from "../common/blockers/new-blocker";
 import OldBlocker from "../common/blockers/old-blocker";
 import RegBlocker from "../common/blockers/reg-blocker";
+import storageFunctions from "../common/storage-service";
 
 let settings: BlockerSettings;
 let blocker: Blocker;
 
 const main = () => {
   const port = browser.runtime.connect({ name: "content" });
+
+  console.log(document.cookie);
 
   // Getting initial URL to track changes later on
   let url = document.URL;
@@ -22,6 +25,7 @@ const main = () => {
       case MessageType.SETTINGS_UPDATE:
         logger.info("Settings update");
         settings = (message as SettingsUpdateMessage).payload;
+        blocker.block(document.URL, settings);
         break;
       default:
         logger.warn(`Received unknown message of type ${message.type}`);
@@ -53,11 +57,11 @@ const main = () => {
 
   const observer = new MutationObserver((mutations) => {
     if (url !== document.URL) {
-      // URL Changed
-      console.log(document.URL);
-      console.log("URL Changed");
-      blocker.block(url, settings);
+      // Updating current URL
       url = document.URL;
+      logger.info("URL Changed");
+      logger.info(url);
+      blocker.block(url, settings);
     }
     mutations.forEach((mutation) => {});
   });
@@ -74,4 +78,14 @@ const main = () => {
   logger.info("Content script loaded");
 };
 
-main();
+storageFunctions
+  .getSettings()
+  .then((storedSettings) => {
+    settings = storedSettings;
+    logger.info("SETTINGS LOADED");
+    console.log(settings);
+    main();
+  })
+  .catch((e) => {
+    logger.error(e);
+  });

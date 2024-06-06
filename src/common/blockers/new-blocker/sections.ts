@@ -1,56 +1,56 @@
 import { RedditSecBlockConfig, BlockSections } from "../../types";
 
 const MAIN_FEED: RedditSecBlockConfig = {
-  selector: "", // ._1OVBBWLtHoSPfGCRaPzpTf
+  selectors: [""], // ._1OVBBWLtHoSPfGCRaPzpTf
   show: true,
   useBlocker: false,
   blockMsg: "You have blocked the main feed",
 };
 
 const SIDE_BAR: RedditSecBlockConfig = {
-  selector: "._3Kd8DQpBIbsr5E1JcrMFTY",
+  selectors: ["._3Kd8DQpBIbsr5E1JcrMFTY"],
   show: true,
   useBlocker: false,
   blockMsg: "You have blocked the main feed",
 };
 
 const COMMENTS: RedditSecBlockConfig = {
-  selector: "._2M2wOqmeoPVvcSsJ6Po9-V",
+  selectors: ["._2M2wOqmeoPVvcSsJ6Po9-V"],
   show: true,
   useBlocker: false,
   blockMsg: "",
 };
 
 const USER_FEED: RedditSecBlockConfig = {
-  selector: "", // ._31N0dvxfpsO6Ur5AKx4O5d
+  selectors: [""], // ._31N0dvxfpsO6Ur5AKx4O5d
   show: true,
   useBlocker: false,
   blockMsg: "Access to user profiles has been blocked",
 };
 
 const SEARCH: RedditSecBlockConfig = {
-  selector: "._3Up38k81YNBWQoW1ovMU88",
+  selectors: ["._3Up38k81YNBWQoW1ovMU88"],
   show: true,
   useBlocker: false,
   blockMsg: "Search Results have been blocked",
 };
 
 const SUB_FEED: RedditSecBlockConfig = {
-  selector: "", // ._31N0dvxfpsO6Ur5AKx4O5d
+  selectors: [""], // ._31N0dvxfpsO6Ur5AKx4O5d
   show: true,
   useBlocker: false,
   blockMsg: "",
 };
 
 const POST: RedditSecBlockConfig = {
-  selector: "._2rszc84L136gWQrkwH6IaM",
+  selectors: ["._2rszc84L136gWQrkwH6IaM"],
   show: true,
   useBlocker: false,
   blockMsg: "",
 };
 
 const POPULAR: RedditSecBlockConfig = {
-  selector: "",
+  selectors: [""],
   show: true,
   useBlocker: false,
   blockMsg: "You have blocked access to r/All and r/Popular",

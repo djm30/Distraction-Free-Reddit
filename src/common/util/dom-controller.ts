@@ -1,5 +1,5 @@
-import logger from "../../util/logger";
-import { RedditSecBlockConfig } from "../../types";
+import logger from "./logger";
+import { RedditSecBlockConfig } from "../types";
 
 const hideElement = (section: RedditSecBlockConfig) => {
   if (!section.selectors.length) return;
@@ -58,4 +58,25 @@ const showBlockerElement = (blocker: HTMLDivElement, message: string) => {
   blocker.innerText = message;
 };
 
-export { hideElement, hideElementWithRetry, showElement, hideBlockerElement, showBlockerElement };
+const placeBlocker = (parent: HTMLDivElement, blocker: HTMLDivElement) => {
+  const isBlockerOnPage = document.querySelector("#blocker");
+  if (isBlockerOnPage) {
+    return;
+  }
+
+  logger.info("Placing Blocker on page");
+
+  parent = document.querySelector("header")?.parentElement as HTMLDivElement;
+  parent.prepend(blocker);
+};
+
+const DOMHelper = {
+  hideElement,
+  hideElementWithRetry,
+  showElement,
+  hideBlockerElement,
+  showBlockerElement,
+  placeBlocker,
+};
+
+export default DOMHelper;

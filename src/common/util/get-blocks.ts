@@ -84,10 +84,12 @@ const getPostBlocks = (
   if (settings.mode === BlockMode.BLACKLIST) {
     if (settings.blacklist.includes(subreddit)) {
       postSettings.show = false;
+      postSettings.blockMsg = `r/${subreddit} is not on your blacklist`;
     }
   } else if (settings.mode === BlockMode.WHITELIST) {
     if (!settings.whitelist.includes(subreddit)) {
       postSettings.show = false;
+      postSettings.blockMsg = `r/${subreddit} is not on your whitelist`;
     }
   }
   const commentSettings: RedditSecBlockConfig = { ...sections.COMMENTS };
@@ -95,7 +97,11 @@ const getPostBlocks = (
     commentSettings.show = false;
   }
 
-  return [postSettings, commentSettings];
+  const sideBarSettings: RedditSecBlockConfig = { ...sections.SIDE_BAR };
+  if (!postSettings.show) {
+    sideBarSettings.show = false;
+  }
+  return [postSettings, commentSettings, sideBarSettings];
 };
 
 const blockSections = {

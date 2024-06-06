@@ -3,6 +3,7 @@ import { RedditSecBlockConfig } from "../common/types";
 import { MessageType } from "../common/message-types";
 import { persistServiceWorker } from "../chrome/persist-service-worker";
 import logger from "../common/util/logger";
+import storageFunctions from "../common/storage-service";
 
 const main = () => {
   logger.info("Hello from content script");

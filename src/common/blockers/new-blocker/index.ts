@@ -1,59 +1,45 @@
 import { parseUrl } from "../../util/url-parser";
 import { BlockerSettings } from "../../settings-config";
 import { Blocker } from "../../types";
-import { isUserProfile, isDarkMode } from "../../util/content-utils";
-import NEW_SECTIONS from "./sections";
 import * as Helpers from "./helper";
+import DOMController from "../../util/dom-controller";
+import NEW_SECTIONS from "./sections";
 
-let parent: HTMLDivElement;
+let parent: HTMLElement;
 let blocker: HTMLDivElement;
 
 const block = (url: string, settings: BlockerSettings) => {
-  const sectionsToBlock = parseUrl(url, settings, NEW_SECTIONS);
+  DOMController.placeBlocker(parent, blocker);
+  const sectionsToBlock = parseUrl(url, settings, NEW_SECTIONS, Helpers.isUserProfile);
+
   sectionsToBlock.forEach((section) => {
-    if (isUserProfile()) {
-      Helpers.hideBlockerElement(blocker);
-      return;
-    }
     let useFullPageBlocker = false;
     let blockMessage = "";
-    sectionsToBlock.forEach((section) => {
-      // Need to ensure that if one section uses the full page blocker, it wont be overwriiten
-      // Also need to ensure that if one section is to be shown, and its current display is set to none, that it should be removed
-      // And also need to ensure that if a section is not to be shown, and also doesnt use the blocker, then its display will be set to none
-      if (section.useBlocker) {
-        useFullPageBlocker = true;
-        blockMessage = section.blockMsg;
-      }
 
-      section.show ? Helpers.showElement(section) : Helpers.hideElement(section);
-    });
+    // Will show any hidden elements
+    sectionsToBlock.filter((section) => section.show).forEach(DOMController.showElement);
 
-    useFullPageBlocker ? Helpers.showBlockerElement(blocker, blockMessage) : Helpers.hideBlockerElement(blocker);
+    // Hide elements after, otherwise hidden element might get overwritten if they share the same selector
+    sectionsToBlock
+      .filter((section) => !section.show)
+      .forEach((section) => {
+        if (section.useBlocker) {
+          useFullPageBlocker = true;
+          blockMessage = section.blockMsg;
+        }
+
+        DOMController.hideElement(section);
+      });
+
+    useFullPageBlocker
+      ? DOMController.showBlockerElement(blocker, blockMessage)
+      : DOMController.hideBlockerElement(blocker);
   });
 };
+
 const onload = (url: string, settings: BlockerSettings) => {
-  const darkModeOn = isDarkMode();
-  const fontColor = darkModeOn ? "white" : "black";
-  const bgColor = darkModeOn ? "#030303" : "#DAE0E6";
-
-  // Creating blocker element
-  const blockerStyles = `position: fixed; top: 48px;
-                        width: 100%; height: 100vh; z-index: 79;
-                        background: ${bgColor}; text-align: center;
-                        font-size: 20px; color: ${fontColor}; padding-top: 40px;`;
-  const blockerElement = document.createElement("div");
-  blockerElement.id = "blocker";
-  blockerElement.style.cssText = blockerStyles;
-
-  // We are going to hide the blocker element by default, it will then be hidden when needed
-  if (isUserProfile()) blockerElement.style.display = "none";
-  blockerElement.innerText = "Distraction Free Reddit is loading...";
-
-  parent = document.querySelector("header")?.parentElement as HTMLDivElement;
-
-  blocker = blockerElement;
-
+  parent = document.querySelector("body") as HTMLElement;
+  blocker = Helpers.createBlocker();
   block(url, settings);
 };
 

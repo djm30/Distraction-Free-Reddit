@@ -1,61 +1,29 @@
-import logger from "../../util/logger";
-import { RedditSecBlockConfig } from "../../types";
-
-const hideElement = (section: RedditSecBlockConfig) => {
-  if (!section.selectors.length) return;
-  section.selectors.forEach((selector) => {
-    try {
-      const element = document.querySelector(selector) as HTMLDivElement | null;
-      /// If element is not found, its probably because its not in the dom yet, so retry for a bit
-      if (!element) return hideElementWithRetry(selector);
-      // Hiding element by setting display to none
-      element.style.display = "none";
-    } catch (e) {
-      logger.info(`No element found for corresponding selector: ${selector}`);
-    }
-  });
+const isDarkMode = () => {
+  return document.documentElement.classList.contains("theme-dark");
 };
 
-const hideElementWithRetry = (selector: string): void => {
-  let elementHidden = false;
-
-  const retryInterval = setInterval(() => {
-    const element = document.querySelector(selector) as HTMLDivElement | null;
-    if (!element) return;
-
-    element.style.display = "none";
-    elementHidden = true;
-    clearInterval(retryInterval);
-  }, 100);
-
-  // Try for 4 seconds
-  setTimeout(() => {
-    clearInterval(retryInterval);
-    if (!elementHidden) logger.error(`Failed to hide element with selector: ${selector}`);
-  }, 4000);
+const isUserProfile = (urlUsername: string) => {
+  const matchingCookie = document.cookie.split(";").find((cookie) => cookie.includes("recentclicks"));
+  if (!matchingCookie || matchingCookie.length < 1) return false;
+  return matchingCookie[0] === urlUsername;
 };
 
-const showElement = (section: RedditSecBlockConfig) => {
-  if (!section.selectors.length) return;
-  section.selectors.forEach((selector) => {
-    try {
-      const element = document.querySelector(selector) as HTMLDivElement | null;
-      if (!element) return logger.error(`Failed to hide element with selector: ${selector}`);
+const createBlocker = (): HTMLDivElement => {
+  const darkModeOn = isDarkMode();
+  const fontColor = darkModeOn ? "white" : "black";
+  const bgColor = darkModeOn ? "#030303" : "#DAE0E6";
 
-      if (element.style.display === "none") element.style.removeProperty("display");
-    } catch (e) {
-      logger.info(`No element found for corresponding selector: ${selector}`);
-    }
-  });
+  // Creating blocker element
+  const blockerStyles = `position: fixed; top: 48px;
+                        width: 100%; height: 100vh; z-index: 79;
+                        background: ${bgColor}; text-align: center;
+                        font-size: 20px; color: ${fontColor}; padding-top: 40px;`;
+  const blocker = document.createElement("div");
+  blocker.id = "blocker";
+  blocker.style.cssText = blockerStyles;
+
+  blocker.innerText = "Distraction Free Reddit is loading...";
+  return blocker;
 };
 
-const hideBlockerElement = (blocker: HTMLDivElement) => {
-  blocker.style.display = "none";
-};
-
-const showBlockerElement = (blocker: HTMLDivElement, message: string) => {
-  blocker.style.removeProperty("display");
-  blocker.innerText = message;
-};
-
-export { hideElement, hideElementWithRetry, showElement, hideBlockerElement, showBlockerElement };
+export { isUserProfile, createBlocker };

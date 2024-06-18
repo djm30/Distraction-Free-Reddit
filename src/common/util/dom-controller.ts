@@ -58,15 +58,13 @@ const showBlockerElement = (blocker: HTMLDivElement, message: string) => {
   blocker.innerText = message;
 };
 
-const placeBlocker = (parent: HTMLDivElement, blocker: HTMLDivElement) => {
+const placeBlocker = (parent: HTMLElement, blocker: HTMLDivElement) => {
   const isBlockerOnPage = document.querySelector("#blocker");
   if (isBlockerOnPage) {
     return;
   }
 
   logger.info("Placing Blocker on page");
-
-  parent = document.querySelector("header")?.parentElement as HTMLDivElement;
   parent.prepend(blocker);
 };
 

@@ -80,10 +80,8 @@ storageFunctions
   .then((storedSettings) => {
     settings = storedSettings;
     logger.info("SETTINGS LOADED");
-    console.log(settings);
     main();
   })
   .catch((e) => {
     logger.error(e);
   });
-

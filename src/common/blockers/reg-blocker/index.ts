@@ -5,7 +5,7 @@ import * as Helpers from "./helper";
 import DOMController from "../../util/dom-controller";
 import REG_SECTIONS from "./sections";
 
-let parent: HTMLDivElement;
+let parent: HTMLElement;
 let blocker: HTMLDivElement;
 
 const block = (url: string, settings: BlockerSettings) => {
@@ -38,6 +38,7 @@ const block = (url: string, settings: BlockerSettings) => {
 };
 
 const onload = (url: string, settings: BlockerSettings) => {
+  parent = document.querySelector("body") as HTMLElement;
   blocker = Helpers.createBlocker();
   block(url, settings);
 };

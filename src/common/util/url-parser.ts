@@ -5,8 +5,8 @@ import { RedditSecBlockConfig, BlockSections } from "../types";
 const BASE_URL_PATTERN = /^https?:\/\/(www|new|old)\.reddit\.com/;
 
 export const REGEXES = {
-  HOMEPAGE: new RegExp(`${BASE_URL_PATTERN.source}/(best/|hot/|new/|top/.*)*$`),
-  SEARCH_PAGE: new RegExp(`${BASE_URL_PATTERN.source}/search/\\?q=.*`),
+  HOMEPAGE: new RegExp(`${BASE_URL_PATTERN.source}/(best|hot|new|top/.*|\\?feed=[a-zA-Z0-9_/]*)?/?$`),
+  SEARCH_PAGE: new RegExp(`${BASE_URL_PATTERN.source}/search/?\\?q=.*`),
   ALL_POPULAR: new RegExp(`${BASE_URL_PATTERN.source}/r/(all|popular)/.*$`),
   USER_PROFILE: new RegExp(`${BASE_URL_PATTERN.source}/user/([^/]*)/?(.*)`),
   SUBREDDIT: new RegExp(`${BASE_URL_PATTERN.source}/r/([^/]+)*/$`),
@@ -38,11 +38,11 @@ export const parseUrl = (
 
     case REGEXES.USER_PROFILE.test(url):
       const urlUsername = url.match(REGEXES.USER_PROFILE)?.[2] as string;
-      console.log(url.match(REGEXES.USER_PROFILE)?.[1]);
-      console.log(urlUsername);
       if (isUserProfile && !isUserProfile(urlUsername)) {
-        console.log(isUserProfile(urlUsername));
         blockedSections.push(...BlockFinder.getUserProfileBlocks(settings, sections));
+      } else {
+        // This will hide the blocker when navigating to the users profile
+        blockedSections.push({ show: true, useBlocker: false, selectors: [], blockMsg: "" });
       }
       break;
 

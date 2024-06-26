@@ -36,7 +36,7 @@ const SEARCH: RedditSecBlockConfig = {
 };
 
 const SUB_FEED: RedditSecBlockConfig = {
-  selectors: ["#main-content"],
+  selectors: ["#main-content", "#right-sidebar-container"],
   show: true,
   useBlocker: false,
   blockMsg: "",

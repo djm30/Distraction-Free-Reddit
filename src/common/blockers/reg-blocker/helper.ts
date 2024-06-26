@@ -1,3 +1,6 @@
+import { RedditSecBlockConfig } from "../../types";
+import DOMController from "../../util/dom-controller";
+
 const isDarkMode = () => {
   const htmlElement = document.querySelector("html");
   return htmlElement?.classList.contains("theme-dark");
@@ -23,7 +26,7 @@ const createBlocker = (): HTMLDivElement => {
   const bgColor = darkModeOn ? "#0B1416" : "#FFFFFF";
   // Creating blocker element
   const blockerStyles = `position: fixed; top: 57px;
-                        width: 100%; height: 100vh;
+                        width: 100%; height: 100vh; z-index: 1;
                         background: ${bgColor}; text-align: center;
                         font-size: 20px; color: ${fontColor}; padding-top: 40px; display:none`;
   const blocker = document.createElement("div");
@@ -35,4 +38,11 @@ const createBlocker = (): HTMLDivElement => {
   return blocker;
 };
 
-export { createBlocker, isUserProfile };
+const showAll = (currentlyBlocked: RedditSecBlockConfig[], blocker: HTMLDivElement) => {
+  DOMController.hideBlockerElement(blocker);
+  currentlyBlocked.forEach((section) => {
+    DOMController.showElement(section);
+  });
+};
+
+export { createBlocker, isUserProfile, showAll };

@@ -16,8 +16,6 @@ const main = () => {
   // Recieve messages from service worker
   chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     logger.info("Message Recieved");
-    if (message.type === MessageType.HIDE_ELEMENTS) console.log("why");
-    if (message.type === MessageType.HIDE_BLOCKER) console.log("why");
     if (message.type === MessageType.SETTINGS_UPDATE) {
       logger.info("Settings update");
       settings = (message as SettingsUpdateMessage).payload;

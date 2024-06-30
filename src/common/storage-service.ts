@@ -1,8 +1,7 @@
 import { BlockTypes, BlockMode } from "./settings-config";
-import storageFunctions from "../firefox/storage"
+import storageFunctions from "../chrome/storage";
 
 // Need to somehow change this with build script, but allows for native apis to be abstracted behind a single interface
-
 
 export default storageFunctions;
 
@@ -67,4 +66,3 @@ export const toggleOption = async (option: BlockTypes) => {
 
   await storageFunctions.setSettings(settings);
 };
-

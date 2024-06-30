@@ -111,7 +111,7 @@ fn adjust_storage_service_imports(file: &String, browser: Browser) -> String {
     let mut new_file = String::new();
     let mut import_updated = false;
     for line in file.split("\n") {
-        let mut new_line = if line.contains("SELECTED_BROWSER") {
+        let mut new_line = if line.contains("import storageFunctions") {
             if !import_updated {
                 import_updated = true;
                 format!(

@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Distraction Free Reddit",
-  "version": "1.0.5",
+  "version": "1.1.0",
   "description": "Remove the distracting parts of reddit and focus only on what really matters to you.",
   "permissions": ["activeTab", "storage", "tabs"],
   "background": {

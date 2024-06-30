@@ -1,8 +1,9 @@
-import { Message, MessageType } from "../common/message-types";
+import { MessageType, SettingsUpdateMessage } from "../common/message-types";
+import { BlockerSettings } from "../common/settings-config";
 import storageFunctions from "../common/storage-service";
 import logger from "../common/util/logger";
 
-const publishUpdateSettingsMessage = (tabId: number) => {
+const publishUpdateSettingsMessage = (tabId: number, settings: BlockerSettings) => {
   const errorCallback = () => {
     if (chrome.runtime.lastError) {
       logger.error("Content Script not ready to recieve messages yet");
@@ -10,7 +11,7 @@ const publishUpdateSettingsMessage = (tabId: number) => {
   };
 
   try {
-    const message: Message = { type: MessageType.SETTINGS_UPDATE };
+    const message: SettingsUpdateMessage = { type: MessageType.SETTINGS_UPDATE, payload: settings };
     chrome.tabs.sendMessage(tabId, message, errorCallback);
   } catch (e) {
     logger.error(`Error sending message to content script, ${(e as Error).message}`);
@@ -26,7 +27,9 @@ const main = async () => {
   chrome.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
     // If settings are updated, update settings and send messages to all reddit tabs to adjust blocks accordingly
     if (message.type === MessageType.SETTINGS_UPDATE) {
-      logger.info("Forwarding settings update to content scripts");
+      logger.info("Updating settings");
+
+      const settings = await storageFunctions.getSettings();
 
       // Getting all currently open reddit tabs
       const tabs = await chrome.tabs.query({
@@ -34,10 +37,7 @@ const main = async () => {
       });
 
       tabs.forEach((tab) => {
-        if (!tab.active) {
-          publishUpdateSettingsMessage(tab.id as number);
-          // Getting new sections that need to be blocked according to new settings
-        }
+        publishUpdateSettingsMessage(tab.id as number, settings);
       });
     }
 

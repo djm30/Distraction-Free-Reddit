@@ -14,11 +14,6 @@ const main = async () => {
     if (port.name === "content") {
       // Adding port to list of ports
       ports.push(port);
-
-      port.onMessage.addListener((msg: any) => {
-        if (msg.type === MessageType.WAKE_UP) logger.info("Recieved wake up message");
-      });
-
       // Disconnecting port when tab is closed
       port.onDisconnect.addListener(() => {
         ports = ports.filter((p) => p.sender?.tab?.id !== port.sender?.tab?.id);
@@ -38,33 +33,6 @@ const main = async () => {
       });
     }
   });
-
-  // Checking for url changes on reddit tabs
-  browser.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
-    if (tab.url && tab.url.includes("reddit.com") && changeInfo.status === "complete") {
-      // Getting what sections need to be blocked based on current settings and the new tab url
-      const sectionsToBlock = parseUrl(tab.url, settings, [] as any);
-      let message: Message | HideElementsMessage;
-      if (sectionsToBlock.length > 0)
-        message = { type: MessageType.HIDE_ELEMENTS, payload: sectionsToBlock } as HideElementsMessage;
-      else message = { type: MessageType.HIDE_BLOCKER } as Message;
-
-      // Sending message to appropiate tab
-      ports.find((p) => p.sender?.tab?.id === tabId)?.postMessage(message);
-    }
-  });
 };
-
-// browser.action.onClicked.addListener(async (tab) => {
-//   // Check if permissions are already granted
-//   const hasPermission = await browser.permissions.contains({
-//     origins: ["*://*.reddit.com/"],
-//   });
-//   if (hasPermission) return;
-//   if (tab.url && tab.url.startsWith("https://www.reddit.com"))
-//     browser.permissions.request({
-//       origins: ["*://*.reddit.com/"],
-//     });
-// });
 
 main();

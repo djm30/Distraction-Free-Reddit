@@ -15,6 +15,7 @@ const GeneralOptions = ({ show }: Props) => {
       let blocks = settings.blocks;
       setMainFeed(blocks.mainFeed);
       setHideAll(blocks.all);
+      setSubFeed(blocks.subFeed);
       setUserFeed(blocks.userFeed);
       setSidebar(blocks.sidebar);
       setSearch(blocks.search);
@@ -25,7 +26,7 @@ const GeneralOptions = ({ show }: Props) => {
   const genericToggle = (
     block: BlockTypes,
     current: boolean,
-    setCurrent: React.Dispatch<React.SetStateAction<boolean>>
+    setCurrent: React.Dispatch<React.SetStateAction<boolean>>,
   ) => {
     return async () => {
       await toggleOption(block);
@@ -40,17 +41,20 @@ const GeneralOptions = ({ show }: Props) => {
   const [hideAll, setHideAll] = useState(false);
   const toggleHideAll = genericToggle(BlockTypes.ALL, hideAll, setHideAll);
 
+  const [subFeed, setSubFeed] = useState(false);
+  const toggleSubFeed = genericToggle(BlockTypes.SUB_FEED, subFeed, setSubFeed);
+
+  const [comments, setComments] = useState(false);
+  const toggleComments = genericToggle(BlockTypes.COMMENTS, comments, setComments);
+
+  const [search, setSearch] = useState(false);
+  const toggleSearch = genericToggle(BlockTypes.SEARCH, search, setSearch);
+
   const [userFeed, setUserFeed] = useState(false);
   const toggleUserFeed = genericToggle(BlockTypes.USER_FEED, userFeed, setUserFeed);
 
   const [sidebar, setSidebar] = useState(false);
   const toggleSidebar = genericToggle(BlockTypes.SIDEBAR, sidebar, setSidebar);
-
-  const [search, setSearch] = useState(false);
-  const toggleSearch = genericToggle(BlockTypes.SEARCH, search, setSearch);
-
-  const [comments, setComments] = useState(false);
-  const toggleComments = genericToggle(BlockTypes.COMMENTS, comments, setComments);
 
   if (!show) return null;
 
@@ -70,6 +74,24 @@ const GeneralOptions = ({ show }: Props) => {
         setToggled={toggleHideAll}
       />
       <Option
+        title={"Hide Subreddit feeds"}
+        description={"Only single posts from a search engine are viewable"}
+        toggled={subFeed}
+        setToggled={toggleSubFeed}
+      />
+      <Option
+        title={"Hide Comments"}
+        description={"Hides all comments under posts"}
+        toggled={comments}
+        setToggled={toggleComments}
+      />
+      <Option
+        title={"Hide Full Search Results"}
+        description={"Hides full page results after searching and pressing enter"}
+        toggled={search}
+        setToggled={toggleSearch}
+      />
+      <Option
         title={"Hide User Feeds"}
         description={"Hides feed shown when you click onto a user's profile"}
         toggled={userFeed}
@@ -80,18 +102,6 @@ const GeneralOptions = ({ show }: Props) => {
         description={"Hides the sidebar on the side of the homepage"}
         toggled={sidebar}
         setToggled={toggleSidebar}
-      />
-      <Option
-        title={"Hide Full Search Results"}
-        description={"Hides full page results after searching and pressing enter"}
-        toggled={search}
-        setToggled={toggleSearch}
-      />
-      <Option
-        title={"Hide Comments"}
-        description={"Hides all comments under posts"}
-        toggled={comments}
-        setToggled={toggleComments}
       />
     </Options>
   );

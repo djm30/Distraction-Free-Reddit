@@ -19,6 +19,7 @@ export interface Blocks {
   userFeed: boolean;
   all: boolean;
   comments: boolean;
+  subFeed: boolean;
 }
 
 export enum BlockTypes {
@@ -28,6 +29,7 @@ export enum BlockTypes {
   COMMENTS,
   SIDEBAR,
   SEARCH,
+  SUB_FEED,
 }
 
 export interface StorageFunctions {
@@ -50,6 +52,7 @@ export const defaultSettings: BlockerSettings = {
     userFeed: true,
     all: true,
     comments: true,
+    subFeed: true,
   },
 };
 

@@ -60,6 +60,12 @@ const getSubredditBlocks = (
       subFeedSection.blockMsg = `r/${subreddit} is not on your whitelist`;
     }
   }
+
+  if (settings.blocks.subFeed) {
+    subFeedSection.show = false;
+    subFeedSection.useBlocker = true;
+    subFeedSection.blockMsg = "You have blocked access to Subreddit feeds";
+  }
   return [subFeedSection];
 };
 

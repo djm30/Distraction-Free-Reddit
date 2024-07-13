@@ -13,8 +13,6 @@ let blocker: Blocker;
 const main = () => {
   const port = browser.runtime.connect({ name: "content" });
 
-  console.log(document.cookie);
-
   // Getting initial URL to track changes later on
   let url = document.URL;
 
@@ -83,7 +81,6 @@ storageFunctions
   .then((storedSettings) => {
     settings = storedSettings;
     logger.info("SETTINGS LOADED");
-    console.log(settings);
     main();
   })
   .catch((e) => {

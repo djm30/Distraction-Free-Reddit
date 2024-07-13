@@ -14,6 +14,7 @@ const getSettings = async (): Promise<BlockerSettings> => {
     sidebar: settingsFromStore.blocks.sidebar,
     search: settingsFromStore.blocks.search,
     userFeed: settingsFromStore.blocks.userFeed,
+    subFeed: settingsFromStore.blocks.subFeed,
   };
 
   const mappedSettings: BlockerSettings = {

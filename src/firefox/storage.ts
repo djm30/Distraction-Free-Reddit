@@ -14,6 +14,7 @@ const getSettings = async (): Promise<BlockerSettings> => {
     sidebar: settingsFromStore.blocks.sidebar,
     search: settingsFromStore.blocks.search,
     userFeed: settingsFromStore.blocks.userFeed,
+    subFeed: settingsFromStore.blocks.subFeed,
   };
 
   const mappedSettings: BlockerSettings = {
@@ -27,7 +28,7 @@ const getSettings = async (): Promise<BlockerSettings> => {
   return mappedSettings;
 };
 
-const setSettings = async (settings: any) => {
+const setSettings = async (settings: BlockerSettings) => {
   await browser.storage.sync.set({ options: settings });
 };
 

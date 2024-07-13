@@ -16,7 +16,6 @@ const main = () => {
   // Recieve messages from service worker
   chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     logger.info("Message Recieved");
-    console.log(message);
     if (message.type === MessageType.SETTINGS_UPDATE) {
       logger.info("Settings update");
       settings = (message as SettingsUpdateMessage).payload;
@@ -78,7 +77,6 @@ storageFunctions
   .then((storedSettings) => {
     settings = storedSettings;
     logger.info("SETTINGS LOADED");
-    console.log(settings);
     main();
   })
   .catch((e) => {

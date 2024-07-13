@@ -11,7 +11,6 @@ const isUserProfile = (urlUsername: string) => {
     .find((cookie) => cookie.includes("recentclicks"))
     ?.split("_");
   if (!matchingCookie || matchingCookie.length < 1) return false;
-  console.log(matchingCookie[0].trim() === urlUsername);
   return matchingCookie[0].trim() === urlUsername;
 };
 

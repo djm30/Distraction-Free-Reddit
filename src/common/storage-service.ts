@@ -50,14 +50,17 @@ export const toggleOption = async (option: BlockTypes) => {
     case BlockTypes.MAIN_FEED:
       settings.blocks.mainFeed = !settings.blocks.mainFeed;
       break;
-    case BlockTypes.USER_FEED:
-      settings.blocks.userFeed = !settings.blocks.userFeed;
+    case BlockTypes.SUB_FEED:
+      settings.blocks.subFeed = !settings.blocks.subFeed;
       break;
     case BlockTypes.COMMENTS:
       settings.blocks.comments = !settings.blocks.comments;
       break;
     case BlockTypes.SEARCH:
       settings.blocks.search = !settings.blocks.search;
+      break;
+    case BlockTypes.USER_FEED:
+      settings.blocks.userFeed = !settings.blocks.userFeed;
       break;
     case BlockTypes.SIDEBAR:
       settings.blocks.sidebar = !settings.blocks.sidebar;

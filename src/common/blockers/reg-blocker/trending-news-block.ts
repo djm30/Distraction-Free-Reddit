@@ -10,16 +10,17 @@ const setupSearchInputListeners = (searchInput: HTMLInputElement) => {
   let retryInterval: ReturnType<typeof setInterval>;
   let retryTimeout: ReturnType<typeof setTimeout>;
 
-  searchInput.addEventListener("focus", () => {
-    retryInterval = startRetryingToRemoveNews();
-    retryTimeout = stopRetryingAfterTimeout(retryInterval);
-  });
-
-  searchInput.addEventListener("change", () => {
+  const removeNewsWithRetry = () => {
+    removeTrendingNews();
     clearTimeout(retryTimeout);
     clearInterval(retryInterval);
-    removeTrendingNews();
-  });
+    retryInterval = startRetryingToRemoveNews();
+    retryTimeout = stopRetryingAfterTimeout(retryInterval);
+  };
+
+  console.log(searchInput);
+  searchInput.addEventListener("focus", removeNewsWithRetry);
+  searchInput.addEventListener("input", removeNewsWithRetry);
 };
 
 const startRetryingToRemoveNews = () => setInterval(removeTrendingNews, RETRY_INTERVAL_MS);
@@ -35,25 +36,25 @@ const removeTrendingNews = () => {
 
   const trendingNewsList = getTrendingNewsList();
   const trendingNewsHeader = getTrendingNewsHeader();
-  const searchResultsContainer = getSearchResultsContainer();
+  const newsResultsContainer = getNewsResultsContainer();
 
   trendingNewsList?.remove();
   trendingNewsHeader?.remove();
-  searchResultsContainer?.classList.remove("border-solid");
+  newsResultsContainer?.classList.remove("border-solid");
+  newsResultsContainer?.parentElement?.classList.remove("border-solid");
 };
 
-const getSearchInput = (): HTMLInputElement | null => {
+const getSearchInput = (): HTMLInputElement => {
   return searchElementParent()
     ?.querySelector("faceplate-search-input")
-    ?.shadowRoot?.querySelector("input") as HTMLInputElement | null;
+    ?.shadowRoot?.querySelector("input") as HTMLInputElement;
 };
 
 const getTrendingNewsList = () => searchElementParent()?.querySelector("#reddit-trending-searches-partial-container");
 
 const getTrendingNewsHeader = () => getTrendingNewsList()?.previousElementSibling;
 
-const getSearchResultsContainer = () =>
-  searchElementParent()?.querySelector("#reddit-recent-searches-partial-container");
+const getNewsResultsContainer = () => searchElementParent()?.querySelector("#reddit-recent-searches-partial-container");
 
 const searchElementParent = () => document.querySelector("reddit-search-large")?.shadowRoot;
 

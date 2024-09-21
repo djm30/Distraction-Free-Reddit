@@ -1,5 +1,4 @@
 import React from "react";
-import Option from "./Option";
 
 interface Props {
   children?: JSX.Element | Array<JSX.Element>;

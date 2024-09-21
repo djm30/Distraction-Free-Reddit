@@ -56,6 +56,13 @@ const POPULAR: RedditSecBlockConfig = {
   blockMsg: "You have blocked access to r/All and r/Popular",
 };
 
+const REDDIT_LOGO: RedditSecBlockConfig = {
+  selectors: [],
+  show: true,
+  useBlocker: false,
+  blockMsg: "",
+};
+
 const NEW_SECTIONS: BlockSections = {
   MAIN_FEED,
   SIDE_BAR,
@@ -65,6 +72,7 @@ const NEW_SECTIONS: BlockSections = {
   SUB_FEED,
   POST,
   POPULAR,
+  REDDIT_LOGO,
 };
 
 export default NEW_SECTIONS;

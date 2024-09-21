@@ -20,6 +20,7 @@ const GeneralOptions = ({ show }: Props) => {
       setSidebar(blocks.sidebar);
       setSearch(blocks.search);
       setComments(blocks.comments);
+      setRedditLogo(blocks.redditLogo);
     });
   }, []);
 
@@ -55,6 +56,9 @@ const GeneralOptions = ({ show }: Props) => {
 
   const [sidebar, setSidebar] = useState(false);
   const toggleSidebar = genericToggle(BlockTypes.SIDEBAR, sidebar, setSidebar);
+
+  const [redditLogo, setRedditLogo] = useState(false);
+  const toggleRedditLogo = genericToggle(BlockTypes.REDDIT_LOGO, redditLogo, setRedditLogo);
 
   if (!show) return null;
 
@@ -99,9 +103,15 @@ const GeneralOptions = ({ show }: Props) => {
       />
       <Option
         title={"Hide Sidebar Tab"}
-        description={"Hides the sidebar on the side of the homepage"}
+        description={"Hides the sidebar on the homepage and sub feeds"}
         toggled={sidebar}
         setToggled={toggleSidebar}
+      />
+      <Option
+        title={"Hide Reddit Logo"}
+        description={"Hides large Reddit logo in the header of the page"}
+        toggled={redditLogo}
+        setToggled={toggleRedditLogo}
       />
     </Options>
   );

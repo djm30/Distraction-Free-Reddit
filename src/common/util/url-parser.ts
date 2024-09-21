@@ -23,23 +23,26 @@ export const parseUrl = (
   // What sections of the webpage need blocked?
   let blockedSections: RedditSecBlockConfig[] = [];
   if (!settings.enabled) return blockedSections;
+
+  blockedSections.push(...BlockFinder.redditLogoBlocks(settings, sections));
+  blockedSections.push(...BlockFinder.sideBarBlocks(settings, sections));
   switch (true) {
     case REGEXES.HOMEPAGE.test(url):
-      blockedSections.push(...BlockFinder.getHomepageBlocks(settings, sections));
+      blockedSections.push(...BlockFinder.homepageBlocks(settings, sections));
       break;
 
     case REGEXES.SEARCH_PAGE.test(url):
-      blockedSections.push(...BlockFinder.getSearchPageBlocks(settings, sections));
+      blockedSections.push(...BlockFinder.searchPageBlocks(settings, sections));
       break;
 
     case REGEXES.ALL_POPULAR.test(url):
-      blockedSections.push(...BlockFinder.getAllPopularBlocks(settings, sections));
+      blockedSections.push(...BlockFinder.allPopularBlocks(settings, sections));
       break;
 
     case REGEXES.USER_PROFILE.test(url):
       const urlUsername = url.match(REGEXES.USER_PROFILE)?.[2] as string;
       if (isUserProfile && !isUserProfile(urlUsername)) {
-        blockedSections.push(...BlockFinder.getUserProfileBlocks(settings, sections));
+        blockedSections.push(...BlockFinder.userProfileBlocks(settings, sections));
       } else {
         // This will hide the blocker when navigating to the users profile
         blockedSections.push({ show: true, useBlocker: false, selectors: [], blockMsg: "" });
@@ -48,12 +51,12 @@ export const parseUrl = (
 
     case REGEXES.SUBREDDIT.test(url):
       let subreddit = url.match(REGEXES.SUBREDDIT)?.[2];
-      blockedSections.push(...BlockFinder.getSubredditBlocks(settings, subreddit as string, sections));
+      blockedSections.push(...BlockFinder.subredditBlocks(settings, subreddit as string, sections));
       break;
 
     case REGEXES.POST.test(url):
       subreddit = url.match(REGEXES.POST)?.[2];
-      blockedSections.push(...BlockFinder.getPostBlocks(settings, subreddit as string, sections));
+      blockedSections.push(...BlockFinder.postBlocks(settings, subreddit as string, sections));
       break;
 
     default:

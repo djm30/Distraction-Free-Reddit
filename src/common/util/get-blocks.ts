@@ -4,7 +4,7 @@ import { BlockSections, RedditSecBlockConfig } from "../types";
 // Each of these methods returns an array of BlockSections for a certain page
 
 // Gets classes based on current homepage settings
-const getHomepageBlocks = (settings: BlockerSettings, sections: BlockSections): RedditSecBlockConfig[] => {
+const homepageBlocks = (settings: BlockerSettings, sections: BlockSections): RedditSecBlockConfig[] => {
   // Loading up default section configs, which will be turned off by default. They will be turned on if the users settings allow it
   const mainFeedSection: RedditSecBlockConfig = { ...sections.MAIN_FEED };
   const sideBarSection: RedditSecBlockConfig = { ...sections.SIDE_BAR };
@@ -23,7 +23,7 @@ const getHomepageBlocks = (settings: BlockerSettings, sections: BlockSections): 
   return [mainFeedSection, sideBarSection];
 };
 
-const getSearchPageBlocks = (settings: BlockerSettings, sections: BlockSections): RedditSecBlockConfig[] => {
+const searchPageBlocks = (settings: BlockerSettings, sections: BlockSections): RedditSecBlockConfig[] => {
   const searchFeedSection: RedditSecBlockConfig = { ...sections.SEARCH };
   if (settings.blocks.search) {
     searchFeedSection.show = false;
@@ -32,7 +32,7 @@ const getSearchPageBlocks = (settings: BlockerSettings, sections: BlockSections)
   return [searchFeedSection];
 };
 
-const getAllPopularBlocks = (settings: BlockerSettings, sections: BlockSections): RedditSecBlockConfig[] => {
+const allPopularBlocks = (settings: BlockerSettings, sections: BlockSections): RedditSecBlockConfig[] => {
   const allSection: RedditSecBlockConfig = { ...sections.POPULAR };
   if (settings.blocks.all) {
     allSection.show = false;
@@ -41,7 +41,7 @@ const getAllPopularBlocks = (settings: BlockerSettings, sections: BlockSections)
   return [allSection];
 };
 
-const getSubredditBlocks = (
+const subredditBlocks = (
   settings: BlockerSettings,
   subreddit: string,
   sections: BlockSections,
@@ -66,10 +66,11 @@ const getSubredditBlocks = (
     subFeedSection.useBlocker = true;
     subFeedSection.blockMsg = "You have blocked access to Subreddit feeds";
   }
+
   return [subFeedSection];
 };
 
-const getUserProfileBlocks = (settings: BlockerSettings, sections: BlockSections): RedditSecBlockConfig[] => {
+const userProfileBlocks = (settings: BlockerSettings, sections: BlockSections): RedditSecBlockConfig[] => {
   const userFeedSection: RedditSecBlockConfig = { ...sections.USER_FEED };
   if (settings.blocks.userFeed) {
     userFeedSection.show = false;
@@ -78,11 +79,7 @@ const getUserProfileBlocks = (settings: BlockerSettings, sections: BlockSections
   return [userFeedSection];
 };
 
-const getPostBlocks = (
-  settings: BlockerSettings,
-  subreddit: string,
-  sections: BlockSections,
-): RedditSecBlockConfig[] => {
+const postBlocks = (settings: BlockerSettings, subreddit: string, sections: BlockSections): RedditSecBlockConfig[] => {
   const postSettings: RedditSecBlockConfig = { ...sections.POST };
   subreddit = subreddit.toLowerCase();
 
@@ -109,13 +106,31 @@ const getPostBlocks = (
   return [postSettings, commentSettings, sideBarSettings];
 };
 
+const redditLogoBlocks = (settings: BlockerSettings, sections: BlockSections): RedditSecBlockConfig[] => {
+  const redditLogoBlock: RedditSecBlockConfig = { ...sections.REDDIT_LOGO };
+  if (settings.blocks.redditLogo) {
+    redditLogoBlock.show = false;
+  }
+  return [redditLogoBlock];
+};
+
+const sideBarBlocks = (settings: BlockerSettings, sections: BlockSections): RedditSecBlockConfig[] => {
+  const sideBarSection = { ...sections.SIDE_BAR };
+  if (settings.blocks.sidebar) {
+    sideBarSection.show = false;
+  }
+  return [sideBarSection];
+};
+
 const blockSections = {
-  getHomepageBlocks,
-  getSearchPageBlocks,
-  getAllPopularBlocks,
-  getSubredditBlocks,
-  getUserProfileBlocks,
-  getPostBlocks,
+  homepageBlocks,
+  searchPageBlocks,
+  allPopularBlocks,
+  subredditBlocks,
+  userProfileBlocks,
+  postBlocks,
+  redditLogoBlocks,
+  sideBarBlocks,
 };
 
 export default blockSections;

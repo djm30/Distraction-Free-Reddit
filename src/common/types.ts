@@ -30,4 +30,5 @@ export interface BlockSections {
   SUB_FEED: RedditSecBlockConfig;
   POST: RedditSecBlockConfig;
   POPULAR: RedditSecBlockConfig;
+  REDDIT_LOGO: RedditSecBlockConfig;
 }

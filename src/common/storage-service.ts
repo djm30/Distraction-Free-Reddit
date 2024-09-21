@@ -65,6 +65,9 @@ export const toggleOption = async (option: BlockTypes) => {
     case BlockTypes.SIDEBAR:
       settings.blocks.sidebar = !settings.blocks.sidebar;
       break;
+    case BlockTypes.REDDIT_LOGO:
+      settings.blocks.redditLogo = !settings.blocks.redditLogo;
+      break;
   }
 
   await storageFunctions.setSettings(settings);

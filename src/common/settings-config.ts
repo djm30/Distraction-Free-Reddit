@@ -20,6 +20,7 @@ export interface Blocks {
   all: boolean;
   comments: boolean;
   subFeed: boolean;
+  redditLogo: boolean;
 }
 
 export enum BlockTypes {
@@ -30,6 +31,7 @@ export enum BlockTypes {
   SIDEBAR,
   SEARCH,
   SUB_FEED,
+  REDDIT_LOGO,
 }
 
 export interface StorageFunctions {
@@ -53,6 +55,7 @@ export const defaultSettings: BlockerSettings = {
     all: true,
     comments: true,
     subFeed: true,
+    redditLogo: true,
   },
 };
 

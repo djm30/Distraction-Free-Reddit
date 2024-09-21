@@ -21,6 +21,7 @@ const GeneralOptions = ({ show }: Props) => {
       setSearch(blocks.search);
       setComments(blocks.comments);
       setRedditLogo(blocks.redditLogo);
+      setTrendingNews(blocks.trendingNews);
     });
   }, []);
 
@@ -59,6 +60,9 @@ const GeneralOptions = ({ show }: Props) => {
 
   const [redditLogo, setRedditLogo] = useState(false);
   const toggleRedditLogo = genericToggle(BlockTypes.REDDIT_LOGO, redditLogo, setRedditLogo);
+
+  const [trendingNews, setTrendingNews] = useState(false);
+  const toggleTrendingNews = genericToggle(BlockTypes.TRENDING_NEWS, trendingNews, setTrendingNews);
 
   if (!show) return null;
 
@@ -112,6 +116,12 @@ const GeneralOptions = ({ show }: Props) => {
         description={"Hides large Reddit logo in the header of the page"}
         toggled={redditLogo}
         setToggled={toggleRedditLogo}
+      />
+      <Option
+        title={"Hide Trending News"}
+        description={"Hides trending news when searching"}
+        toggled={trendingNews}
+        setToggled={toggleTrendingNews}
       />
     </Options>
   );

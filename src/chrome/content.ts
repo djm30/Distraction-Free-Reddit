@@ -30,7 +30,7 @@ const main = () => {
   // Deterine what site / design is being used, old.reddit new.reddit, reddit but with new or old design, then assign the appropiate blocker
   const urlPattern = /^https?:\/\/(old\.|www\.|new\.)?reddit\.com/;
   const match = document.URL.match(urlPattern);
-  const subdomain = match![1] || "www."; // If no subdomain is captured, assume "www."
+  const subdomain = match![1] || "www.";
   subdomain.slice(0, -1); // Remove the trailing dot from the subdomain
 
   switch (subdomain.slice(0, -1)) {
@@ -57,7 +57,6 @@ const main = () => {
       logger.info(url);
       blocker.block(url, settings);
     }
-    mutations.forEach((mutation) => {});
   });
 
   observer.observe(document.body, {

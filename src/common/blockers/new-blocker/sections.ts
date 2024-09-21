@@ -57,7 +57,7 @@ const POPULAR: RedditSecBlockConfig = {
 };
 
 const REDDIT_LOGO: RedditSecBlockConfig = {
-  selectors: [],
+  selectors: [""],
   show: true,
   useBlocker: false,
   blockMsg: "",

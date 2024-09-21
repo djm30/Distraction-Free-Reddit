@@ -4,6 +4,7 @@ import { Blocker, RedditSecBlockConfig } from "../../types";
 import * as Helpers from "./helper";
 import DOMController from "../../util/dom-controller";
 import REG_SECTIONS from "./sections";
+import TrendingNews from "./trending-news-block";
 
 let parent: HTMLElement;
 let blocker: HTMLDivElement;
@@ -41,6 +42,8 @@ const block = (url: string, settings: BlockerSettings) => {
     useFullPageBlocker
       ? DOMController.showBlockerElement(blocker, blockMessage)
       : DOMController.hideBlockerElement(blocker);
+
+    TrendingNews.block(settings);
   });
 };
 
@@ -48,6 +51,7 @@ const onload = (url: string, settings: BlockerSettings) => {
   parent = document.querySelector("body") as HTMLElement;
   blocker = Helpers.createBlocker();
   block(url, settings);
+  TrendingNews.initialise(settings);
 };
 
 const RegBlocker: Blocker = {

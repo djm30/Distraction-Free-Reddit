@@ -5,6 +5,12 @@ export interface Blocker {
   onload: (url: string, settings: BlockerSettings) => void;
 }
 
+// For blocks that needs it own setup and block functions
+export interface CustomBlock {
+  initialise: (settings: BlockerSettings) => void;
+  block: (settings: BlockerSettings) => void;
+}
+
 export interface Regexes {
   HOMEPAGE: string;
   SEARCH_PAGE: string;

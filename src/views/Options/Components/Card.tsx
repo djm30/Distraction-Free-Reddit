@@ -9,7 +9,7 @@ interface props {
 
 const Card: React.FC<props> = ({ children, setMenuTab }: props) => {
   return (
-    <div className="bg-cardGrey border-2 border-darkBorder rounded py-6 px-6">
+    <div className="bg-cardGrey border-2 border-darkBorder rounded py-6 px-6 mb-2">
       {/* CARD NAVIGATION */}
       <Navigation setMenuTab={setMenuTab} />
       {children}

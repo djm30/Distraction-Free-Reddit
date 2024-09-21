@@ -1,4 +1,4 @@
-import { RedditSecBlockConfig } from "../../types";
+import { RedditSecBlockConfig, CustomBlock } from "../../types";
 import DOMController from "../../util/dom-controller";
 
 const isDarkMode = () => {

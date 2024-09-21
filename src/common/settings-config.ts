@@ -21,6 +21,7 @@ export interface Blocks {
   comments: boolean;
   subFeed: boolean;
   redditLogo: boolean;
+  trendingNews: boolean;
 }
 
 export enum BlockTypes {
@@ -32,6 +33,7 @@ export enum BlockTypes {
   SEARCH,
   SUB_FEED,
   REDDIT_LOGO,
+  TRENDING_NEWS,
 }
 
 export interface StorageFunctions {
@@ -56,6 +58,7 @@ export const defaultSettings: BlockerSettings = {
     comments: true,
     subFeed: true,
     redditLogo: true,
+    trendingNews: true,
   },
 };
 

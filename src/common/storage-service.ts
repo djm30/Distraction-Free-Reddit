@@ -68,6 +68,9 @@ export const toggleOption = async (option: BlockTypes) => {
     case BlockTypes.REDDIT_LOGO:
       settings.blocks.redditLogo = !settings.blocks.redditLogo;
       break;
+    case BlockTypes.TRENDING_NEWS:
+      settings.blocks.trendingNews = !settings.blocks.trendingNews;
+      break;
   }
 
   await storageFunctions.setSettings(settings);

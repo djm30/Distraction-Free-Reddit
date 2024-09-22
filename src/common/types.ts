@@ -6,7 +6,7 @@ export interface Blocker {
 }
 
 // For blocks that needs it own setup and block functions
-export interface CustomBlock {
+export interface SpecializedBlocker {
   initialise: (settings: BlockerSettings) => void;
   block: (settings: BlockerSettings) => void;
 }

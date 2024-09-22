@@ -50,8 +50,8 @@ const block = (url: string, settings: BlockerSettings) => {
 const onload = (url: string, settings: BlockerSettings) => {
   parent = document.querySelector("body") as HTMLElement;
   blocker = Helpers.createBlocker();
-  block(url, settings);
   TrendingNews.initialise(settings);
+  block(url, settings);
 };
 
 const RegBlocker: Blocker = {

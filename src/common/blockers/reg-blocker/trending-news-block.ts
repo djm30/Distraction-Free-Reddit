@@ -1,9 +1,9 @@
-import { CustomBlock } from "../../types";
+import { SpecializedBlocker } from "../../types";
 import { BlockerSettings } from "../../settings-config";
 
 let localSettings: BlockerSettings;
 
-const RETRY_INTERVAL_MS = 50;
+const RETRY_INTERVAL_MS = 25;
 const MAX_RETRY_DURATION_MS = 500;
 
 const setupSearchInputListeners = (searchInput: HTMLInputElement) => {
@@ -18,7 +18,6 @@ const setupSearchInputListeners = (searchInput: HTMLInputElement) => {
     retryTimeout = stopRetryingAfterTimeout(retryInterval);
   };
 
-  console.log(searchInput);
   searchInput.addEventListener("focus", removeNewsWithRetry);
   searchInput.addEventListener("input", removeNewsWithRetry);
 };
@@ -50,7 +49,8 @@ const getSearchInput = (): HTMLInputElement => {
     ?.shadowRoot?.querySelector("input") as HTMLInputElement;
 };
 
-const getTrendingNewsList = () => searchElementParent()?.querySelector("#reddit-trending-searches-partial-container");
+const getTrendingNewsList = (): HTMLUListElement =>
+  searchElementParent()?.querySelector("#reddit-trending-searches-partial-container") as HTMLUListElement;
 
 const getTrendingNewsHeader = () => getTrendingNewsList()?.previousElementSibling;
 
@@ -72,7 +72,7 @@ const blockTrendingNews = (settings: BlockerSettings) => {
   localSettings = settings;
 };
 
-const TrendingNews: CustomBlock = {
+const TrendingNews: SpecializedBlocker = {
   initialise: initialiseTrendingNewsBlocker,
   block: blockTrendingNews,
 };

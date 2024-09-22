@@ -11,8 +11,6 @@ let settings: BlockerSettings;
 let blocker: Blocker;
 
 const main = () => {
-  logger.info("Hello from content script");
-
   // Recieve messages from service worker
   chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     logger.info("Message Recieved");

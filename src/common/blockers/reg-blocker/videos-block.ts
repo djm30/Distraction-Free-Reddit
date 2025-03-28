@@ -15,6 +15,8 @@ const stopRetryingAfterTimeout = (retryInterval: ReturnType<typeof setInterval>)
 };
 
 const removeVideosPosts = () => {
+    if (!localSettings.enabled || !localSettings.blocks.videos) return;
+
     const removeIfNotInWhitelist = (post: Element) => {
         const subredditTag = post.querySelector('[subreddit-prefixed-name]');
         if (!subredditTag) {
@@ -51,8 +53,6 @@ const removeVideosPosts = () => {
 
         return galleries;
     }
-
-    if (!localSettings.blocks.videos) return;
 
     getRedgifs().forEach(post => removeIfNotInWhitelist(post));
     getGifs().forEach(post => removeIfNotInWhitelist(post));

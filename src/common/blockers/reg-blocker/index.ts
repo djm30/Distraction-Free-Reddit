@@ -5,6 +5,7 @@ import * as Helpers from "./helper";
 import DOMController from "../../util/dom-controller";
 import REG_SECTIONS from "./sections";
 import TrendingNews from "./trending-news-block";
+import VideoBlocker from "./videos-block";
 
 let parent: HTMLElement;
 let blocker: HTMLDivElement;
@@ -44,6 +45,7 @@ const block = (url: string, settings: BlockerSettings) => {
       : DOMController.hideBlockerElement(blocker);
 
     TrendingNews.block(settings);
+    VideoBlocker.block(settings)
   });
 };
 
@@ -51,6 +53,7 @@ const onload = (url: string, settings: BlockerSettings) => {
   parent = document.querySelector("body") as HTMLElement;
   blocker = Helpers.createBlocker();
   TrendingNews.initialise(settings);
+  VideoBlocker.initialise(settings)
   block(url, settings);
 };
 

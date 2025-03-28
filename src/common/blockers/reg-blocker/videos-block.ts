@@ -29,11 +29,11 @@ const removeVideosPosts = () => {
     }
 
     const getRedgifs = () => {
-        return document.querySelectorAll('shreddit-post[content-href*="redgifs.com"]')
+        return document.querySelectorAll('shreddit-post[domain*="redgifs.com"]');
     };
 
     const getGifs = () => {
-        return document.querySelectorAll('shreddit-post[post-type="gif"]')
+        return document.querySelectorAll('shreddit-post[post-type="gif"]');
     }
 
     const getVideos = () => {

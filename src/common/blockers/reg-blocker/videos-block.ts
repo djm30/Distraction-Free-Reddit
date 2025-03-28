@@ -37,7 +37,19 @@ const removeVideosPosts = () => {
     }
 
     const getVideos = () => {
-        return document.querySelectorAll('shreddit-post[post-type="video"]')
+        return document.querySelectorAll('shreddit-post[post-type="video"]');
+    }
+
+    const getGalleriesWithGifs = () => {
+        const galleriesWithGifs = []
+        const galleries = document.querySelectorAll('shreddit-post[post-type="gallery"]');
+
+        galleries.forEach(gallery => {
+            const gifs = gallery.querySelectorAll('img[src*=".gif"]');
+            if (gifs) galleriesWithGifs.push(gallery);
+        });
+
+        return galleries;
     }
 
     if (!localSettings.blocks.videos) return;
@@ -45,6 +57,7 @@ const removeVideosPosts = () => {
     getRedgifs().forEach(post => removeIfNotInWhitelist(post));
     getGifs().forEach(post => removeIfNotInWhitelist(post));
     getVideos().forEach(post => removeIfNotInWhitelist(post));
+    getGalleriesWithGifs().forEach(post => removeIfNotInWhitelist(post));
 };
 
 const setupMutationObserver = () => {

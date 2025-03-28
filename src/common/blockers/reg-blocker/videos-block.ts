@@ -15,6 +15,19 @@ const stopRetryingAfterTimeout = (retryInterval: ReturnType<typeof setInterval>)
 };
 
 const removeVideosPosts = () => {
+    const removeIfNotInWhitelist = (post: Element) => {
+        const subredditTag = post.querySelector('[subreddit-prefixed-name]');
+        if (!subredditTag) {
+            post.remove();
+            return;
+        }
+
+        const subredditName = subredditTag.getAttribute('subreddit-prefixed-name');
+        if (!subredditName || !localSettings.whitelist.includes(subredditName.replace('r/', ''))) {
+            post.remove();
+        }
+    }
+
     const getRedgifs = () => {
         return document.querySelectorAll('shreddit-post[content-href*="redgifs.com"]')
     };
@@ -23,10 +36,15 @@ const removeVideosPosts = () => {
         return document.querySelectorAll('shreddit-post[post-type="gif"]')
     }
 
+    const getVideos = () => {
+        return document.querySelectorAll('shreddit-post[post-type="video"]')
+    }
+
     if (!localSettings.blocks.videos) return;
 
-    getRedgifs().forEach(post => post.remove());
-    getGifs().forEach(post => post.remove());
+    getRedgifs().forEach(post => removeIfNotInWhitelist(post));
+    getGifs().forEach(post => removeIfNotInWhitelist(post));
+    getVideos().forEach(post => removeIfNotInWhitelist(post));
 };
 
 const setupMutationObserver = () => {

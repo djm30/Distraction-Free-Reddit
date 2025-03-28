@@ -129,7 +129,7 @@ const GeneralOptions = ({ show }: Props) => {
       />
       <Option
         title={"Hide Videos"}
-        description={"Hides videos"}
+        description={"Hides videos and gifs, except from subreddits in Whitelist"}
         toggled={videos}
         setToggled={toggleVideos}
       />

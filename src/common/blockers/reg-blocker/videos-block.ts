@@ -15,10 +15,18 @@ const stopRetryingAfterTimeout = (retryInterval: ReturnType<typeof setInterval>)
 };
 
 const removeVideosPosts = () => {
+    const getRedgifs = () => {
+        return document.querySelectorAll('shreddit-post[content-href*="redgifs.com"]')
+    };
+
+    const getGifs = () => {
+        return document.querySelectorAll('shreddit-post[post-type="gif"]')
+    }
+
     if (!localSettings.blocks.videos) return;
 
-    document.querySelectorAll('shreddit-post[content-href*="redgifs.com"]')
-        .forEach(post => post.remove())
+    getRedgifs().forEach(post => post.remove());
+    getGifs().forEach(post => post.remove());
 };
 
 const setupMutationObserver = () => {

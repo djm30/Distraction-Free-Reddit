@@ -22,6 +22,7 @@ const GeneralOptions = ({ show }: Props) => {
       setComments(blocks.comments);
       setRedditLogo(blocks.redditLogo);
       setTrendingNews(blocks.trendingNews);
+      setVideos(blocks.videos)
     });
   }, []);
 
@@ -63,6 +64,9 @@ const GeneralOptions = ({ show }: Props) => {
 
   const [trendingNews, setTrendingNews] = useState(false);
   const toggleTrendingNews = genericToggle(BlockTypes.TRENDING_NEWS, trendingNews, setTrendingNews);
+
+  const [videos, setVideos] = useState(false)
+  const toggleVideos = genericToggle(BlockTypes.VIDEOS, videos, setVideos)
 
   if (!show) return null;
 
@@ -122,6 +126,12 @@ const GeneralOptions = ({ show }: Props) => {
         description={"Hides trending news when searching"}
         toggled={trendingNews}
         setToggled={toggleTrendingNews}
+      />
+      <Option
+        title={"Hide Videos"}
+        description={"Hides videos and gifs, except from subreddits in Whitelist"}
+        toggled={videos}
+        setToggled={toggleVideos}
       />
     </Options>
   );

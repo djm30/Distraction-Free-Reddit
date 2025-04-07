@@ -17,6 +17,7 @@ const getSettings = async (): Promise<BlockerSettings> => {
     subFeed: settingsFromStore.blocks.subFeed,
     redditLogo: settingsFromStore.blocks.redditLogo,
     trendingNews: settingsFromStore.blocks.trendingNews,
+    videos: settingsFromStore.blocks.videos,
   };
 
   const mappedSettings: BlockerSettings = {

@@ -29,7 +29,7 @@ const GeneralOptions = ({ show }: Props) => {
   const genericToggle = (
     block: BlockTypes,
     current: boolean,
-    setCurrent: React.Dispatch<React.SetStateAction<boolean>>,
+    setCurrent: React.Dispatch<React.SetStateAction<boolean>>
   ) => {
     return async () => {
       await toggleOption(block);
@@ -50,9 +50,6 @@ const GeneralOptions = ({ show }: Props) => {
   const [comments, setComments] = useState(false);
   const toggleComments = genericToggle(BlockTypes.COMMENTS, comments, setComments);
 
-  const [search, setSearch] = useState(false);
-  const toggleSearch = genericToggle(BlockTypes.SEARCH, search, setSearch);
-
   const [userFeed, setUserFeed] = useState(false);
   const toggleUserFeed = genericToggle(BlockTypes.USER_FEED, userFeed, setUserFeed);
 
@@ -61,6 +58,9 @@ const GeneralOptions = ({ show }: Props) => {
 
   const [redditLogo, setRedditLogo] = useState(false);
   const toggleRedditLogo = genericToggle(BlockTypes.REDDIT_LOGO, redditLogo, setRedditLogo);
+
+  const [search, setSearch] = useState(false);
+  const toggleSearch = genericToggle(BlockTypes.SEARCH, search, setSearch);
 
   const [trendingNews, setTrendingNews] = useState(false);
   const toggleTrendingNews = genericToggle(BlockTypes.TRENDING_NEWS, trendingNews, setTrendingNews);
@@ -98,12 +98,6 @@ const GeneralOptions = ({ show }: Props) => {
         setToggled={toggleComments}
       />
       <Option
-        title={"Hide Full Search Results"}
-        description={"Hides full page results after searching and pressing enter"}
-        toggled={search}
-        setToggled={toggleSearch}
-      />
-      <Option
         title={"Hide User Feeds"}
         description={"Hides feed shown when you click onto a user's profile"}
         toggled={userFeed}
@@ -120,6 +114,12 @@ const GeneralOptions = ({ show }: Props) => {
         description={"Hides large Reddit logo in the header of the page"}
         toggled={redditLogo}
         setToggled={toggleRedditLogo}
+      />
+      <Option
+        title={"Hide Full Search Results"}
+        description={"Hides full page results after searching and pressing enter"}
+        toggled={search}
+        setToggled={toggleSearch}
       />
       <Option
         title={"Hide Trending News"}

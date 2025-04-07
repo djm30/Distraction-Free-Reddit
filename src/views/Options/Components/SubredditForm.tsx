@@ -7,8 +7,7 @@ interface Props {
 const SubredditForm = ({ addSubreddit }: Props) => {
   const [subReddit, setSubReddit] = useState("r/");
 
-  const validateSubreddit = () =>
-    /^(r\/)[a-zA-Z\d][a-zA-Z\d_]{1,19}$/.test(subReddit);
+  const validateSubreddit = () => /^(r\/)[a-zA-Z\d][a-zA-Z\d_]{1,19}$/.test(subReddit);
 
   const onSubRedditChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.value.substring(0, 2) !== "r/") {
@@ -30,19 +29,14 @@ const SubredditForm = ({ addSubreddit }: Props) => {
   };
 
   return (
-    <form
-      className="mt-5  xl:mx-16 lg:mx-12 md:mx-8 space-x-4 flex text-white text-base"
-      onSubmit={onSubmit}
-    >
-      <button className="py-4 px-14 bg-buttonBlue hover:bg-[#118ff0] transition-all rounded-[4px]">
-        Add
-      </button>
+    <form className="mt-5  xl:mx-16 lg:mx-12 md:mx-8 space-x-4 flex text-importantText text-base" onSubmit={onSubmit}>
+      <button className="py-4 px-14 bg-activeButton hover:bg-activeButtonHover transition-all rounded-full">Add</button>
       <input
         maxLength={22}
         value={subReddit}
         onChange={onSubRedditChange}
         placeholder="r/All"
-        className="py-4 px-10 bg-cardLight w-full rounded-[4px] border-2 border-darkBorder focus:outline-none focus:border-lightBorder"
+        className="py-4 px-10 bg-cardLight hover:bg-cardGrey w-full rounded-full focus:outline-none border-2 border-transparent focus:border-focusBorder"
       />
     </form>
   );

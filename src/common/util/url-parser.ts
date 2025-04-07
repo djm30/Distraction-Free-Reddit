@@ -13,6 +13,7 @@ export const REGEXES = {
   POST: new RegExp(`${BASE_URL_PATTERN.source}/r/(.*)/comments/.*`),
 };
 
+// TODO lets fucking go
 // Finds out the current page and returns the sections that need to be blocked according to the set settings
 export const parseUrl = (
   url: string,
@@ -22,6 +23,7 @@ export const parseUrl = (
 ): RedditSecBlockConfig[] => {
   // What sections of the webpage need blocked?
   let blockedSections: RedditSecBlockConfig[] = [];
+
   if (!settings.enabled) return blockedSections;
 
   blockedSections.push(...BlockFinder.redditLogoBlocks(settings, sections));

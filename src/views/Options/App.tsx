@@ -27,18 +27,6 @@ function App() {
       showBlacklist = true;
   }
 
-  // let optionsToShow: JSX.Element;
-  // switch (menuTab) {
-  //   case tab.GENERAL:
-  //     optionsToShow = <GeneralOptions />;
-  //     break;
-  //   case tab.WHITELIST:
-  //     optionsToShow = <Whitelist />;
-  //     break;
-  //   case tab.BLACKLIST:
-  //     optionsToShow = <Blacklist />;
-  // }
-
   return (
     <Container>
       {/* HEADING */}

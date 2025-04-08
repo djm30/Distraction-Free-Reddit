@@ -43,6 +43,7 @@ const alwaysVisibleBlocks = (settings: BlockerSettings, sections: BlockSections)
 
   if (settings.blocks.notifications) {
     notificationsSection.show = false;
+    notificationsSection.useBlocker = false;
   }
 
   return [alwaysVisibleBlocks, notificationsSection, redditLogoBlock];

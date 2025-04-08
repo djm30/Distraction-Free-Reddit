@@ -13,8 +13,6 @@ const setupSearchInputListeners = (searchInput: HTMLInputElement) => {
   const removeNewsWithRetry = () => {
     removeTrendingNews();
 
-    console.log("Focus event has been fired");
-
     clearTimeout(retryTimeout);
     clearInterval(retryInterval);
     retryInterval = startRetryingToRemoveNews();

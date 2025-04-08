@@ -11,6 +11,7 @@ const getSettings = async (): Promise<BlockerSettings> => {
     all: settingsFromStore.blocks.all,
     comments: settingsFromStore.blocks.comments,
     mainFeed: settingsFromStore.blocks.mainFeed,
+    notifications: settingsFromStore.blocks.notifications,
     sidebar: settingsFromStore.blocks.sidebar,
     search: settingsFromStore.blocks.search,
     userFeed: settingsFromStore.blocks.userFeed,

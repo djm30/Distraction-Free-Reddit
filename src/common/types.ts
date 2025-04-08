@@ -31,10 +31,12 @@ export interface BlockSections {
   MAIN_FEED: RedditSecBlockConfig;
   SIDE_BAR: RedditSecBlockConfig;
   COMMENTS: RedditSecBlockConfig;
+  NOTIFICATIONS: RedditSecBlockConfig;
   USER_FEED: RedditSecBlockConfig;
   SEARCH: RedditSecBlockConfig;
   SUB_FEED: RedditSecBlockConfig;
   POST: RedditSecBlockConfig;
   POPULAR: RedditSecBlockConfig;
   REDDIT_LOGO: RedditSecBlockConfig;
+  ALWAYS_BLOCK: RedditSecBlockConfig;
 }

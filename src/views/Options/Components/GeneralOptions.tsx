@@ -21,6 +21,7 @@ const GeneralOptions = ({ show }: Props) => {
       setSidebar(blocks.sidebar);
       setSearch(blocks.search);
       setComments(blocks.comments);
+      setNotifications(blocks.notifications);
       setRedditLogo(blocks.redditLogo);
       setTrendingNews(blocks.trendingNews);
       setVideos(blocks.videos);
@@ -50,6 +51,9 @@ const GeneralOptions = ({ show }: Props) => {
 
   const [comments, setComments] = useState(false);
   const toggleComments = genericToggle(BlockTypes.COMMENTS, comments, setComments);
+
+  const [notifications, setNotifications] = useState(false);
+  const toggleNotifications = genericToggle(BlockTypes.NOTIFICATIONS, notifications, setNotifications);
 
   const [userFeed, setUserFeed] = useState(false);
   const toggleUserFeed = genericToggle(BlockTypes.USER_FEED, userFeed, setUserFeed);
@@ -99,6 +103,12 @@ const GeneralOptions = ({ show }: Props) => {
           description={"Hides all comments under posts"}
           toggled={comments}
           setToggled={toggleComments}
+        />
+        <Option
+          title={"Hide Notifications"}
+          description={"Hides notification popup and notifications page"}
+          toggled={notifications}
+          setToggled={toggleNotifications}
         />
         <Option
           title={"Hide User Feeds"}

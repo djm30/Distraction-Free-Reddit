@@ -10,14 +10,17 @@ interface Props {
 
 const Option: React.FC<Props> = ({ title, description, toggled, setToggled }) => {
   return (
-    <div className="pb-2 flex justify-between items-center">
+    <div className="py-3 px-2 flex justify-between items-center hover:bg-black/10 transition-colors rounded">
       {/* TEXT */}
-      <div className="flex flex-col justify-center min-w-0 shrink py-1">
-        <span className="text-primaryText text-lg">{title}</span>
-        <span className="text-secondaryText text-base -mt-1">{description}</span>
+      <div className="flex flex-col justify-center min-w-0 shrink max-w-[80%]">
+        <span className="text-primaryText text-lg font-medium">{title}</span>
+        <span className="text-secondaryText text-sm mt-0.5">{description}</span>
       </div>
+
       {/* SWITCH */}
-      <Switch toggled={toggled} setToggled={setToggled} />
+      <div className="flex-shrink-0">
+        <Switch toggled={toggled} setToggled={setToggled} />
+      </div>
     </div>
   );
 };

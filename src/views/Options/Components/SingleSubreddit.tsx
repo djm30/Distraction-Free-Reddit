@@ -7,23 +7,37 @@ interface Props {
 
 const SingleSubreddit = ({ name, removeSubreddit }: Props) => {
   return (
-    <div className="flex last-of-type:border-b-0 items-center justify-between border-b-[.0625rem] border-darkBorder py-4 px-3 text-white text-2xl">
-      <p>r/{name}</p>
-      <svg
+    <div className="flex items-center justify-between py-3 px-4 hover:bg-black/20 group transition-colors">
+      <div className="flex items-center gap-3">
+        <div className="w-8 h-8 bg-gradient-to-br from-orange-500 to-red-500 rounded-full flex items-center justify-center text-white font-bold text-sm">
+          {name.substring(0, 1).toUpperCase()}
+        </div>
+        <p className="text-white text-base font-medium">r/{name}</p>
+      </div>
+
+      <button
         onClick={() => removeSubreddit(name)}
-        className="fill-neutral-400 hover:fill-white cursor-pointer "
-        xmlns="http://www.w3.org/2000/svg"
-        width="24"
-        height="24"
-        viewBox="0 0 24 24"
+        className="p-1.5 rounded-md text-gray-400 hover:text-white hover:bg-red-500/20 transition-colors"
+        aria-label="Remove subreddit"
       >
-        <path d="M8.25 8.25A.75.75 0 0 1 9 9v9a.75.75 0 1 1-1.5 0V9a.75.75 0 0 1 .75-.75Zm3.75 0a.75.75 0 0 1 .75.75v9a.75.75 0 1 1-1.5 0V9a.75.75 0 0 1 .75-.75Zm4.5.75A.75.75 0 1 0 15 9v9a.75.75 0 1 0 1.5 0V9Z" />
-        <path
-          fill-rule="evenodd"
-          d="M21.75 4.5a1.5 1.5 0 0 1-1.5 1.5h-.75v13.5a3 3 0 0 1-3 3h-9a3 3 0 0 1-3-3V6h-.75a1.5 1.5 0 0 1-1.5-1.5V3a1.5 1.5 0 0 1 1.5-1.5H9A1.5 1.5 0 0 1 10.5 0h3A1.5 1.5 0 0 1 15 1.5h5.25a1.5 1.5 0 0 1 1.5 1.5v1.5ZM6.177 6 6 6.088V19.5A1.5 1.5 0 0 0 7.5 21h9a1.5 1.5 0 0 0 1.5-1.5V6.088L17.823 6H6.177ZM3.75 4.5V3h16.5v1.5H3.75Z"
-          clip-rule="evenodd"
-        />
-      </svg>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="18"
+          height="18"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <path d="M3 6h18"></path>
+          <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
+          <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
+          <line x1="10" y1="11" x2="10" y2="17"></line>
+          <line x1="14" y1="11" x2="14" y2="17"></line>
+        </svg>
+      </button>
     </div>
   );
 };

@@ -6,6 +6,7 @@ import NewBlocker from "../common/blockers/new-blocker";
 import OldBlocker from "../common/blockers/old-blocker";
 import RegBlocker from "../common/blockers/reg-blocker";
 import storageFunctions from "../common/storage-service";
+import { dispatchUrlChangedEvent } from "../common/util/url-changed-event";
 
 let settings: BlockerSettings;
 let blocker: Blocker;
@@ -59,6 +60,7 @@ const main = () => {
       url = document.URL;
       logger.info("URL Changed");
       logger.info(url);
+      dispatchUrlChangedEvent(url);
       blocker.block(url, settings);
     }
     mutations.forEach((mutation) => {});

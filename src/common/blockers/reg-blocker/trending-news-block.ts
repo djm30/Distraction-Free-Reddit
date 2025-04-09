@@ -4,9 +4,9 @@ import { BlockerSettings } from "../../settings-config";
 let localSettings: BlockerSettings;
 
 const RETRY_INTERVAL_MS = 25;
-const MAX_RETRY_DURATION_MS = 500;
+const MAX_RETRY_DURATION_MS = 1000;
 
-const setupSearchInputListeners = (searchInput: HTMLInputElement) => {
+const attachSearchInputListeners = (searchInput: HTMLInputElement) => {
   let retryInterval: ReturnType<typeof setInterval>;
   let retryTimeout: ReturnType<typeof setTimeout>;
 
@@ -59,14 +59,33 @@ const getNewsResultsContainer = () => searchElementParent()?.querySelector("#red
 
 const searchElementParent = () => document.querySelector("reddit-search-large")?.shadowRoot;
 
+const setupSearchInputListenersWithRetry = () => {
+  let retryInterval: ReturnType<typeof setInterval>;
+
+  const findSearchAndAddListeners = () => {
+    const searchInput = getSearchInput();
+    if (!searchInput) return;
+
+    attachSearchInputListeners(searchInput);
+    stopRetryingAfterTimeout(retryInterval);
+  };
+
+  retryInterval = setInterval(findSearchAndAddListeners, RETRY_INTERVAL_MS);
+  stopRetryingAfterTimeout(retryInterval);
+};
+
 // Creating CustomBlocker functions
 const initialiseTrendingNewsBlocker = (settings: BlockerSettings) => {
   localSettings = settings;
 
-  const searchInput = getSearchInput();
-  if (!searchInput) return;
+  setupSearchInputListenersWithRetry();
 
-  setupSearchInputListeners(searchInput);
+  // New search input is created every URL change, need to readd listeners
+  document.addEventListener("urlChanged", ((event: CustomEvent) => {
+    console.log("urlChanged");
+    console.log({ event });
+    setupSearchInputListenersWithRetry();
+  }) as EventListener);
 };
 
 const blockTrendingNews = (settings: BlockerSettings) => {

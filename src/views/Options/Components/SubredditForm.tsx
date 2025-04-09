@@ -6,38 +6,19 @@ interface Props {
 
 const SubredditForm = ({ addSubreddit }: Props) => {
   const [subReddit, setSubReddit] = useState("r/");
-  const [error, setError] = useState("");
-
-  const validateSubreddit = () => {
-    const regex = /^(r\/)[a-zA-Z\d][a-zA-Z\d_]{1,19}$/;
-    const isValid = regex.test(subReddit);
-    if (!isValid && subReddit.length > 2) {
-      setError("Invalid subreddit format");
-    } else {
-      setError("");
-    }
-    return isValid;
-  };
 
   const onSubRedditChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.value.substring(0, 2) !== "r/") {
       setSubReddit("r/");
     } else if (e.target.value.length >= 2) {
       setSubReddit(e.target.value.toLowerCase());
-      if (e.target.value.length > 3) {
-        validateSubreddit();
-      }
     }
   };
 
   const onSubmit = (e: FormEvent) => {
     e.preventDefault();
-
-    if (validateSubreddit()) {
-      addSubreddit(subReddit.substring(2));
-      setSubReddit("r/");
-      setError("");
-    }
+    addSubreddit(subReddit.substring(2));
+    setSubReddit("r/");
   };
 
   return (
@@ -49,11 +30,10 @@ const SubredditForm = ({ addSubreddit }: Props) => {
             value={subReddit}
             onChange={onSubRedditChange}
             placeholder="r/All"
-            className={`py-3 pl-4 pr-10 bg-cardLight hover:bg-cardGrey w-full rounded-lg focus:outline-none transition-all border-2 text-white ${
-              error ? "border-red-500" : "border-transparent focus:border-focusBorder"
-            }`}
+            className={`py-3 pl-4 pr-10 bg-cardLight hover:bg-cardGrey w-full rounded-lg focus:outline-none transition-all border-2 text-white border-transparent focus:border-focusBorder
+            `}
           />
-          {subReddit.length > 2 && !error && (
+          {subReddit.length > 4 && (
             <div className="absolute right-3 top-1/2 -translate-y-1/2 text-green-500">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -78,7 +58,6 @@ const SubredditForm = ({ addSubreddit }: Props) => {
           Add Subreddit
         </button>
       </form>
-      {error && <p className="text-red-500 text-sm pl-1">{error}</p>}
     </div>
   );
 };

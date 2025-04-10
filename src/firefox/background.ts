@@ -1,7 +1,6 @@
 import storageFunctions from "../common/storage-service";
-import { parseUrl } from "../common/util/url-parser";
 import logger from "../common/util/logger";
-import { MessageType, Message, HideElementsMessage, SettingsUpdateMessage } from "../common/message-types";
+import { MessageType, SettingsUpdateMessage } from "../common/message-types";
 
 const main = async () => {
   await storageFunctions.initializeSettings();

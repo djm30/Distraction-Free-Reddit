@@ -82,8 +82,6 @@ const initialiseTrendingNewsBlocker = (settings: BlockerSettings) => {
 
   // New search input is created every URL change, need to readd listeners
   document.addEventListener("urlChanged", ((event: CustomEvent) => {
-    console.log("urlChanged");
-    console.log({ event });
     setupSearchInputListenersWithRetry();
   }) as EventListener);
 };

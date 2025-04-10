@@ -11,22 +11,16 @@ const homepageBlocks = (settings: BlockerSettings, sections: BlockSections): Red
   const notificationsSection: RedditSecBlockConfig = { ...sections.NOTIFICATIONS };
 
   if (settings.blocks.mainFeed) {
-    // Configuring main feed section
     mainFeedSection.show = false;
     mainFeedSection.useBlocker = true;
-
-    // Configuring sidebar section
-    sideBarSection.useBlocker = true;
-    notificationsSection.useBlocker = true;
   }
 
-  if (settings.blocks.sidebar) {
-    sideBarSection.show = false;
-  }
+  // Don't need to use full page block for either on the main page
+  sideBarSection.useBlocker = false;
+  sideBarSection.show = !settings.blocks.sidebar;
 
-  if (settings.blocks.notifications) {
-    notificationsSection.show = false;
-  }
+  notificationsSection.useBlocker = false;
+  notificationsSection.show = !settings.blocks.notifications;
 
   return [mainFeedSection, sideBarSection, notificationsSection];
 };
@@ -37,9 +31,7 @@ const alwaysVisibleBlocks = (settings: BlockerSettings, sections: BlockSections)
   const redditLogoBlock: RedditSecBlockConfig = { ...sections.REDDIT_LOGO };
   const alwaysVisibleBlocks: RedditSecBlockConfig = { ...sections.ALWAYS_BLOCK };
 
-  if (settings.blocks.redditLogo) {
-    redditLogoBlock.show = false;
-  }
+  redditLogoBlock.show = !settings.blocks.redditLogo;
 
   if (settings.blocks.notifications) {
     notificationsSection.show = false;

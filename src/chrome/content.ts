@@ -54,7 +54,11 @@ const main = () => {
       url = document.URL;
       logger.info("URL Changed");
       logger.info(url);
+
       dispatchUrlChangedEvent(url);
+      blocker.block(url, settings);
+    } else if (!document.querySelector("#blocker")) {
+      logger.info("Blocker was removed");
       blocker.block(url, settings);
     }
   });

@@ -10,16 +10,13 @@ function App() {
   const openOptions = () => {
     chrome.runtime.openOptionsPage(() => logger.info("Opening the options page"));
   };
-
   const [toggled, setToggled] = useState(true);
   const [mode, setMode] = useState("Standard");
-
   const toggle = async () => {
     await toggleEnabled();
     setToggled(!toggled);
     storageFunctions.sendSettingsResetMessage();
   };
-
   const getMode = (settings: BlockerSettings) => {
     switch (settings.mode) {
       case BlockMode.WHITELIST:
@@ -30,14 +27,12 @@ function App() {
         return "Standard";
     }
   };
-
   useEffect(() => {
     storageFunctions.getSettings().then((settings) => {
       setMode(getMode(settings));
       setToggled(settings.enabled);
     });
   }, []);
-
   return (
     <div className="w-full h-[400px] bg-gradient-to-b from-[#1a1d21] to-[#0e1113] text-gray-100 font-normal flex flex-col">
       <div className="p-3 text-center border-b border-gray-700 bg-black/30 shadow-md">
@@ -45,7 +40,6 @@ function App() {
           <span className="text-activeButtonHover">Distraction Free</span> Reddit
         </h1>
       </div>
-
       <div className="flex-1 flex flex-col p-4">
         <div className="bg-black/20 rounded-lg p-3 shadow-lg border border-gray-800 mb-4">
           <div className="flex items-center justify-between">
@@ -58,7 +52,6 @@ function App() {
               : "Extension is disabled. Reddit will display normally"}
           </p>
         </div>
-
         <div className="bg-black/20 rounded-lg p-3 shadow-lg border border-gray-800">
           <h3 className="text-base font-medium mb-2">Quick Stats</h3>
           <div className="grid grid-cols-2 gap-2">
@@ -74,7 +67,6 @@ function App() {
             </div>
           </div>
         </div>
-
         <div className="mt-auto flex justify-center pt-4">
           <button
             className="flex items-center justify-center gap-2 bg-activeButton hover:bg-activeButtonHover text-white font-medium rounded-lg px-4 py-1.5 transition-all shadow-lg"
@@ -82,6 +74,10 @@ function App() {
           >
             Advanced Options
           </button>
+        </div>
+
+        <div className="text-center mt-3">
+          <span className="text-gray-500 text-xs">v1.3.0</span>
         </div>
       </div>
     </div>

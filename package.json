@@ -20,8 +20,8 @@
     "build": "react-app-rewired build",
     "test": "react-app-rewired test",
     "eject": "react-scripts eject",
-    "firefox": "./build_tool/build_tool firefox",
-    "chrome": "./build_tool/build_tool chrome",
+    "firefox": "cd build_tool/target/release && ./build_tool firefox",
+    "chrome": "cd build_tool/target/release && ./build_tool chrome",
     "both": "npm run firefox && npm run chrome"
   },
   "eslintConfig": {

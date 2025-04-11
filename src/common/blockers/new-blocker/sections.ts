@@ -21,6 +21,13 @@ const COMMENTS: RedditSecBlockConfig = {
   blockMsg: "",
 };
 
+const NOTIFICATIONS: RedditSecBlockConfig = {
+  selectors: [""],
+  show: true,
+  useBlocker: false,
+  blockMsg: "",
+};
+
 const USER_FEED: RedditSecBlockConfig = {
   selectors: ["._31N0dvxfpsO6Ur5AKx4O5d", "._31N0dvxfpsO6Ur5AKx4O5d"], // ._31N0dvxfpsO6Ur5AKx4O5d
   show: true,
@@ -63,16 +70,25 @@ const REDDIT_LOGO: RedditSecBlockConfig = {
   blockMsg: "",
 };
 
+const ALWAYS_BLOCK: RedditSecBlockConfig = {
+  selectors: [""],
+  show: true,
+  useBlocker: false,
+  blockMsg: "",
+};
+
 const NEW_SECTIONS: BlockSections = {
   MAIN_FEED,
   SIDE_BAR,
   COMMENTS,
+  NOTIFICATIONS,
   USER_FEED,
   SEARCH,
   SUB_FEED,
   POST,
   POPULAR,
   REDDIT_LOGO,
+  ALWAYS_BLOCK,
 };
 
 export default NEW_SECTIONS;

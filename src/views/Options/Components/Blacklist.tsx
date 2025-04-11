@@ -31,6 +31,10 @@ const Blacklist = ({ show, menuTab }: Props) => {
   };
 
   const addSubreddit = async (subreddit: string) => {
+    if (blacklist.includes(subreddit)) {
+      return;
+    }
+
     await pushBlacklist(subreddit);
     setBlacklist([...blacklist, subreddit]);
     storageFunctions.sendSettingsResetMessage();

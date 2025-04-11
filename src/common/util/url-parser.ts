@@ -5,7 +5,8 @@ import { RedditSecBlockConfig, BlockSections } from "../types";
 const BASE_URL_PATTERN = /^https?:\/\/(www|new|old)\.reddit\.com/;
 
 export const REGEXES = {
-  HOMEPAGE: new RegExp(`${BASE_URL_PATTERN.source}/(best|hot|new|top/.*|\\?feed=[a-zA-Z0-9_/]*)?/?$`),
+  HOMEPAGE: new RegExp(`${BASE_URL_PATTERN.source}/?(best|hot|new|top/.*|\\?[a-zA-Z0-9_=&]*)?/?$`),
+  NOTIFICATIONS: new RegExp(`${BASE_URL_PATTERN.source}/notifications.*`),
   SEARCH_PAGE: new RegExp(`${BASE_URL_PATTERN.source}/search/?\\?q=.*`),
   ALL_POPULAR: new RegExp(`${BASE_URL_PATTERN.source}/r/(all|popular)/.*$`),
   USER_PROFILE: new RegExp(`${BASE_URL_PATTERN.source}/user/([^/]*)/?(.*)`),
@@ -18,17 +19,22 @@ export const parseUrl = (
   url: string,
   settings: BlockerSettings,
   sections: BlockSections,
-  isUserProfile?: (username: string) => boolean,
+  isUserProfile?: (username: string) => boolean
 ): RedditSecBlockConfig[] => {
-  // What sections of the webpage need blocked?
   let blockedSections: RedditSecBlockConfig[] = [];
+
   if (!settings.enabled) return blockedSections;
 
-  blockedSections.push(...BlockFinder.redditLogoBlocks(settings, sections));
+  blockedSections.push(...BlockFinder.alwaysVisibleBlocks(settings, sections));
   blockedSections.push(...BlockFinder.sideBarBlocks(settings, sections));
+
   switch (true) {
     case REGEXES.HOMEPAGE.test(url):
       blockedSections.push(...BlockFinder.homepageBlocks(settings, sections));
+      break;
+
+    case REGEXES.NOTIFICATIONS.test(url):
+      blockedSections.push(...BlockFinder.notificationsBlocks(settings, sections));
       break;
 
     case REGEXES.SEARCH_PAGE.test(url):
@@ -57,9 +63,6 @@ export const parseUrl = (
     case REGEXES.POST.test(url):
       subreddit = url.match(REGEXES.POST)?.[2];
       blockedSections.push(...BlockFinder.postBlocks(settings, subreddit as string, sections));
-      break;
-
-    default:
       break;
   }
 

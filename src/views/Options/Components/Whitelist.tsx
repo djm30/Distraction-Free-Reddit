@@ -31,6 +31,10 @@ const Whitelist = ({ show, menuTab }: Props) => {
   };
 
   const addSubreddit = async (subreddit: string) => {
+    if (whitelist.includes(subreddit)) {
+      return;
+    }
+
     await pushWhitelist(subreddit);
     setWhitelist([...whitelist, subreddit]);
     storageFunctions.sendSettingsResetMessage();

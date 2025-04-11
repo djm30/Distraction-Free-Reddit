@@ -21,6 +21,13 @@ const COMMENTS: RedditSecBlockConfig = {
   blockMsg: "",
 };
 
+const NOTIFICATIONS: RedditSecBlockConfig = {
+  selectors: ['span[data-part="inbox"]'],
+  show: true,
+  useBlocker: true,
+  blockMsg: "You have blocked access to notifications",
+};
+
 const USER_FEED: RedditSecBlockConfig = {
   selectors: [""],
   show: true,
@@ -63,16 +70,25 @@ const REDDIT_LOGO: RedditSecBlockConfig = {
   blockMsg: "",
 };
 
+const ALWAYS_BLOCK: RedditSecBlockConfig = {
+  selectors: ['span[data-part="advertise"]'],
+  show: false,
+  useBlocker: false,
+  blockMsg: "",
+};
+
 const REG_SECTIONS: BlockSections = {
   MAIN_FEED,
   SIDE_BAR,
   COMMENTS,
+  NOTIFICATIONS,
   USER_FEED,
   SEARCH,
   SUB_FEED,
   POST,
   POPULAR,
   REDDIT_LOGO,
+  ALWAYS_BLOCK,
 };
 
 export default REG_SECTIONS;

@@ -11,9 +11,9 @@ const Navigation = ({ setMenuTab }: props) => {
 
   const getClasses = (linkName: string) => {
     if (linkName === active) {
-      return "text-white border-b-4 py-1 border-white cursor-pointer";
+      return "text-importantText border-b-2 py-3 px-4 border-white cursor-pointer hover:border-secondaryText";
     }
-    return "hover:text-white py-1 cursor-pointer";
+    return "py-3 px-4 cursor-pointer hover:text-importantText hover:border-b-2 hover:border-secondaryText";
   };
 
   const setActiveLink = (linkName: tab) => {
@@ -24,23 +24,14 @@ const Navigation = ({ setMenuTab }: props) => {
   };
 
   return (
-    <div className="border-darkBorder border-b-2 space-x-4 mt-2 pb-2 text-base text-darkText font-bold select-none">
-      <span
-        className={getClasses(tab.GENERAL)}
-        onClick={setActiveLink(tab.GENERAL)}
-      >
+    <div className="space-x-8 pb-2 text-base text-secondaryText  select-none">
+      <span className={getClasses(tab.GENERAL)} onClick={setActiveLink(tab.GENERAL)}>
         General
       </span>
-      <span
-        className={getClasses(tab.WHITELIST)}
-        onClick={setActiveLink(tab.WHITELIST)}
-      >
+      <span className={getClasses(tab.WHITELIST)} onClick={setActiveLink(tab.WHITELIST)}>
         Whitelist
       </span>
-      <span
-        className={getClasses(tab.BLACKLIST)}
-        onClick={setActiveLink(tab.BLACKLIST)}
-      >
+      <span className={getClasses(tab.BLACKLIST)} onClick={setActiveLink(tab.BLACKLIST)}>
         Blacklist
       </span>
     </div>

@@ -45,7 +45,7 @@ const block = (url: string, settings: BlockerSettings) => {
       : DOMController.hideBlockerElement(blocker);
 
     TrendingNews.block(settings);
-    VideoBlocker.block(settings)
+    VideoBlocker.block(settings);
   });
 };
 
@@ -53,7 +53,7 @@ const onload = (url: string, settings: BlockerSettings) => {
   parent = document.querySelector("body") as HTMLElement;
   blocker = Helpers.createBlocker();
   TrendingNews.initialise(settings);
-  VideoBlocker.initialise(settings)
+  VideoBlocker.initialise(settings);
   block(url, settings);
 };
 

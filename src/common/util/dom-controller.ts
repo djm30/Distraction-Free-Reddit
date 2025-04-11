@@ -6,7 +6,8 @@ const hideElement = (section: RedditSecBlockConfig) => {
   section.selectors.forEach((selector) => {
     try {
       const element = document.querySelector(selector) as HTMLDivElement | null;
-      /// If element is not found, its probably because its not in the dom yet, so retry for a bit
+
+      // If element is not found, its probably because its not in the dom yet, so retry for a bit
       if (!element) return hideElementWithRetry(selector);
       // Hiding element by setting display to none
       element.style.display = "none";

@@ -1,5 +1,5 @@
 import { BlockTypes, BlockMode } from "./settings-config";
-import storageFunctions from "../chrome/storage"
+import storageFunctions from "../chrome/storage";
 
 // Need to somehow change this with build script, but allows for native apis to be abstracted behind a single interface
 
@@ -55,6 +55,9 @@ export const toggleOption = async (option: BlockTypes) => {
       break;
     case BlockTypes.COMMENTS:
       settings.blocks.comments = !settings.blocks.comments;
+      break;
+    case BlockTypes.NOTIFICATIONS:
+      settings.blocks.notifications = !settings.blocks.notifications;
       break;
     case BlockTypes.SEARCH:
       settings.blocks.search = !settings.blocks.search;

@@ -1,17 +1,29 @@
 .switch {
-  background-size: 200% 100%;
-  background-image: linear-gradient(to left, #0079d3 50%, #4d4d52 50%);
-  transition: background-position 190ms ease-in-out;
+  /* background-size: 200% 100%; */
+  /* background-image: linear-gradient(to left, #0079d3 50%, #4d4d52 50%); */
+  /* transition: background-position 190ms ease-in-out; */
+  transition: all 150ms;
 }
 
 .unactive {
   background-position: 0% 0%;
-}
-.active {
-  background-position: -100% 0%;
+  @apply bg-inactiveButton;
 }
 
-@keyframes leftToRight {
+.unactive:hover {
+  @apply bg-inactiveButtonHover;
+}
+
+.active {
+  /* background-position: -100% 0%; */
+  @apply bg-activeButton;
+}
+
+.active:hover {
+  @apply bg-activeButtonHover;
+}
+
+/* @keyframes leftToRight {
   0% {
     @apply left-1;
   }
@@ -19,4 +31,4 @@
   100% {
     @apply right-1;
   }
-}
+} */

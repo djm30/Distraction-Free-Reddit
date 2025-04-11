@@ -17,6 +17,7 @@ export interface Blocks {
   search: boolean;
   sidebar: boolean;
   userFeed: boolean;
+  notifications: boolean;
   all: boolean;
   comments: boolean;
   subFeed: boolean;
@@ -30,6 +31,7 @@ export enum BlockTypes {
   USER_FEED,
   ALL,
   COMMENTS,
+  NOTIFICATIONS,
   SIDEBAR,
   SEARCH,
   SUB_FEED,
@@ -55,6 +57,7 @@ export const defaultSettings: BlockerSettings = {
     mainFeed: true,
     search: true,
     sidebar: true,
+    notifications: true,
     userFeed: true,
     all: true,
     comments: true,

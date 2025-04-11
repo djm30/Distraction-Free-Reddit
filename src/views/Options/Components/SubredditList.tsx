@@ -1,4 +1,4 @@
-import React, { FormEvent, useState } from "react";
+import React from "react";
 import SingleSubreddit from "./SingleSubreddit";
 import SubredditForm from "./SubredditForm";
 import styles from "./SubredditList.module.css";
@@ -9,28 +9,30 @@ interface Props {
   removeSubreddit: (subreddit: string) => void;
 }
 
-const SubredditList = ({
-  subreddits,
-  addSubreddit,
-  removeSubreddit,
-}: Props) => {
+const SubredditList = ({ subreddits, addSubreddit, removeSubreddit }: Props) => {
   return (
-    <div className="xl:mx-20 lg:mx-10 mx-5 border-2 border-transparent h-[450px]">
-      {/* INPUT */}
+    <div className="w-full border-transparent">
       <SubredditForm addSubreddit={addSubreddit} />
-      {/* SUBREDDIT LIST */}
-      <div
-        className={`mt-10 relative xl:mx-16 lg:mx-12 md:mx-8 h-80  ${styles.scrollbar}`}
-      >
-        <div
-          className={`border-2 min-h-[70px] border-darkBorder rounded-[4px] overflow-hidden ${styles.subredditList}`}
-        >
-          {subreddits.map((subreddit) => (
-            <SingleSubreddit
-              name={subreddit}
-              removeSubreddit={removeSubreddit}
-            />
-          ))}
+
+      <div className="mt-6 bg-cardDark rounded-lg  border-0">
+        <div className="p-3 border-b border-gray-700 flex justify-between items-center">
+          <h3 className="text-lg font-medium text-white">Subreddits</h3>
+          <span className="bg-gray-700 text-white text-xs font-medium px-2 py-1 rounded-full">{subreddits.length}</span>
+        </div>
+
+        <div className={`h-64 overflow-y-auto ${styles.scrollbar}`}>
+          {subreddits.length > 0 ? (
+            <div className="divide-y divide-gray-700">
+              {subreddits.map((subreddit) => (
+                <SingleSubreddit key={subreddit} name={subreddit} removeSubreddit={removeSubreddit} />
+              ))}
+            </div>
+          ) : (
+            <div className="flex flex-col items-center justify-center h-full text-gray-400 p-4">
+              <p className="mt-2">No subreddits added yet</p>
+              <p className="text-sm">Add subreddits using the form above</p>
+            </div>
+          )}
         </div>
       </div>
     </div>

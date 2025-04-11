@@ -2,7 +2,6 @@ name: Publish extension
 run-name:
 
 on:
-  workflow_dispatch:
   release:
     types: [published]
 
@@ -44,20 +43,14 @@ jobs:
       - name: Zip source code
         run: zip -r source-code.zip . --exclude '*.git*' '*.github/*' 'node_modules/*' 'build_*'
 
-      - name: Upload firefox build
+      - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: firefox-build
-          path: |
-            build_firefox.zip
-            source-code.zip
-
-      - name: Upload chrome build
-        uses: actions/upload-artifact@v4
-        with:
-          name: chrome-build
+          name: build-artifacts
           path: |
             build_chrome.zip
+            build_firefox.zip
+            source-code.zip
 
   publish-firefox:
     name: Publish to Firefox Addons
@@ -67,20 +60,17 @@ jobs:
       - name: Download artifacts
         uses: actions/download-artifact@v4
         with:
-          name: firefox-build
+          name: build-artifacts
 
-      - name: List directory contents (Firefox)
-        run: ls -la
-
-      # - name: Publish to Firefox Addons
-      #   uses: wdzeng/firefox-addon@v1
-      #   with:
-      #     addon-guid: ${{ secrets.FIREFOX_EXTENSION_ID }}
-      #     xpi-path: ./build_firefox.zip
-      #     source-file-path: ./source-code.zip
-      #     self-hosted: false
-      #     jwt-issuer: ${{ secrets.FIREFOX_ISSUER }}
-      #     jwt-secret: ${{ secrets.FIREFOX_SECRET }}
+      - name: Publish to Firefox Addons
+        uses: wdzeng/firefox-addon@v1
+        with:
+          addon-guid: ${{ secrets.FIREFOX_EXTENSION_ID }}
+          xpi-path: ./build_firefox.zip
+          source-file-path: ./source-code.zip
+          self-hosted: false
+          jwt-issuer: ${{ secrets.FIREFOX_ISSUER }}
+          jwt-secret: ${{ secrets.FIREFOX_SECRET }}
 
   publish-chrome:
     name: Publish to Chrome Web Store
@@ -90,16 +80,13 @@ jobs:
       - name: Download artifacts
         uses: actions/download-artifact@v4
         with:
-          name: chrome-build
+          name: build-artifacts
 
-      - name: List directory contents (Firefox)
-        run: ls -la
-
-      # - name: Publish to Chrome Web Store
-      #   uses: wdzeng/chrome-extension@v1
-      #   with:
-      #     extension-id: ${{ secrets.CHROME_EXTENSION_ID }}
-      #     zip-path: ./build_chrome.zip
-      #     client-id: ${{ secrets.CHROME_CLIENT_ID }}
-      #     client-secret: ${{ secrets.CHROME_CLIENT_SECRET }}
-      #     refresh-token: ${{ secrets.CHROME_REFRESH_TOKEN }}
+      - name: Publish to Chrome Web Store
+        uses: wdzeng/chrome-extension@v1
+        with:
+          extension-id: ${{ secrets.CHROME_EXTENSION_ID }}
+          zip-path: ./build_chrome.zip
+          client-id: ${{ secrets.CHROME_CLIENT_ID }}
+          client-secret: ${{ secrets.CHROME_CLIENT_SECRET }}
+          refresh-token: ${{ secrets.CHROME_REFRESH_TOKEN }}

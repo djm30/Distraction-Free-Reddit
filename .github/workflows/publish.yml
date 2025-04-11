@@ -48,6 +48,7 @@ jobs:
         with:
           name: build-artifacts
           path: |
+            .github/actions/upload-release-assets.js
             build_chrome.zip
             build_firefox.zip
             source-code.zip

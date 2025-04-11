@@ -1,13 +1,13 @@
 name: Publish extension
-# Configure the workflow to run when a new release has been published
+
 on:
   workflow_dispatch:
   release:
     types: [published]
 
 jobs:
-  release:
-    name: Release
+  build:
+    name: Build Extension
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -25,37 +25,74 @@ jobs:
         with:
           node-version: "18"
 
-      - name: Zip source code
-        run: zip -r source-code.zip . --exclude '*.git*' '*.github/*' 'node_modules/*' 'build_*'
-
       - name: Install dependencies
         run: npm ci
 
       - name: Build Chrome
         run: npm run chrome
 
-      - name: Zip Chrome build
-        run: cd ./build_chrome && zip -r ../build_chrome.zip *
-
       - name: Build Firefox
         run: npm run firefox
+
+      - name: Zip Chrome build
+        run: cd ./build_chrome && zip -r ../build_chrome.zip *
 
       - name: Zip Firefox build
         run: cd ./build_firefox && zip -r ../build_firefox.zip *
 
-      #   - name: Publish to Firefox Addons
-      #     uses: wdzeng/firefox-addon@v1
-      #     with:
-      #       addon-guid: e14163a1-321a-4c12-a85d-1f25d68fe047
-      #       xpi-path: ./build_firefox.zip
-      #       self-hosted: false
-      #       jwt-issuer: ${{ secrets.FIREFOX_ISSUER }}
-      #       jwt-secret: ${{ secrets.FIREFOX_SECRET }}
+      - name: Zip source code
+        run: zip -r source-code.zip . --exclude '*.git*' '*.github/*' 'node_modules/*' 'build_*'
 
-      - name: Publish to Chrome Web Store
-        uses: wdzeng/chrome-extension@v1
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
         with:
-          client-id: ${{ secrets.CHROME_CLIENT_ID }}
-          client-secret: ${{ secrets.CHROME_CLIENT_SECRET }}
-          refresh-token: ${{ secrets.CHROME_REFRESH_TOKEN }}
-          check-credentials-only: true
+          name: build-artifacts
+          path: |
+            build_chrome.zip
+            build_firefox.zip
+            source-code.zip
+
+  publish-firefox:
+    name: Publish to Firefox Addons
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: build-artifacts
+
+      - name: List directory contents (Firefox)
+        run: ls -la
+
+      # - name: Publish to Firefox Addons
+      #   uses: wdzeng/firefox-addon@v1
+      #   with:
+      #     addon-guid: ${{ secrets.FIREFOX_EXTENSION_ID }}
+      #     xpi-path: ./build_firefox.zip
+      #     source-file-path: ./source-code.zip
+      #     self-hosted: false
+      #     jwt-issuer: ${{ secrets.FIREFOX_ISSUER }}
+      #     jwt-secret: ${{ secrets.FIREFOX_SECRET }}
+
+  publish-chrome:
+    name: Publish to Chrome Web Store
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: build-artifacts
+
+      - name: List directory contents (Firefox)
+        run: ls -la
+
+      # - name: Publish to Chrome Web Store
+      #   uses: wdzeng/chrome-extension@v1
+      #   with:
+      #     extension-id: ${{ secrets.CHROME_EXTENSION_ID }}
+      #     zip-path: ./build_chrome.zip
+      #     client-id: ${{ secrets.CHROME_CLIENT_ID }}
+      #     client-secret: ${{ secrets.CHROME_CLIENT_SECRET }}
+      #     refresh-token: ${{ secrets.CHROME_REFRESH_TOKEN }}

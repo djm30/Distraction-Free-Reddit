@@ -44,14 +44,20 @@ jobs:
       - name: Zip source code
         run: zip -r source-code.zip . --exclude '*.git*' '*.github/*' 'node_modules/*' 'build_*'
 
-      - name: Upload artifacts
+      - name: Upload firefox build
         uses: actions/upload-artifact@v4
         with:
-          name: build-artifacts
+          name: firefox-build
           path: |
-            build_chrome.zip
             build_firefox.zip
             source-code.zip
+
+      - name: Upload chrome build
+        uses: actions/upload-artifact@v4
+        with:
+          name: chrome-build
+          path: |
+            build_chrome.zip
 
   publish-firefox:
     name: Publish to Firefox Addons
@@ -61,7 +67,7 @@ jobs:
       - name: Download artifacts
         uses: actions/download-artifact@v4
         with:
-          name: build-artifacts
+          name: firefox-build
 
       - name: List directory contents (Firefox)
         run: ls -la
@@ -84,7 +90,7 @@ jobs:
       - name: Download artifacts
         uses: actions/download-artifact@v4
         with:
-          name: build-artifacts
+          name: chrome-build
 
       - name: List directory contents (Firefox)
         run: ls -la

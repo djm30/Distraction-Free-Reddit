@@ -1,4 +1,5 @@
 name: Publish extension
+run-name:
 
 on:
   workflow_dispatch:
@@ -44,7 +45,7 @@ jobs:
         run: zip -r source-code.zip . --exclude '*.git*' '*.github/*' 'node_modules/*' 'build_*'
 
       - name: Upload artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: build-artifacts
           path: |
@@ -58,7 +59,7 @@ jobs:
     needs: build
     steps:
       - name: Download artifacts
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: build-artifacts
 
@@ -81,7 +82,7 @@ jobs:
     needs: build
     steps:
       - name: Download artifacts
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: build-artifacts
 

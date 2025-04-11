@@ -90,3 +90,25 @@ jobs:
           client-id: ${{ secrets.CHROME_CLIENT_ID }}
           client-secret: ${{ secrets.CHROME_CLIENT_SECRET }}
           refresh-token: ${{ secrets.CHROME_REFRESH_TOKEN }}
+
+  attach-release-assets:
+    name: Attach Artifacts to Release
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: build-artifacts
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+
+      - name: Install Octokit
+        run: npm install @octokit/action
+
+      - run: node .github/actions/my-script.js
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

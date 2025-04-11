@@ -1,5 +1,5 @@
 name: Publish extension
-run-name:
+run-name: Publishing release ${{ github.event.release.tag_name }}
 
 on:
   release:

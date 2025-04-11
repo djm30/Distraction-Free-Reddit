@@ -30,22 +30,18 @@ export const parseUrl = (
 
   switch (true) {
     case REGEXES.HOMEPAGE.test(url):
-      console.log("HOMEPAGE");
       blockedSections.push(...BlockFinder.homepageBlocks(settings, sections));
       break;
 
     case REGEXES.NOTIFICATIONS.test(url):
-      console.log("NOTIFICATIONS");
       blockedSections.push(...BlockFinder.notificationsBlocks(settings, sections));
       break;
 
     case REGEXES.SEARCH_PAGE.test(url):
-      console.log("SEARCH_PAGE");
       blockedSections.push(...BlockFinder.searchPageBlocks(settings, sections));
       break;
 
     case REGEXES.ALL_POPULAR.test(url):
-      console.log("ALL_POPULAR");
       blockedSections.push(...BlockFinder.allPopularBlocks(settings, sections));
       break;
 
@@ -70,6 +66,5 @@ export const parseUrl = (
       break;
   }
 
-  console.log(blockedSections);
   return blockedSections;
 };

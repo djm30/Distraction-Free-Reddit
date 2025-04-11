@@ -2,7 +2,6 @@ import logger from "../common/util/logger";
 import { MessageType, Message, SettingsUpdateMessage } from "../common/message-types";
 import { BlockerSettings } from "../common/settings-config";
 import { Blocker } from "../common/types";
-import NewBlocker from "../common/blockers/new-blocker";
 import OldBlocker from "../common/blockers/old-blocker";
 import RegBlocker from "../common/blockers/reg-blocker";
 import storageFunctions from "../common/storage-service";
@@ -40,7 +39,7 @@ const main = () => {
 
   switch (subdomain.slice(0, -1)) {
     case "new":
-      blocker = NewBlocker;
+      blocker = RegBlocker;
       logger.info("NEW BLOCKER LOADED");
       break;
     case "old":

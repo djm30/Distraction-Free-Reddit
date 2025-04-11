@@ -3,7 +3,6 @@ import { MessageType, SettingsUpdateMessage } from "../common/message-types";
 import logger from "../common/util/logger";
 import storageFunctions from "../common/storage-service";
 import { BlockerSettings } from "../common/settings-config";
-import NewBlocker from "../common/blockers/new-blocker";
 import OldBlocker from "../common/blockers/old-blocker";
 import RegBlocker from "../common/blockers/reg-blocker";
 import { dispatchUrlChangedEvent } from "../common/util/url-changed-event";

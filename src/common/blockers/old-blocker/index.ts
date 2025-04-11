@@ -1,4 +1,3 @@
-import { parseUrl } from "../../util/url-parser";
 import { BlockerSettings } from "../../settings-config";
 import { Blocker } from "../../types";
 

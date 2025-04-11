@@ -1,0 +1,53 @@
+name: Publish extension
+# Configure the workflow to run when a new release has been published
+on:
+  release:
+    types: [published]
+
+jobs:
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+
+      - name: Zip source code
+        run: zip -r source-code.zip . --exclude '*.git*' '*.github/*' 'node_modules/*' 'build_*'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build Chrome
+        run: npm run chrome
+
+      - name: Zip Chrome build
+        run: cd ./build_chrome && zip -r ../build_chrome.zip *
+
+      - name: Build Firefox
+        run: npm run firefox
+
+      - name: Zip Firefox build
+        run: cd ./build_firefox && zip -r ../build_firefox.zip *
+
+      #   - name: Publish to Firefox Addons
+      #     uses: wdzeng/firefox-addon@v1
+      #     with:
+      #       addon-guid: e14163a1-321a-4c12-a85d-1f25d68fe047
+      #       xpi-path: ./build_firefox.zip
+      #       self-hosted: false
+      #       jwt-issuer: ${{ secrets.FIREFOX_ISSUER }}
+      #       jwt-secret: ${{ secrets.FIREFOX_SECRET }}
+
+      - name: Publish to Chrome Web Store
+        uses: wdzeng/chrome-extension@v1
+        with:
+          client-id: ${{ secrets.CHROME_CLIENT_ID }}
+          client-secret: ${{ secrets.CHROME_CLIENT_SECRET }}
+          refresh-token: ${{ secrets.CHROME_REFRESH_TOKEN }}
+          check-credentials-only: true

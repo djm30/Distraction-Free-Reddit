@@ -40,7 +40,7 @@ const main = () => {
 
   switch (subdomain.slice(0, -1)) {
     case "new":
-      blocker = NewBlocker;
+      blocker = RegBlocker;
       logger.info("NEW BLOCKER LOADED");
       break;
     case "old":

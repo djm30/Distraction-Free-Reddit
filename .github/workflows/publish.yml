@@ -109,6 +109,6 @@ jobs:
       - name: Install Octokit
         run: npm install @octokit/action
 
-      - run: node .github/actions/my-script.js
+      - run: node .github/actions/add-release-assets.js
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

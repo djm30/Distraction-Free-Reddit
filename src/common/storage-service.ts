@@ -1,7 +1,8 @@
 import { BlockTypes, BlockMode } from "./settings-config";
-import storageFunctions from "../chrome/storage";
+import chromeStorage from "../chrome/storage";
+import firefoxStorage from "../firefox/storage";
 
-// Need to somehow change this with build script, but allows for native apis to be abstracted behind a single interface
+const storageFunctions = import.meta.env.VITE_BROWSER === "firefox" ? firefoxStorage : chromeStorage;
 
 export default storageFunctions;
 

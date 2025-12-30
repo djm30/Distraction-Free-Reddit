@@ -80,6 +80,7 @@ storageFunctions
     settings = storedSettings;
     logger.info("SETTINGS LOADED");
     main();
+    console.timeEnd("Main method started");
   })
   .catch((e) => {
     logger.error(e);

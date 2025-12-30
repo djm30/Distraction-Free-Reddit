@@ -5,7 +5,7 @@
   "description": "Remove the distracting parts of reddit and focus only on what really matters to you.",
   "permissions": ["activeTab", "storage", "tabs"],
   "background": {
-    "scripts": ["./static/js/background.js"],
+    "scripts": ["src/background.ts"],
     "persistent": true
   },
   "browser_action": {
@@ -17,7 +17,7 @@
   },
   "content_scripts": [
     {
-      "js": ["./static/js/content.js"],
+      "js": ["src/content.ts"],
       "matches": ["*://*.reddit.com/*"],
       "run_at": "document_end"
     }

@@ -5,11 +5,12 @@
   "description": "Remove the distracting parts of reddit and focus only on what really matters to you.",
   "permissions": ["storage", "tabs"],
   "background": {
-    "service_worker": "./static/js/background.js"
+    "service_worker": "src/background.ts",
+    "type": "module"
   },
   "content_scripts": [
     {
-      "js": ["./static/js/content.js"],
+      "js": ["src/content.ts"],
       "matches": ["*://*.reddit.com/*"],
       "run_at": "document_end"
     }

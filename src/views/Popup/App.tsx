@@ -77,7 +77,7 @@ function App() {
         </div>
 
         <div className="text-center mt-3">
-          <span className="text-gray-500 text-xs">v1.3.0</span>
+          <span className="text-gray-500 text-xs">v1.3.1</span>
         </div>
       </div>
     </div>

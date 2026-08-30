@@ -7,11 +7,15 @@ import { classifyPage, PageType } from "./common/util/url-parser";
 import { onUrlChange } from "./common/util/navigation";
 import logger from "./common/util/logger";
 
-const OWN_PROFILE_RETRY_INTERVAL_MS = 200;
-const OWN_PROFILE_RETRY_TIMEOUT_MS = 3000;
+const OWN_PROFILE_POLL_INTERVAL_MS = 200;
+// Polling starts at document_start, before Reddit has rendered anything, so the
+// budget has to cover a cold page load rather than just a slow render.
+const OWN_PROFILE_TIMEOUT_MS = 10000;
 
 let settings: BlockerSettings;
 let isOwnProfile: boolean | undefined;
+/** Bumped on every navigation so an in-flight lookup can tell it has been superseded */
+let navigationId = 0;
 
 const refresh = () => {
   applyBlocks(computeBlocks(document.URL, settings, { isOwnProfile }));
@@ -19,38 +23,57 @@ const refresh = () => {
   updateTrendingShim(settings);
 };
 
-const findLoggedInUsername = (): string | null => {
-  const profileLink = document.querySelector<HTMLAnchorElement>("faceplate-tracker[noun=profile] a");
-  if (!profileLink) return null;
+/**
+ * Reddit tags every profile page with the viewer's relationship to it:
+ * {"profile":{"name":"someone","context":"owner"|"visitor"}}. The name is
+ * checked against the url so a stale element left behind by the previous soft
+ * navigation is ignored rather than trusted.
+ *
+ * Returns null while the answer is not yet knowable.
+ */
+const readProfileOwnership = (urlUsername: string): boolean | null => {
+  const data = document.querySelector("shreddit-screenview-data")?.getAttribute("data");
+  if (!data) return null;
 
-  const segments = profileLink.href.split("/").filter(Boolean);
-  return segments[segments.length - 1] ?? null;
+  let profile: { name?: string; context?: string } | undefined;
+  try {
+    profile = JSON.parse(data).profile;
+  } catch {
+    return null;
+  }
+
+  if (profile?.name?.toLowerCase() !== urlUsername.toLowerCase()) return null;
+  return profile.context === "owner";
 };
 
 /**
- * Profile pages start blocked; once the DOM reveals who is logged in, the
- * block is lifted if the profile belongs to the user. The logged-in indicator
- * renders asynchronously, hence the brief retry loop.
+ * Profile pages start blocked; the block is lifted only once Reddit confirms
+ * the page belongs to the logged-in user.
  */
 const resolveOwnProfile = (urlUsername: string) => {
-  const check = (): boolean => {
-    const loggedInUsername = findLoggedInUsername();
-    if (loggedInUsername === null) return false;
+  const requestId = navigationId;
 
-    isOwnProfile = loggedInUsername === urlUsername;
+  const check = (): boolean => {
+    const owned = readProfileOwnership(urlUsername);
+    if (owned === null) return false;
+
+    isOwnProfile = owned;
     if (isOwnProfile) refresh();
     return true;
   };
 
   if (check()) return;
 
-  const retryInterval = setInterval(() => {
-    if (check()) clearInterval(retryInterval);
-  }, OWN_PROFILE_RETRY_INTERVAL_MS);
-  setTimeout(() => clearInterval(retryInterval), OWN_PROFILE_RETRY_TIMEOUT_MS);
+  const poll = setInterval(() => {
+    // Stop early if a later navigation has taken over
+    if (requestId !== navigationId || check()) clearInterval(poll);
+  }, OWN_PROFILE_POLL_INTERVAL_MS);
+
+  setTimeout(() => clearInterval(poll), OWN_PROFILE_TIMEOUT_MS);
 };
 
 const handleUrl = (url: string) => {
+  navigationId += 1;
   isOwnProfile = undefined;
   refresh();
   reapplyTrendingShim();

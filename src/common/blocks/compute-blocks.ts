@@ -17,6 +17,7 @@ export const ATTRIBUTES = {
   HIDE_SUB_FEED: "data-dfr-hide-subfeed",
   HIDE_POST: "data-dfr-hide-post",
   HIDE_POPULAR: "data-dfr-hide-popular",
+  HIDE_EXPLORE: "data-dfr-hide-explore",
   HIDE_USER_FEED: "data-dfr-hide-userfeed",
   HIDE_LOGO: "data-dfr-hide-logo",
   HIDE_ADS: "data-dfr-hide-ads",
@@ -28,6 +29,7 @@ export const MESSAGES = {
   NOTIFICATIONS: "You have blocked access to notifications",
   SEARCH: "Search Results have been blocked",
   ALL_POPULAR: "You have blocked access to r/All and r/Popular",
+  EXPLORE: "You have blocked access to the Explore page",
   SUB_FEED: "You have blocked access to Subreddit feeds",
   USER_PROFILES: "Access to user profiles has been blocked",
   blacklisted: (subreddit: string) => `r/${subreddit} is on your blacklist`,
@@ -108,6 +110,10 @@ export const computeBlocks = (
 
     case PageType.ALL_POPULAR:
       if (settings.blocks.all) blockFullPage(ATTRIBUTES.HIDE_POPULAR, MESSAGES.ALL_POPULAR);
+      break;
+
+    case PageType.EXPLORE:
+      if (settings.blocks.explore) blockFullPage(ATTRIBUTES.HIDE_EXPLORE, MESSAGES.EXPLORE);
       break;
 
     case PageType.USER_PROFILE:

@@ -39,6 +39,13 @@ html[data-dfr-hide-popular] #all-posts {
   display: none !important;
 }
 
+/* ===== Explore ===== */
+html[data-dfr-hide-explore] .main-container,
+html[data-dfr-hide-explore] shreddit-feed,
+html[data-dfr-hide-explore] #main-content {
+  display: none !important;
+}
+
 /* ===== Sidebars ===== */
 html[data-dfr-hide-sidebar] #left-sidebar-container,
 html[data-dfr-hide-sidebar] #right-sidebar-container,
@@ -97,13 +104,12 @@ html[data-dfr-hide-ads] shreddit-ad-post {
 
 /* ===== Full page overlay =====
  * Lives directly under <html>, outside Reddit's React root, so it never gets
- * removed by their renderer. Offset below the 57px header so navigation stays
- * usable. */
+ * removed by their renderer. */
 #dfr-blocker {
   display: none;
   position: fixed;
-  inset: 57px 0 0;
-  z-index: 50;
+  inset: 0;
+  z-index: 3;
   justify-content: center;
   align-items: center;
   text-align: center;

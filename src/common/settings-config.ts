@@ -19,6 +19,7 @@ export interface Blocks {
   userFeed: boolean;
   notifications: boolean;
   all: boolean;
+  explore: boolean;
   comments: boolean;
   subFeed: boolean;
   redditLogo: boolean;
@@ -30,6 +31,7 @@ export enum BlockTypes {
   MAIN_FEED,
   USER_FEED,
   ALL,
+  EXPLORE,
   COMMENTS,
   NOTIFICATIONS,
   SIDEBAR,
@@ -60,6 +62,7 @@ export const defaultSettings: BlockerSettings = {
     notifications: true,
     userFeed: true,
     all: true,
+    explore: true,
     comments: true,
     subFeed: true,
     redditLogo: true,

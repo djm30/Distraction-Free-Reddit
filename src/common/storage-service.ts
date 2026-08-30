@@ -48,6 +48,9 @@ export const toggleOption = async (option: BlockTypes) => {
     case BlockTypes.ALL:
       settings.blocks.all = !settings.blocks.all;
       break;
+    case BlockTypes.EXPLORE:
+      settings.blocks.explore = !settings.blocks.explore;
+      break;
     case BlockTypes.MAIN_FEED:
       settings.blocks.mainFeed = !settings.blocks.mainFeed;
       break;

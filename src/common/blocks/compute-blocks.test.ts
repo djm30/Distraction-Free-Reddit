@@ -7,6 +7,7 @@ const HOMEPAGE_URL = "https://www.reddit.com/";
 const NOTIFICATIONS_URL = "https://www.reddit.com/notifications";
 const SEARCH_URL = "https://www.reddit.com/search/?q=cats";
 const POPULAR_URL = "https://www.reddit.com/r/popular/";
+const EXPLORE_URL = "https://www.reddit.com/explore/";
 const ALL_URL = "https://www.reddit.com/r/all/";
 const SUBREDDIT_URL = "https://www.reddit.com/r/programming/";
 const POST_URL = "https://www.reddit.com/r/programming/comments/abc123/some_post/";
@@ -20,6 +21,7 @@ const allBlocksDisabled: Blocks = {
   userFeed: false,
   notifications: false,
   all: false,
+  explore: false,
   comments: false,
   subFeed: false,
   redditLogo: false,
@@ -52,6 +54,45 @@ describe("classifyPage", () => {
       type: PageType.SUBREDDIT,
       subreddit: "programming",
     });
+  });
+
+  it("identifies a subreddit regardless of the sort appended to the url", () => {
+    for (const sort of ["new", "hot", "top", "best", "rising"]) {
+      expect(classifyPage(`https://www.reddit.com/r/programming/${sort}`)).toEqual({
+        type: PageType.SUBREDDIT,
+        subreddit: "programming",
+      });
+    }
+  });
+
+  it("identifies a subreddit when the url carries a sort path, query string or fragment", () => {
+    expect(classifyPage("https://www.reddit.com/r/programming/top/?t=week")).toEqual({
+      type: PageType.SUBREDDIT,
+      subreddit: "programming",
+    });
+    expect(classifyPage("https://www.reddit.com/r/programming/?f=flair_name")).toEqual({
+      type: PageType.SUBREDDIT,
+      subreddit: "programming",
+    });
+    expect(classifyPage("https://www.reddit.com/r/programming#section")).toEqual({
+      type: PageType.SUBREDDIT,
+      subreddit: "programming",
+    });
+  });
+
+  it("does not treat a subreddit whose name merely starts with all or popular as ALL_POPULAR", () => {
+    expect(classifyPage("https://www.reddit.com/r/alltheleftpodcasts").type).toBe(PageType.SUBREDDIT);
+    expect(classifyPage("https://www.reddit.com/r/popularopinion/new").type).toBe(PageType.SUBREDDIT);
+  });
+
+  it("still prefers POST over SUBREDDIT for comment urls", () => {
+    expect(classifyPage(POST_URL)).toEqual({ type: PageType.POST, subreddit: "programming" });
+  });
+
+  it("identifies the explore page with or without a trailing path", () => {
+    expect(classifyPage(EXPLORE_URL).type).toBe(PageType.EXPLORE);
+    expect(classifyPage("https://www.reddit.com/explore").type).toBe(PageType.EXPLORE);
+    expect(classifyPage("https://www.reddit.com/explore/?category=gaming").type).toBe(PageType.EXPLORE);
   });
 
   it("identifies r/all and r/popular as ALL_POPULAR rather than regular subreddits", () => {
@@ -163,6 +204,28 @@ describe("computeBlocks", () => {
     });
   });
 
+  describe("on the explore page", () => {
+    it("does not block when the explore block is disabled", () => {
+      const decision = computeBlocks(EXPLORE_URL, createSettings());
+
+      expect(decision.attributes).not.toContain(ATTRIBUTES.HIDE_EXPLORE);
+      expect(decision.overlayMessage).toBeNull();
+    });
+
+    it("blocks the explore page when the explore block is enabled", () => {
+      const decision = computeBlocks(EXPLORE_URL, createSettings({ blocks: { explore: true } }));
+
+      expect(decision.attributes).toContain(ATTRIBUTES.HIDE_EXPLORE);
+      expect(decision.overlayMessage).toBe(MESSAGES.EXPLORE);
+    });
+
+    it("is independent of the r/all and r/popular block", () => {
+      const decision = computeBlocks(EXPLORE_URL, createSettings({ blocks: { all: true } }));
+
+      expect(decision.overlayMessage).toBeNull();
+    });
+  });
+
   describe("on a subreddit page", () => {
     it("does not block in standard mode when the sub feed block is disabled", () => {
       const decision = computeBlocks(SUBREDDIT_URL, createSettings());
@@ -175,6 +238,24 @@ describe("computeBlocks", () => {
 
       expect(decision.attributes).toContain(ATTRIBUTES.HIDE_SUB_FEED);
       expect(decision.overlayMessage).toBe(MESSAGES.SUB_FEED);
+    });
+
+    it("blocks the sub feed when a sort is appended to the url", () => {
+      const settings = createSettings({ blocks: { subFeed: true } });
+
+      for (const sort of ["new", "hot", "top", "best", "rising"]) {
+        const decision = computeBlocks(`https://www.reddit.com/r/programming/${sort}`, settings);
+
+        expect(decision.attributes).toContain(ATTRIBUTES.HIDE_SUB_FEED);
+        expect(decision.overlayMessage).toBe(MESSAGES.SUB_FEED);
+      }
+    });
+
+    it("blocks a blacklisted subreddit reached through a sort url", () => {
+      const settings = createSettings({ mode: BlockMode.BLACKLIST, blacklist: ["programming"] });
+      const decision = computeBlocks("https://www.reddit.com/r/programming/new", settings);
+
+      expect(decision.overlayMessage).toBe(MESSAGES.blacklisted("programming"));
     });
 
     it("blocks a blacklisted subreddit in blacklist mode", () => {

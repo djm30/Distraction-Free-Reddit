@@ -2,14 +2,23 @@ const BASE_URL_PATTERN = /^https?:\/\/(www|new|old)\.reddit\.com/;
 
 const buildRegex = (path: string) => new RegExp(`${BASE_URL_PATTERN.source}${path}`);
 
+/**
+ * Matches whatever follows a subreddit name: a sort (/new, /top/), a query
+ * string, a fragment, or nothing. Anchoring on [/?#] rather than just "/" keeps
+ * the captured name clean, so r/france, r/france/new and r/france/top/?t=week
+ * all classify as the same subreddit.
+ */
+const TRAILING_PATH = "(?:[/?#].*)?$";
+
 export const REGEXES = {
   HOMEPAGE: buildRegex("/?(best|hot|new|top/.*|\\?[a-zA-Z0-9_=&]*)?/?$"),
   NOTIFICATIONS: buildRegex("/notifications.*"),
   SEARCH: buildRegex("/search/?\\?q=.*"),
-  ALL_POPULAR: buildRegex("/r/(all|popular)(/.*)?$"),
-  USER_PROFILE: buildRegex("/user/([^/]+)/?.*"),
-  SUBREDDIT: buildRegex("/r/([^/]+)/?$"),
-  POST: buildRegex("/r/([^/]+)/comments/.*"),
+  ALL_POPULAR: buildRegex(`/r/(all|popular)${TRAILING_PATH}`),
+  EXPLORE: buildRegex(`/explore${TRAILING_PATH}`),
+  USER_PROFILE: buildRegex("/user/([^/?#]+)"),
+  SUBREDDIT: buildRegex(`/r/([^/?#]+)${TRAILING_PATH}`),
+  POST: buildRegex("/r/([^/?#]+)/comments/.*"),
 };
 
 export enum PageType {
@@ -17,6 +26,7 @@ export enum PageType {
   NOTIFICATIONS,
   SEARCH,
   ALL_POPULAR,
+  EXPLORE,
   USER_PROFILE,
   SUBREDDIT,
   POST,
@@ -39,6 +49,7 @@ export const classifyPage = (url: string): PageInfo => {
   if (REGEXES.NOTIFICATIONS.test(url)) return { type: PageType.NOTIFICATIONS };
   if (REGEXES.SEARCH.test(url)) return { type: PageType.SEARCH };
   if (REGEXES.ALL_POPULAR.test(url)) return { type: PageType.ALL_POPULAR };
+  if (REGEXES.EXPLORE.test(url)) return { type: PageType.EXPLORE };
 
   const userMatch = url.match(REGEXES.USER_PROFILE);
   if (userMatch) return { type: PageType.USER_PROFILE, username: userMatch[PAGE_CAPTURE_GROUP] };

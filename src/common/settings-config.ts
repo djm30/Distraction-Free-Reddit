@@ -19,6 +19,7 @@ export interface Blocks {
   userFeed: boolean;
   notifications: boolean;
   all: boolean;
+  explore: boolean;
   comments: boolean;
   subFeed: boolean;
   redditLogo: boolean;
@@ -30,6 +31,7 @@ export enum BlockTypes {
   MAIN_FEED,
   USER_FEED,
   ALL,
+  EXPLORE,
   COMMENTS,
   NOTIFICATIONS,
   SIDEBAR,
@@ -45,7 +47,7 @@ export interface StorageFunctions {
   setSettings: (settings: BlockerSettings) => Promise<void>;
   resetSettings: () => Promise<void>;
   initializeSettings: () => Promise<void>;
-  sendSettingsResetMessage: () => Promise<void> | void;
+  onSettingsChanged: (callback: (settings: BlockerSettings) => void) => void;
 }
 
 export const defaultSettings: BlockerSettings = {
@@ -60,12 +62,33 @@ export const defaultSettings: BlockerSettings = {
     notifications: true,
     userFeed: true,
     all: true,
+    explore: true,
     comments: true,
     subFeed: true,
     redditLogo: true,
     trendingNews: true,
     videos: true,
   },
+};
+
+/**
+ * Maps raw stored settings into a well-formed BlockerSettings, falling back to
+ * defaults for anything missing (e.g. block options added after the user's
+ * settings were last saved).
+ */
+export const parseStoredSettings = (stored: unknown): BlockerSettings => {
+  const cloneDefaults = (): BlockerSettings => JSON.parse(JSON.stringify(defaultSettings));
+
+  if (!stored) return cloneDefaults();
+
+  const settings = stored as Partial<BlockerSettings>;
+  return {
+    enabled: settings.enabled ?? defaultSettings.enabled,
+    mode: parseMode(settings.mode ?? defaultSettings.mode),
+    whitelist: settings.whitelist ?? [],
+    blacklist: settings.blacklist ?? [],
+    blocks: { ...cloneDefaults().blocks, ...settings.blocks },
+  };
 };
 
 export const parseMode = (int: Number): BlockMode => {

@@ -1,35 +1,9 @@
-import { BlockerSettings, StorageFunctions, defaultSettings, Blocks, parseMode } from "../common/settings-config";
-import { MessageType } from "../common/message-types";
+import { BlockerSettings, StorageFunctions, defaultSettings, parseStoredSettings } from "../common/settings-config";
 import logger from "../common/util/logger";
 
 const getSettings = async (): Promise<BlockerSettings> => {
   const storage = await browser.storage.sync.get("options");
-  const settingsFromStore = storage.options;
-
-  // Map the blocks to the correct type
-  const mappedBlocks: Blocks = {
-    all: settingsFromStore.blocks.all,
-    comments: settingsFromStore.blocks.comments,
-    mainFeed: settingsFromStore.blocks.mainFeed,
-    notifications: settingsFromStore.blocks.notifications,
-    sidebar: settingsFromStore.blocks.sidebar,
-    search: settingsFromStore.blocks.search,
-    userFeed: settingsFromStore.blocks.userFeed,
-    subFeed: settingsFromStore.blocks.subFeed,
-    redditLogo: settingsFromStore.blocks.redditLogo,
-    trendingNews: settingsFromStore.blocks.trendingNews,
-    videos: settingsFromStore.blocks.videos,
-  };
-
-  const mappedSettings: BlockerSettings = {
-    enabled: settingsFromStore.enabled,
-    mode: parseMode(settingsFromStore.mode),
-    blacklist: settingsFromStore.blacklist,
-    whitelist: settingsFromStore.whitelist,
-    blocks: mappedBlocks,
-  };
-
-  return mappedSettings;
+  return parseStoredSettings(storage.options);
 };
 
 const setSettings = async (settings: BlockerSettings) => {
@@ -42,18 +16,18 @@ const resetSettings = async () => {
 };
 
 const initializeSettings = async () => {
-  logger.info("Settings initialized");
-  browser.storage.sync.get("options").then((val) => {
-    if (Object.keys(val).length === 0) {
-      browser.storage.sync.set({ options: defaultSettings });
-    }
-  });
+  const storage = await browser.storage.sync.get("options");
+  if (Object.keys(storage).length === 0) {
+    await browser.storage.sync.set({ options: defaultSettings });
+  }
+  logger.info("Initialised settings!");
 };
 
-const sendSettingsResetMessage = async () => {
-  logger.info("Sending settings reset message");
-  const port = browser.runtime.connect({ name: "settings" });
-  port.postMessage({ type: MessageType.SETTINGS_UPDATE });
+const onSettingsChanged = (callback: (settings: BlockerSettings) => void) => {
+  browser.storage.onChanged.addListener((changes, areaName) => {
+    if (areaName !== "sync" || !changes.options) return;
+    callback(parseStoredSettings((changes.options as browser.storage.StorageChange).newValue));
+  });
 };
 
 const FirefoxStorageFunctions: StorageFunctions = {
@@ -61,7 +35,7 @@ const FirefoxStorageFunctions: StorageFunctions = {
   setSettings,
   resetSettings,
   initializeSettings,
-  sendSettingsResetMessage,
+  onSettingsChanged,
 };
 
 export default FirefoxStorageFunctions;

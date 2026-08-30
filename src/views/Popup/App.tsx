@@ -15,7 +15,6 @@ function App() {
   const toggle = async () => {
     await toggleEnabled();
     setToggled(!toggled);
-    storageFunctions.sendSettingsResetMessage();
   };
   const getMode = (settings: BlockerSettings) => {
     switch (settings.mode) {
@@ -77,7 +76,7 @@ function App() {
         </div>
 
         <div className="text-center mt-3">
-          <span className="text-gray-500 text-xs">v1.3.1</span>
+          <span className="text-gray-500 text-xs">v1.4.0</span>
         </div>
       </div>
     </div>

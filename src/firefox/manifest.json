@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Distraction Free Reddit",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "Remove the distracting parts of reddit and focus only on what really matters to you.",
   "permissions": ["activeTab", "storage", "tabs"],
   "background": {
@@ -17,9 +17,10 @@
   },
   "content_scripts": [
     {
+      "css": ["src/styles/blocker.css"],
       "js": ["src/content.ts"],
       "matches": ["*://*.reddit.com/*"],
-      "run_at": "document_end"
+      "run_at": "document_start"
     }
   ],
   "icons": {

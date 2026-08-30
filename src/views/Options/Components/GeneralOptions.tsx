@@ -16,6 +16,7 @@ const GeneralOptions = ({ show }: Props) => {
       let blocks = settings.blocks;
       setMainFeed(blocks.mainFeed);
       setHideAll(blocks.all);
+      setExplore(blocks.explore);
       setSubFeed(blocks.subFeed);
       setUserFeed(blocks.userFeed);
       setSidebar(blocks.sidebar);
@@ -36,7 +37,6 @@ const GeneralOptions = ({ show }: Props) => {
     return async () => {
       await toggleOption(block);
       setCurrent(!current);
-      storageFunctions.sendSettingsResetMessage();
     };
   };
 
@@ -45,6 +45,9 @@ const GeneralOptions = ({ show }: Props) => {
 
   const [hideAll, setHideAll] = useState(false);
   const toggleHideAll = genericToggle(BlockTypes.ALL, hideAll, setHideAll);
+
+  const [explore, setExplore] = useState(false);
+  const toggleExplore = genericToggle(BlockTypes.EXPLORE, explore, setExplore);
 
   const [subFeed, setSubFeed] = useState(false);
   const toggleSubFeed = genericToggle(BlockTypes.SUB_FEED, subFeed, setSubFeed);
@@ -91,6 +94,12 @@ const GeneralOptions = ({ show }: Props) => {
           description={"Hides both r/All and r/Popular"}
           toggled={hideAll}
           setToggled={toggleHideAll}
+        />
+        <Option
+          title={"Hide Explore"}
+          description={"Hides the Explore page used to browse topics and communities"}
+          toggled={explore}
+          setToggled={toggleExplore}
         />
         <Option
           title={"Hide Subreddit feeds"}

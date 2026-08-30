@@ -1,0 +1,138 @@
+/*
+ * Distraction Free Reddit — static blocking rules.
+ *
+ * Injected via the manifest at document_start, so these rules apply before first
+ * paint and to elements that don't exist yet. The content script only toggles
+ * data-dfr-* attributes on <html> (see common/blocks/compute-blocks.ts); the CSS
+ * engine does all of the matching.
+ *
+ * Video rules are generated at runtime (common/blocks/apply-blocks.ts) because
+ * they depend on the user's whitelist. Trending news lives inside a shadow root
+ * and is handled by common/blocks/trending-shim.ts.
+ */
+
+/* ===== Anti-flash =====
+ * Until the content script has loaded settings and stamped data-dfr-ready, the
+ * primary content containers stay hidden. The failure mode is a briefly
+ * over-blocked page, never a flash of blocked content. */
+html:not([data-dfr-ready]) shreddit-feed,
+html:not([data-dfr-ready]) #home-posts,
+html:not([data-dfr-ready]) #popular-posts,
+html:not([data-dfr-ready]) #all-posts,
+html:not([data-dfr-ready]) #main-content,
+html:not([data-dfr-ready]) .main-container {
+  display: none !important;
+}
+
+/* ===== Main feed (homepage) ===== */
+html[data-dfr-hide-mainfeed] .main-container,
+html[data-dfr-hide-mainfeed] shreddit-feed,
+html[data-dfr-hide-mainfeed] #home-posts {
+  display: none !important;
+}
+
+/* ===== r/all and r/popular ===== */
+html[data-dfr-hide-popular] .main-container,
+html[data-dfr-hide-popular] shreddit-feed,
+html[data-dfr-hide-popular] #popular-posts,
+html[data-dfr-hide-popular] #all-posts {
+  display: none !important;
+}
+
+/* ===== Explore ===== */
+html[data-dfr-hide-explore] .main-container,
+html[data-dfr-hide-explore] shreddit-feed,
+html[data-dfr-hide-explore] #main-content {
+  display: none !important;
+}
+
+/* ===== Sidebars ===== */
+html[data-dfr-hide-sidebar] #left-sidebar-container,
+html[data-dfr-hide-sidebar] #right-sidebar-container,
+html[data-dfr-hide-sidebar] #hamburger-button-tooltip,
+html[data-dfr-hide-sidebar] recent-posts,
+html[data-dfr-hide-sidebar] [data-testid="frontpage-sidebar"] {
+  display: none !important;
+}
+
+/* ===== Comments ===== */
+html[data-dfr-hide-comments] #comment-tree,
+html[data-dfr-hide-comments] shreddit-comment-tree,
+html[data-dfr-hide-comments] comment-body-header,
+html[data-dfr-hide-comments] [data-testid="comments-page-sort-picker"] {
+  display: none !important;
+}
+
+/* ===== Notifications (inbox icon everywhere; page itself uses the overlay) ===== */
+html[data-dfr-hide-notifications] span[data-part="inbox"],
+html[data-dfr-hide-notifications] #mail,
+html[data-dfr-hide-notifications] [data-testid="inbox-count"] {
+  display: none !important;
+}
+
+/* ===== Full page search results ===== */
+html[data-dfr-hide-search] .masthead,
+html[data-dfr-hide-search] .main-container,
+html[data-dfr-hide-search] [data-testid="search-results"] {
+  display: none !important;
+}
+
+/* ===== Subreddit feed ===== */
+html[data-dfr-hide-subfeed] #main-content,
+html[data-dfr-hide-subfeed] #right-sidebar-container {
+  display: none !important;
+}
+
+/* ===== Individual post (blocked via whitelist/blacklist) ===== */
+html[data-dfr-hide-post] shreddit-post,
+html[data-dfr-hide-post] #right-sidebar-container {
+  display: none !important;
+}
+
+/* ===== Reddit logo ===== */
+html[data-dfr-hide-logo] #reddit-logo,
+html[data-dfr-hide-logo] [data-testid="reddit-logo"] {
+  display: none !important;
+}
+
+/* ===== Ads (always hidden while the extension is enabled) ===== */
+html[data-dfr-hide-ads] span[data-part="advertise"],
+html[data-dfr-hide-ads] [data-testid="ad-slot"],
+html[data-dfr-hide-ads] shreddit-ad-post,
+html[data-dfr-hide-ads] shreddit-comments-page-ad {
+  display: none !important;
+}
+
+/* ===== Full page overlay =====
+ * Lives directly under <html>, outside Reddit's React root, so it never gets
+ * removed by their renderer. */
+#dfr-blocker {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 3;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 0 16px;
+  background: #ffffff;
+  color: #0f1a1c;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 1.25rem;
+}
+
+html[data-dfr-overlay] #dfr-blocker {
+  display: flex;
+}
+
+html.theme-dark #dfr-blocker {
+  background: #0b1416;
+  color: #f2f4f5;
+}
+
+@media (prefers-color-scheme: dark) {
+  html:not(.theme-light) #dfr-blocker {
+    background: #0b1416;
+    color: #f2f4f5;
+  }
+}

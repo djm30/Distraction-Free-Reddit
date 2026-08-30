@@ -18,7 +18,7 @@
     "types": [
       "firefox-webext-browser",
       "chrome",
-      "jest",
+      "vite/client"
     ]
   },
   "include": ["src"]

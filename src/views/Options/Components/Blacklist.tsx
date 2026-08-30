@@ -27,7 +27,6 @@ const Blacklist = ({ show, menuTab }: Props) => {
   const blacklistToggle = async () => {
     toggled ? await setMode(BlockMode.BLOCK) : await setMode(BlockMode.BLACKLIST);
     setToggled(!toggled);
-    storageFunctions.sendSettingsResetMessage();
   };
 
   const addSubreddit = async (subreddit: string) => {
@@ -37,13 +36,11 @@ const Blacklist = ({ show, menuTab }: Props) => {
 
     await pushBlacklist(subreddit);
     setBlacklist([...blacklist, subreddit]);
-    storageFunctions.sendSettingsResetMessage();
   };
 
   const removeSubreddit = (subreddit: string) => {
     removeBlacklist(subreddit);
     setBlacklist(blacklist.filter((sub) => sub !== subreddit));
-    storageFunctions.sendSettingsResetMessage();
   };
 
   if (!show) return null;

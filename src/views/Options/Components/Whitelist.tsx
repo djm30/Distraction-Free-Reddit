@@ -27,7 +27,6 @@ const Whitelist = ({ show, menuTab }: Props) => {
   const whitelistToggle = async () => {
     toggled ? await setMode(BlockMode.BLOCK) : await setMode(BlockMode.WHITELIST);
     setToggled(!toggled);
-    storageFunctions.sendSettingsResetMessage();
   };
 
   const addSubreddit = async (subreddit: string) => {
@@ -37,13 +36,11 @@ const Whitelist = ({ show, menuTab }: Props) => {
 
     await pushWhitelist(subreddit);
     setWhitelist([...whitelist, subreddit]);
-    storageFunctions.sendSettingsResetMessage();
   };
 
   const removeSubreddit = (subreddit: string) => {
     removeWhitelist(subreddit);
     setWhitelist(whitelist.filter((sub) => sub !== subreddit));
-    storageFunctions.sendSettingsResetMessage();
   };
 
   if (!show) return null;

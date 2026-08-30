@@ -13,26 +13,25 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup Rust
-        uses: actions-rust-lang/setup-rust-toolchain@v1
-
-      - name: Compile Build tool
-        run: cargo build --release
-        working-directory: build_tool
-
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: "18"
+          node-version: "22"
 
       - name: Install dependencies
         run: npm ci
 
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Run tests
+        run: npm test
+
       - name: Build Chrome
-        run: npm run chrome
+        run: npm run build:chrome
 
       - name: Build Firefox
-        run: npm run firefox
+        run: npm run build:firefox
 
       - name: Zip Chrome build
         run: cd ./build_chrome && zip -r ../build_chrome.zip *
@@ -105,7 +104,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: "18"
+          node-version: "22"
 
       - name: Install Octokit
         run: npm install @octokit/action

@@ -98,7 +98,8 @@ html[data-dfr-hide-logo] [data-testid="reddit-logo"] {
 /* ===== Ads (always hidden while the extension is enabled) ===== */
 html[data-dfr-hide-ads] span[data-part="advertise"],
 html[data-dfr-hide-ads] [data-testid="ad-slot"],
-html[data-dfr-hide-ads] shreddit-ad-post {
+html[data-dfr-hide-ads] shreddit-ad-post,
+html[data-dfr-hide-ads] shreddit-comments-page-ad {
   display: none !important;
 }
 

@@ -36,7 +36,6 @@ const GeneralOptions = ({ show }: Props) => {
     return async () => {
       await toggleOption(block);
       setCurrent(!current);
-      storageFunctions.sendSettingsResetMessage();
     };
   };
 

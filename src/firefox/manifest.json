@@ -17,9 +17,10 @@
   },
   "content_scripts": [
     {
+      "css": ["src/styles/blocker.css"],
       "js": ["src/content.ts"],
       "matches": ["*://*.reddit.com/*"],
-      "run_at": "document_end"
+      "run_at": "document_start"
     }
   ],
   "icons": {

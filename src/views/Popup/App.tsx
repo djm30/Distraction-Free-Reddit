@@ -15,7 +15,6 @@ function App() {
   const toggle = async () => {
     await toggleEnabled();
     setToggled(!toggled);
-    storageFunctions.sendSettingsResetMessage();
   };
   const getMode = (settings: BlockerSettings) => {
     switch (settings.mode) {

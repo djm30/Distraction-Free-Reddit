@@ -3,13 +3,9 @@
   "version": "1.3.0",
   "private": true,
   "dependencies": {
-    "@types/jest": "^24.9.1",
-    "@types/react": "^16.14.29",
-    "@types/react-dom": "^16.9.16",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "tailwind-scrollbar": "^1.3.1",
-    "typescript": "^3.9.10"
+    "tailwind-scrollbar": "^1.3.1"
   },
   "scripts": {
     "dev:chrome": "BROWSER=chrome vite",
@@ -18,7 +14,9 @@
     "build:firefox": "BROWSER=firefox vite build",
     "build:both": "npm run build:chrome && npm run build:firefox",
     "preview": "vite preview",
-    "test": "echo \"Tests not yet migrated to Vite\" && exit 1"
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
   "eslintConfig": {
     "extends": "react-app",
@@ -46,11 +44,15 @@
     "@types/chrome": "^0.0.193",
     "@types/firefox-webext-browser": "^111.0.1",
     "@types/node": "^25.0.3",
+    "@types/react": "^18.3.31",
+    "@types/react-dom": "^18.3.7",
     "@vitejs/plugin-react": "^5.1.2",
     "autoprefixer": "^10.4.8",
     "postcss": "^8.4.14",
     "tailwindcss": "^3.1.8",
+    "typescript": "^5.9.3",
     "vite": "^7.3.0",
-    "vite-plugin-web-extension": "^4.5.0"
+    "vite-plugin-web-extension": "^4.5.0",
+    "vitest": "^3.2.0"
   }
 }

@@ -1,9 +1,23 @@
 name: Publish extension
-run-name: Publishing release ${{ github.event.release.tag_name }}
+run-name: ${{ github.event_name == 'release' && format('Publishing release {0}', github.event.release.tag_name) || 'Manual publish' }}
 
 on:
   release:
     types: [published]
+  workflow_dispatch:
+    inputs:
+      chrome:
+        description: Publish to the Chrome Web Store
+        type: boolean
+        default: true
+      firefox:
+        description: Publish to Firefox Add-ons
+        type: boolean
+        default: true
+      verify_only:
+        description: Check store credentials without uploading anything
+        type: boolean
+        default: false
 
 jobs:
   build:
@@ -56,6 +70,7 @@ jobs:
     name: Publish to Firefox Addons
     runs-on: ubuntu-latest
     needs: build
+    if: github.event_name != 'workflow_dispatch' || inputs.firefox
     steps:
       - name: Download artifacts
         uses: actions/download-artifact@v4
@@ -63,6 +78,7 @@ jobs:
           name: build-artifacts
 
       - name: Publish to Firefox Addons
+        if: ${{ !inputs.verify_only }}
         uses: wdzeng/firefox-addon@v1
         with:
           addon-guid: ${{ secrets.FIREFOX_EXTENSION_ID }}
@@ -76,39 +92,29 @@ jobs:
     name: Publish to Chrome Web Store
     runs-on: ubuntu-latest
     needs: build
+    if: github.event_name != 'workflow_dispatch' || inputs.chrome
     steps:
       - name: Download artifacts
         uses: actions/download-artifact@v4
         with:
           name: build-artifacts
 
+      - name: Verify Chrome Web Store credentials
+        uses: wdzeng/chrome-extension@v2
+        with:
+          client-id: ${{ secrets.CHROME_CLIENT_ID }}
+          client-secret: ${{ secrets.CHROME_CLIENT_SECRET }}
+          refresh-token: ${{ secrets.CHROME_REFRESH_TOKEN }}
+          action: check-credentials
+
       - name: Publish to Chrome Web Store
-        uses: wdzeng/chrome-extension@v1
+        if: ${{ !inputs.verify_only }}
+        uses: wdzeng/chrome-extension@v2
         with:
           extension-id: ${{ secrets.CHROME_EXTENSION_ID }}
+          publisher-id: ${{ secrets.PUBLISHER_ID }}
           zip-path: ./build_chrome.zip
           client-id: ${{ secrets.CHROME_CLIENT_ID }}
           client-secret: ${{ secrets.CHROME_CLIENT_SECRET }}
           refresh-token: ${{ secrets.CHROME_REFRESH_TOKEN }}
-
-  attach-release-assets:
-    name: Attach Artifacts to Release
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - name: Download artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: build-artifacts
-
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: "22"
-
-      - name: Install Octokit
-        run: npm install @octokit/action
-
-      - run: node .github/actions/upload-release-assets.js
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          action: publish
